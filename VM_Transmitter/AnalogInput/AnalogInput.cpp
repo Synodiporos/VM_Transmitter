@@ -27,8 +27,9 @@ AnalogInput::~AnalogInput() {
 
 void AnalogInput::clearRecordsTable(){
 	for (int thisReading = 0; thisReading < spv; thisReading++) {
-		readings[thisReading] = -1;
+		readings[thisReading] = 0;
 	}
+	flag = 0;
 }
 
 uint8_t AnalogInput::getPinNumber(){
@@ -49,15 +50,11 @@ IPropertyListener* AnalogInput::getPropertyListener(){
 void AnalogInput::notifyPropertyChanged(unsigned long old){
 	if(_listener){
 		_listener->propertyChanged(this, PROPERTY_ANALOG_VALUE,
-				&total);
+				&old);
 	}
 }
 
 void AnalogInput::validate(){
-	int count = spv;
-	if(readings[readIndex]==-1)
-		count = readIndex;
-
 	// subtract the last reading:
 	total = total - readings[readIndex];
 	// read from the sensor:
@@ -67,14 +64,26 @@ void AnalogInput::validate(){
 	// advance to the next position in the array:
 	readIndex = readIndex + 1;
 
+	int count = readIndex;
+	if(flag==1)
+		count = spv;
+
 	// if we're at the end of the array...
 	if (readIndex >= spv) {
 		// ...wrap around to the beginning:
 		readIndex = 0;
+		flag = 1;
 	}
 
 	// calculate the average:
 	unsigned short int average = total / count;
+
+	/*Serial.print("total: ");
+	Serial.print(total);
+	Serial.print("  count: ");
+	Serial.print(count);
+	Serial.print(" average: ");
+	Serial.println(average);*/
 
 	//Check if average value has changed
 	if(average != getAnalogValue()){

@@ -20,10 +20,8 @@ VoltageMonitoring monitor = VoltageMonitoring();
 
 // the setup routine runs once when you press reset:
 void setup() {
-
-	// declare pin 9 to be an output:
-	pinMode(HV_ANALOG_PIN, OUTPUT);
-
+	Serial.begin(9600);
+	Serial.println("Transmitter Starting...");
 
 	// initialize Timer1
 	cli();          // disable global interrupts
@@ -31,7 +29,7 @@ void setup() {
 	TCCR1B = 0;     // same for TCCR1B
 
 	// set compare match register to desired timer count:
-	OCR1A = 8;
+	OCR1A = 31; //198.4uS
 	// turn on CTC mode:
 	TCCR1B |= (1 << WGM12);
 	// Set CS10 and CS12 bits for 1024 prescaler:
@@ -40,14 +38,17 @@ void setup() {
 	// enable timer compare interrupt:
 	TIMSK1 |= (1 << OCIE1A);
 	sei();          // enable global interrupts
+
+	Serial.println("Transmitter Started!");
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
 
 	//monitor.validate();
+	monitor.validateTimer();
 }
 
 ISR(TIMER1_COMPA_vect){
-    digitalWrite(LEDPIN, !digitalRead(LEDPIN));
+	monitor.validate();
 }

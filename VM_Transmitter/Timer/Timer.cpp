@@ -5,10 +5,8 @@
  *      Author: Synodiporos
  */
 
-#include <iostream>
-using namespace std;
+#include "Arduino.h"
 #include "Timer.h"
-#include <ctime>
 
 Timer::Timer() {
 	this->iterations = 1;
@@ -83,7 +81,7 @@ unsigned int Timer::getIterationsPerformed(){
 }
 
 unsigned long Timer::getMillisPassed(){
-	return clock() - this->startTime + millisPassed;
+	return millis() - this->startTime + millisPassed;
 }
 
 void Timer::setActionListener(IActionListener* listener){
@@ -103,7 +101,7 @@ void Timer::validate(){
 }
 
 void Timer::updateStartTime(){
-	this->startTime = clock();
+	this->startTime = millis();
 }
 
 void Timer::resetIterations(){

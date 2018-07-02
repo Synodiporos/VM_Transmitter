@@ -7,9 +7,9 @@
 
 #ifndef VOLTAGEMONITORING_H_
 #define VOLTAGEMONITORING_H_
-#include "../Devices/HVProbe.h";
-#include "../System/SystemConstants.h"
-#include "../Commons/IPropertyListener.h"
+#include "Devices/HVProbe.h"
+#include "System/SystemConstants.h"
+#include "Commons/IPropertyListener.h"
 
 class VoltageMonitoring : IPropertyListener{
 public:
@@ -25,9 +25,11 @@ public:
 				const void* oldPropery);
 
 	void validate();
+	void validateTimer();
 
 private:
-	HVProbe probe = HVProbe(HV_ANALOG_PIN, HVPROBE_SPV);
+	HVProbe probe = HVProbe(HV_ANALOG_PIN,
+			HVPROBE_SPV, HVPROBE_BITRATE);
 };
 
 #endif /* VOLTAGEMONITORING_H_ */

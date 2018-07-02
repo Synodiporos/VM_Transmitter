@@ -6,16 +6,23 @@
  */
 
 #include "HVProbe.h"
-
+#include "Arduino.h"
 
 HVProbe::HVProbe(uint8_t pinNumber):
 	AnalogInput(pinNumber){
-
+	initialize();
 }
 
 HVProbe::HVProbe(uint8_t pinNumber, uint8_t spv) :
 	AnalogInput(pinNumber, spv){
+	initialize();
+}
 
+HVProbe::HVProbe(uint8_t pinNumber, uint8_t spv,
+			unsigned short int bitrate) :
+	AnalogInput(pinNumber, spv){
+		initialize();
+		timer.setInterval(bitrate);
 }
 
 HVProbe::~HVProbe() {
@@ -24,11 +31,12 @@ HVProbe::~HVProbe() {
 
 void HVProbe::initialize(){
 	timer.setActionListener(this);
+	timer.start();
 }
 
 float HVProbe::getMeasurement(){
 	return MathUtil::map(getAnalogValue(),
-			minValue, maxValue, 0, 1023);
+			0, 1023, minValue, maxValue);
 }
 void HVProbe::setUnit(char* units){
 	this->units = units;
@@ -49,6 +57,7 @@ void HVProbe::actionPerformed(Action action){
 	if(actionId==MEASUREMENT_CHANGED){
 		if(measurement!=oldAnalogValue){
 			notifyMeasurementChanged();
+			oldAnalogValue = measurement;
 		}
 	}
 }
@@ -70,9 +79,14 @@ void HVProbe::notifyMeasurementChanged(){
 void HVProbe::analogValueChanged(
 					unsigned short int analogValue,
 					unsigned short int old){
+
+}
+
+void HVProbe::validateTimer(){
 	timer.validate();
 }
 
 void HVProbe::validate(){
 	AnalogInput::validate();
 }
+

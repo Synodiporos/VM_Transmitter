@@ -10,7 +10,7 @@
 
 VoltageMonitoring::VoltageMonitoring() {
 	// TODO Auto-generated constructor stub
-
+	initialize();
 }
 
 VoltageMonitoring::~VoltageMonitoring() {
@@ -27,6 +27,7 @@ void VoltageMonitoring::propertyChanged(
 				void* source,
 				unsigned short int propertyId,
 				const void* oldPropery){
+
 	if(propertyId==HVProbe::MEASUREMENT_PROPERTY){
 		float measur = probe.getMeasurement();
 
@@ -38,4 +39,8 @@ void VoltageMonitoring::propertyChanged(
 
 void VoltageMonitoring::validate(){
 	probe.validate();
+}
+
+void VoltageMonitoring::validateTimer(){
+	probe.validateTimer();
 }

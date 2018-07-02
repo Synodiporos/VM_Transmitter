@@ -37,10 +37,10 @@ private:
 	uint8_t spv = 1;
 	const uint8_t _pinNumber;
 	unsigned long total = 0;
-	short int * readings;
+	unsigned short int * readings;
 	uint8_t readIndex = 0;
+	char flag = 0;
 	IPropertyListener* _listener = 0;
-
 
 };
 

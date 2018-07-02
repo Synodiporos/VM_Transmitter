@@ -11,7 +11,15 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h \
  C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\eightanaloginputs/pins_arduino.h \
  C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\eightanaloginputs/../standard/pins_arduino.h \
- ..\System/SystemConstants.h ..\Main.ino
+ ..\System/SystemConstants.h ..\VoltageMonitoring.h ..\Devices/HVProbe.h \
+ ..\Devices/../AnalogInput/AnalogInput.h \
+ ..\Devices/../AnalogInput/../Commons/IPropertyListener.h \
+ ..\Devices/../AnalogInput/../Commons/Object.h \
+ ..\Devices/../Commons/IActionListener.h ..\Devices/../Commons/Action.h \
+ ..\Devices/../Timer/Timer.h \
+ ..\Devices/../Timer/../Commons/IActionListener.h \
+ ..\Devices/../Timer/../Commons/Action.h ..\Devices/../Math/MathUtil.h \
+ ..\Commons/IPropertyListener.h ..\Main.ino
 
 C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h:
 
@@ -38,5 +46,29 @@ C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\eigh
 C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\eightanaloginputs/../standard/pins_arduino.h:
 
 ..\System/SystemConstants.h:
+
+..\VoltageMonitoring.h:
+
+..\Devices/HVProbe.h:
+
+..\Devices/../AnalogInput/AnalogInput.h:
+
+..\Devices/../AnalogInput/../Commons/IPropertyListener.h:
+
+..\Devices/../AnalogInput/../Commons/Object.h:
+
+..\Devices/../Commons/IActionListener.h:
+
+..\Devices/../Commons/Action.h:
+
+..\Devices/../Timer/Timer.h:
+
+..\Devices/../Timer/../Commons/IActionListener.h:
+
+..\Devices/../Timer/../Commons/Action.h:
+
+..\Devices/../Math/MathUtil.h:
+
+..\Commons/IPropertyListener.h:
 
 ..\Main.ino:

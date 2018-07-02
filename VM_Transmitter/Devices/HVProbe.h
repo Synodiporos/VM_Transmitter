@@ -20,6 +20,8 @@ public:
 	HVProbe();
 	HVProbe(uint8_t pinNumber);
 	HVProbe(uint8_t pinNumber, uint8_t spv);
+	HVProbe(uint8_t pinNumber, uint8_t spv,
+			unsigned short int bitrate);
 	virtual ~HVProbe();
 	void initialize();
 
@@ -38,12 +40,13 @@ public:
 					unsigned short int old);
 
 	void validate();
+	void validateTimer();
 
 private:
 	char* units = nullptr;
 	float minValue = 0;
 	float maxValue = 1023;
-	Timer timer = Timer(127, 0, MEASUREMENT_CHANGED);
+	Timer timer = Timer(128, 0, MEASUREMENT_CHANGED);
 	unsigned short int oldAnalogValue = 0;
 	IPropertyListener* measurementListener = nullptr;
 };
