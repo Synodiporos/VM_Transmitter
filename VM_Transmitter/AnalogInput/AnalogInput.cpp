@@ -17,7 +17,7 @@ AnalogInput::AnalogInput(uint8_t pinNumber)
 AnalogInput::AnalogInput(uint8_t pinNumber, uint8_t spv)
 	: _pinNumber(pinNumber){
 	readings = new unsigned short int[spv];
-	numReadings = spv;
+	this->spv = spv;
 	clearRecordsTable();
 }
 
@@ -26,8 +26,8 @@ AnalogInput::~AnalogInput() {
 }
 
 void AnalogInput::clearRecordsTable(){
-	for (int thisReading = 0; thisReading < numReadings; thisReading++) {
-		readings[thisReading] = 0;
+	for (int thisReading = 0; thisReading < spv; thisReading++) {
+		readings[thisReading] = -1;
 	}
 }
 
@@ -54,6 +54,9 @@ void AnalogInput::notifyPropertyChanged(unsigned long old){
 }
 
 void AnalogInput::validate(){
+	int count = spv;
+	if(readings[readIndex]==-1)
+		count = readIndex;
 
 	// subtract the last reading:
 	total = total - readings[readIndex];
@@ -65,13 +68,13 @@ void AnalogInput::validate(){
 	readIndex = readIndex + 1;
 
 	// if we're at the end of the array...
-	if (readIndex >= numReadings) {
+	if (readIndex >= spv) {
 		// ...wrap around to the beginning:
 		readIndex = 0;
 	}
 
 	// calculate the average:
-	unsigned short int average = total / numReadings;
+	unsigned short int average = total / count;
 
 	//Check if average value has changed
 	if(average != getAnalogValue()){

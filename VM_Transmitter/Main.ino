@@ -13,28 +13,41 @@
  This example code is in the public domain.
  */
 
-int led = 9;           // the PWM pin the LED is attached to
-int brightness = 0;    // how bright the LED is
-int fadeAmount = 5;    // how many points to fade the LED by
+#include "System/SystemConstants.h"
+#include "VoltageMonitoring.h"
+
+VoltageMonitoring monitor = VoltageMonitoring();
 
 // the setup routine runs once when you press reset:
 void setup() {
-  // declare pin 9 to be an output:
-  pinMode(led, OUTPUT);
+
+	// declare pin 9 to be an output:
+	pinMode(HV_ANALOG_PIN, OUTPUT);
+
+
+	// initialize Timer1
+	cli();          // disable global interrupts
+	TCCR1A = 0;     // set entire TCCR1A register to 0
+	TCCR1B = 0;     // same for TCCR1B
+
+	// set compare match register to desired timer count:
+	OCR1A = 8;
+	// turn on CTC mode:
+	TCCR1B |= (1 << WGM12);
+	// Set CS10 and CS12 bits for 1024 prescaler:
+	TCCR1B |= (1 << CS10);
+	TCCR1B |= (1 << CS12);
+	// enable timer compare interrupt:
+	TIMSK1 |= (1 << OCIE1A);
+	sei();          // enable global interrupts
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
-  // set the brightness of pin 9:
-  analogWrite(led, brightness);
 
-  // change the brightness for next time through the loop:
-  brightness = brightness + fadeAmount;
+	//monitor.validate();
+}
 
-  // reverse the direction of the fading at the ends of the fade:
-  if (brightness == 0 || brightness == 255) {
-    fadeAmount = -fadeAmount ;
-  }
-  // wait for 30 milliseconds to see the dimming effect
-  delay(30);
+ISR(TIMER1_COMPA_vect){
+    digitalWrite(LEDPIN, !digitalRead(LEDPIN));
 }
