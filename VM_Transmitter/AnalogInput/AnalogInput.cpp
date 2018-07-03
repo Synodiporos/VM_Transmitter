@@ -87,6 +87,7 @@ void AnalogInput::validate(){
 	Serial.print(count);
 	Serial.print(" average: ");
 	Serial.println(average);
+	//
 
 	//Check if average value has changed
 	if(average != getAnalogValue()){
