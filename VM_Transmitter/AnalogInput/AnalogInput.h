@@ -34,11 +34,11 @@ protected:
 	unsigned short int _analogValue = 0;
 
 private:
-	uint8_t spv = 1;
+	unsigned short int spv = 1;
 	const uint8_t _pinNumber;
 	unsigned long total = 0;
 	unsigned short int * readings;
-	uint8_t readIndex = 0;
+	unsigned short int readIndex = 0;
 	char flag = 0;
 	IPropertyListener* _listener = 0;
 
