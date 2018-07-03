@@ -35,20 +35,13 @@ void HVProbe::initialize(){
 }
 
 float HVProbe::getMeasurement(){
+	return MathUtil::mapRange(getAnalogValue(),
+			0, 1023, HVPROBE_MIN_MEAS_RANGE, HVPROBE_MAX_MEAS_RANGE);
+}
+
+float HVProbe::getVoltage(){
 	return MathUtil::map(getAnalogValue(),
-			0, 1023, minValue, maxValue);
-}
-void HVProbe::setUnit(char* units){
-	this->units = units;
-}
-
-char* HVProbe::getUnits(){
-	return this->units;
-}
-
-void HVProbe::setRange(float min, float max){
-	this->minValue = min;
-	this->maxValue = max;
+			0, 1023, HVPROBE_MIN_RANGE, HVPROBE_MAX_RANGE);
 }
 
 void HVProbe::actionPerformed(Action action){
