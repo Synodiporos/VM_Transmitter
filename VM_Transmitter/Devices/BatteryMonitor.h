@@ -16,6 +16,7 @@
 #include "../Math/MathUtil.h"
 #include "Arduino.h"
 
+
 class BatteryMonitor : IPropertyListener, IActionListener{
 public:
 	BatteryMonitor();
