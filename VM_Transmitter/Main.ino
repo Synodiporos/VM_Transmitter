@@ -12,7 +12,6 @@
 
  This example code is in the public domain.
  */
-
 #include "System/SystemConstants.h"
 #include "VoltageMonitoring.h"
 #include "Devices/BatteryMonitor.h"
@@ -31,7 +30,7 @@ void setup() {
 	TCCR1B = 0;     // same for TCCR1B
 
 	// set compare match register to desired timer count:
-	OCR1A = 30; //198.4uS
+	OCR1A = HVPROBE_TIMER_CYCLES; //198.4uS
 	// turn on CTC mode:
 	TCCR1B |= (1 << WGM12);
 	// Set CS10 and CS12 bits for 1024 prescaler:
@@ -42,6 +41,7 @@ void setup() {
 	sei();          // enable global interrupts
 
 	Serial.println("Transmitter Started!");
+	//delay(1000);
 }
 
 // the loop routine runs over and over again forever:
@@ -49,7 +49,9 @@ void loop() {
 
 	//monitor.validate();
 	monitor.validateTimer();
-	battery.validate();
+	//battery.validate();
+
+	delay(2);
 }
 
 ISR(TIMER1_COMPA_vect){

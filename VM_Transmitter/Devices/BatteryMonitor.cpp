@@ -18,6 +18,7 @@ BatteryMonitor::~BatteryMonitor() {
 
 void BatteryMonitor::initialize(){
 	//analog.setPropertyListener(this);
+	analog.setStateListener(this);
 	timer.setActionListener(this);
 	timer.start();
 }
@@ -62,6 +63,10 @@ void BatteryMonitor::actionPerformed(Action action){
 		}
 		timer.start();
 	}
+}
+
+void BatteryMonitor::stateChanged(State* state){
+
 }
 
 void BatteryMonitor::validate(){

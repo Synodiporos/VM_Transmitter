@@ -29,14 +29,16 @@ public:
 	void setStateListener(IStateListener * listener);
 	IStateListener* getStateListener();
 
-private:
+protected:
 	bool state = false;
 	unsigned short int switchValue = 0;
 	unsigned short int hysterisis = 0;
 
 	IStateListener * _stateListener = 0;
 
-	void notifyPropertyChanged(unsigned long old);
+	virtual void onAnalogValueChanged(
+					unsigned short int analogValue,
+					unsigned short int old);
 	void notifyToggleStateChanged();
 };
 

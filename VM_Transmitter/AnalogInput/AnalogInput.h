@@ -28,7 +28,7 @@ public:
 
 protected:
 	virtual void notifyPropertyChanged(unsigned long old);
-	virtual void analogValueChanged(
+	virtual void onAnalogValueChanged(
 				unsigned short int analogValue,
 				unsigned short int old);
 	unsigned short int _analogValue = 0;

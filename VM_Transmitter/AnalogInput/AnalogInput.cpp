@@ -71,8 +71,11 @@ void AnalogInput::validate(){
 	if(flag==1)
 		count = spv;
 
+	//Serial.print("Reading: ");
+	//	Serial.print((int)analogRead(_pinNumber));
+
 	// if we're at the end of the array...
-	if (readIndex >= spv) {
+	if (readIndex >= spv-1) {
 		// ...wrap around to the beginning:
 		readIndex = 0;
 		flag = 1;
@@ -81,25 +84,26 @@ void AnalogInput::validate(){
 	// calculate the average:
 	unsigned short int average = total / count;
 
-	Serial.print("total: ");
-	Serial.print(total);
-	Serial.print("  count: ");
-	Serial.print(count);
-	Serial.print(" average: ");
-	Serial.println(average);
-	//
+	/*if(readings[readIndex-1]>100){
+		Serial.print(" Total: ");
+		Serial.print(total);
+		Serial.print("  count: ");
+		Serial.print(count);
+		Serial.print(" average: ");
+		Serial.println(average);
+	}*/
 
 	//Check if average value has changed
 	if(average != getAnalogValue()){
 		unsigned short int old = getAnalogValue();
-		notifyPropertyChanged(old);
 		//Update the analogeValue value
 		_analogValue = average;
-		analogValueChanged(old, average);
+		onAnalogValueChanged(old, average);
+		notifyPropertyChanged(old);
 	}
 }
 
-void AnalogInput::analogValueChanged(
+void AnalogInput::onAnalogValueChanged(
 		unsigned short int analogValue, unsigned short int old){
 
 }

@@ -27,7 +27,7 @@ void VoltageMonitoring::propertyChanged(
 				const void* oldPropery){
 
 	if(propertyId==HVProbe::MEASUREMENT_PROPERTY){
-		short int value = probe.getAnalogValue();
+		unsigned short int value = probe.getAnalogValue();
 		float measur = probe.getMeasurement();
 		float volt = probe.getVoltage();
 
