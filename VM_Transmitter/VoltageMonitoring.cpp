@@ -18,8 +18,6 @@ VoltageMonitoring::~VoltageMonitoring() {
 }
 
 void VoltageMonitoring::initialize(){
-	probe.setUnit(HVPROBE_UNITS);
-	probe.setRange(HVPROBE_MIN_RANGE, HVPROBE_MAX_RANGE);
 	probe.setMeasurementListener(this);
 }
 
@@ -29,11 +27,17 @@ void VoltageMonitoring::propertyChanged(
 				const void* oldPropery){
 
 	if(propertyId==HVProbe::MEASUREMENT_PROPERTY){
+		short int value = probe.getAnalogValue();
 		float measur = probe.getMeasurement();
+		float volt = probe.getVoltage();
 
-		Serial.print("Measurement: ");
+		Serial.print("AnalogValue: ");
+		Serial.print(value);
+		Serial.print(" Voltage: ");
+		Serial.print(volt);
+		Serial.print(" Measurement: ");
 		Serial.print(measur);
-		Serial.println(probe.getUnits());
+		Serial.println( HVPROBE_UNITS );
 	}
 }
 

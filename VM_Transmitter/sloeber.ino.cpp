@@ -2,14 +2,16 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2018-07-02 18:42:43
+//This file has been generated on 2018-07-03 13:19:18
 
 #include "Arduino.h"
 #include "System/SystemConstants.h"
 #include "VoltageMonitoring.h"
+#include "Devices/BatteryMonitor.h"
 
 void setup() ;
 void loop() ;
+ISR(TIMER1_COMPA_vect);
 
 
 #include "Main.ino"
