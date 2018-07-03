@@ -19,7 +19,9 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\Devices/../Timer/Timer.h \
  ..\Devices/../Timer/../Commons/IActionListener.h \
  ..\Devices/../Timer/../Commons/Action.h ..\Devices/../Math/MathUtil.h \
- ..\Commons/IPropertyListener.h ..\Main.ino
+ ..\Devices/../System/SystemConstants.h ..\Commons/IPropertyListener.h \
+ ..\Devices/BatteryMonitor.h ..\Devices/../Commons/IPropertyListener.h \
+ ..\Devices/../Commons/Action.h ..\Main.ino
 
 C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h:
 
@@ -69,6 +71,14 @@ C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\eigh
 
 ..\Devices/../Math/MathUtil.h:
 
+..\Devices/../System/SystemConstants.h:
+
 ..\Commons/IPropertyListener.h:
+
+..\Devices/BatteryMonitor.h:
+
+..\Devices/../Commons/IPropertyListener.h:
+
+..\Devices/../Commons/Action.h:
 
 ..\Main.ino:

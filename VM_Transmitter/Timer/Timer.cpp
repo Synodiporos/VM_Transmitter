@@ -38,18 +38,21 @@ void Timer::start(){
 		}
 		updateStartTime();
 		this->state = STARTED;
+		notifyActionPerformed(TIMER_START);
 	}
 }
 
 void Timer::pause(){
 	this->state = PAUSED;
 	millisPassed = getMillisPassed();
+	notifyActionPerformed(TIMER_PAUSE);
 }
 
 void Timer::stop(){
 	this->state = STOPED;
 	millisPassed = 0;
 	resetIterations();
+	notifyActionPerformed(TIMER_STOP);
 }
 
 void Timer::setActionId(unsigned int actionId){
@@ -108,15 +111,16 @@ void Timer::resetIterations(){
 	this->iterPerf = 0;
 }
 
-void Timer::notifyActionPerformed(Action* action){
-	if(this->actionListener)
-		this->actionListener->actionPerformed(*action);
+void Timer::notifyActionPerformed(unsigned short int act){
+	if(this->actionListener){
+		Action action = Action(this, actionId, nullptr, &act);
+		this->actionListener->actionPerformed(action);
+	}
 }
 
 void Timer::onAction(){
 	iterPerf++;
-	Action action = Action(this, actionId, nullptr, nullptr);
-	notifyActionPerformed(&action);
+	notifyActionPerformed(TIMER_TIC);
 	if(iterations>0 && (iterations-iterPerf)==0)
 		stop();
 	updateStartTime();

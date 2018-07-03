@@ -11,6 +11,7 @@
 #include "../Commons/IActionListener.h"
 #include "../Timer/Timer.h"
 #include "../Math/MathUtil.h"
+#include "../System/SystemConstants.h"
 
 class HVProbe : public AnalogInput, IActionListener{
 public:
@@ -26,14 +27,11 @@ public:
 	void initialize();
 
 	float getMeasurement();
-	void setUnit(char* units);
-	char* getUnits();
-	void setRange(float min, float max);
+	float getVoltage();
 
 	void setMeasurementListener(IPropertyListener* listener);
 	IPropertyListener* getMeasurementListener();
 	void notifyMeasurementChanged();
-
 	void actionPerformed(Action action);
 	virtual void analogValueChanged(
 					unsigned short int analogValue,
@@ -43,9 +41,6 @@ public:
 	void validateTimer();
 
 private:
-	char* units = nullptr;
-	float minValue = 0;
-	float maxValue = 1023;
 	Timer timer = Timer(128, 0, MEASUREMENT_CHANGED);
 	unsigned short int oldAnalogValue = 0;
 	IPropertyListener* measurementListener = nullptr;

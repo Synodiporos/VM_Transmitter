@@ -15,8 +15,10 @@
 
 #include "System/SystemConstants.h"
 #include "VoltageMonitoring.h"
+#include "Devices/BatteryMonitor.h"
 
 VoltageMonitoring monitor = VoltageMonitoring();
+BatteryMonitor battery = BatteryMonitor();
 
 // the setup routine runs once when you press reset:
 void setup() {
@@ -29,7 +31,7 @@ void setup() {
 	TCCR1B = 0;     // same for TCCR1B
 
 	// set compare match register to desired timer count:
-	OCR1A = 31; //198.4uS
+	OCR1A = 30; //198.4uS
 	// turn on CTC mode:
 	TCCR1B |= (1 << WGM12);
 	// Set CS10 and CS12 bits for 1024 prescaler:
@@ -47,6 +49,7 @@ void loop() {
 
 	//monitor.validate();
 	monitor.validateTimer();
+	battery.validate();
 }
 
 ISR(TIMER1_COMPA_vect){

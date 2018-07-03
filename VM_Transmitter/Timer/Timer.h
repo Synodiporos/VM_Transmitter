@@ -17,6 +17,10 @@
 
 class Timer {
 public:
+	static const unsigned short int TIMER_START = 1;
+	static const unsigned short int TIMER_STOP = 2;
+	static const unsigned short int TIMER_PAUSE = 3;
+	static const unsigned short int TIMER_TIC = 4;
 
 	Timer();
 	Timer(unsigned long interval, unsigned int iterations);
@@ -52,7 +56,7 @@ private:
 
 	unsigned int iterations = 1;
 	unsigned int iterPerf = 0;
-	void notifyActionPerformed(Action* action);
+	void notifyActionPerformed(unsigned short int act);
 	void updateStartTime();
 	void resetIterations();
 	void onAction();

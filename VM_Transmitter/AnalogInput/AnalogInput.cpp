@@ -26,9 +26,12 @@ AnalogInput::~AnalogInput() {
 }
 
 void AnalogInput::clearRecordsTable(){
-	for (int thisReading = 0; thisReading < spv; thisReading++) {
+	for (unsigned int thisReading = 0;
+			thisReading < spv; thisReading++) {
 		readings[thisReading] = 0;
 	}
+	total = 0;
+	readIndex = 0;
 	flag = 0;
 }
 
@@ -78,12 +81,12 @@ void AnalogInput::validate(){
 	// calculate the average:
 	unsigned short int average = total / count;
 
-	/*Serial.print("total: ");
+	Serial.print("total: ");
 	Serial.print(total);
 	Serial.print("  count: ");
 	Serial.print(count);
 	Serial.print(" average: ");
-	Serial.println(average);*/
+	Serial.println(average);
 
 	//Check if average value has changed
 	if(average != getAnalogValue()){

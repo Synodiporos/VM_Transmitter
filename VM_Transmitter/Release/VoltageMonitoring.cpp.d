@@ -19,7 +19,8 @@ VoltageMonitoring.cpp.o: ..\VoltageMonitoring.cpp \
  ..\Devices/../Timer/Timer.h \
  ..\Devices/../Timer/../Commons/IActionListener.h \
  ..\Devices/../Timer/../Commons/Action.h ..\Devices/../Math/MathUtil.h \
- ..\System/SystemConstants.h ..\Commons/IPropertyListener.h
+ ..\Devices/../System/SystemConstants.h ..\System/SystemConstants.h \
+ ..\Commons/IPropertyListener.h
 
 C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h:
 
@@ -66,6 +67,8 @@ C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\eigh
 ..\Devices/../Timer/../Commons/Action.h:
 
 ..\Devices/../Math/MathUtil.h:
+
+..\Devices/../System/SystemConstants.h:
 
 ..\System/SystemConstants.h:
 
