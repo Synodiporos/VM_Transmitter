@@ -1,10 +1,6 @@
 /AnalogInput/
 /Commons/
 /Devices/
-/Timer/
 /core/
+/Timer/
 /libraries/
-/sources.mk
-/subdir.mk
-/makefile
-/objects.mk

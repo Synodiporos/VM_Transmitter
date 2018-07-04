@@ -35,6 +35,14 @@ public:
 			  (in_max - in_min) + out_min;
 	}
 
+	float binaryToVoltage(short int value, float VREF){
+		return (float)(VREF * value)/1023;
+	}
+
+	short int voltageToBinary(float value, float VREF){
+		return (value * 1023)/VREF;
+	}
+
 };
 
 #endif /* MATH_MATHUTIL_H_ */

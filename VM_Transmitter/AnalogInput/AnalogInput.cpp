@@ -38,6 +38,11 @@ void AnalogInput::clearRecordsTable(){
 uint8_t AnalogInput::getPinNumber(){
 	return this->_pinNumber;
 }
+
+unsigned short int AnalogInput::getSPV(){
+	return this->spv;
+}
+
 unsigned short int AnalogInput::getAnalogValue(){
 	return this->_analogValue;
 }
@@ -75,7 +80,7 @@ void AnalogInput::validate(){
 	//	Serial.print((int)analogRead(_pinNumber));
 
 	// if we're at the end of the array...
-	if (readIndex >= spv-1) {
+	if (readIndex >= spv) {
 		// ...wrap around to the beginning:
 		readIndex = 0;
 		flag = 1;

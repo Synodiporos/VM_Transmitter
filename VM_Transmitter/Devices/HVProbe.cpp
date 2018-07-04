@@ -31,7 +31,19 @@ HVProbe::~HVProbe() {
 
 void HVProbe::initialize(){
 	timer.setActionListener(this);
+}
+
+void HVProbe::startRecord(){
 	timer.start();
+}
+
+void HVProbe::pauseRecord(){
+	timer.pause();
+}
+
+void HVProbe::stopRecord(){
+	timer.stop();
+	clearRecordsTable();
 }
 
 float HVProbe::getMeasurement(){
@@ -39,20 +51,20 @@ float HVProbe::getMeasurement(){
 			0, 1023, HVPROBE_MIN_MEAS_RANGE, HVPROBE_MAX_MEAS_RANGE);
 }
 
-float HVProbe::getVoltage(){
+float HVProbe::getVoltage(float VREF){
 	return MathUtil::map(getAnalogValue(),
-			0, 1023, HVPROBE_MIN_RANGE, HVPROBE_MAX_RANGE);
+			0, 1023, 0, VREF);
 }
 
 void HVProbe::actionPerformed(Action action){
 	short int actionId = action.getActionId();
 	unsigned short int measurement = getAnalogValue();
-	if(actionId==MEASUREMENT_CHANGED){
+	//if(actionId==0){
 		if(measurement!=oldAnalogValue){
 			notifyMeasurementChanged();
 			oldAnalogValue = measurement;
 		}
-	}
+	//}
 }
 
 void HVProbe::setMeasurementListener(IPropertyListener* listener){
@@ -66,7 +78,7 @@ IPropertyListener* HVProbe::getMeasurementListener(){
 void HVProbe::notifyMeasurementChanged(){
 	if(measurementListener)
 		measurementListener->propertyChanged(
-				this, MEASUREMENT_PROPERTY, &oldAnalogValue);
+				this, HVP_MEASUREMENT_PROPERTY, &oldAnalogValue);
 }
 
 void HVProbe::analogValueChanged(

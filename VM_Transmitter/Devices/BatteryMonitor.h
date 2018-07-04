@@ -14,38 +14,72 @@
 #include "../System/SystemConstants.h"
 #include "../Timer/Timer.h"
 #include "../Math/MathUtil.h"
+#include "IBatteryMonitorListener.h"
 #include "Arduino.h"
 
-class BatteryMonitor : IStateListener, IActionListener{
+//class IBatteryMonitorListener;
+
+class BatteryMonitor : public IActionListener{
 public:
-	BatteryMonitor();
+	BatteryMonitor(uint8_t pinNumber,
+			uint8_t spv,
+			unsigned short int measPeriod,
+			unsigned short int alarmTriggerValue,
+			unsigned short int hysteresis,
+			unsigned short int dischargeValue,
+			unsigned short int fullchargeValue
+			);
 	virtual ~BatteryMonitor();
 	void initialize();
+	void startRecord();
+	void pauseRecord();
+	void stopRecord();
 
+	AnalogInput* getAnalogInput();
+	void setDischargeValue(short int dischargeValue);
+	short int getDischargeValue();
+	void setFullchargeValue(short int fullchargeValue);
+	short int getFullchargeValue();
+	void setMeasurementPeriod(short int measPeriod);
+	short int getMeasurementPeriod();
+	void setAlarmTriggerValue(unsigned short int atv);
+	unsigned short int getAlarmTriggerValue();
+	void setHysteresis(short int hysteresis);
+	short int getHysteresis();
+
+
+	unsigned short int getValue();
 	uint8_t getPercentage();
-	float getVoltage();
+	float getVoltage(float aref);
 
-	void propertyChanged(
-				void* source,
-				unsigned short int propertyId,
-				const void* oldPropery);
+	void addBatteryMonitorListener(IBatteryMonitorListener* listener);
+	void removeBatteryMonitorListener(IBatteryMonitorListener* listener);
+	IBatteryMonitorListener* getBatteryMonitorListener(
+			unsigned short int index);
+	std::vector<IBatteryMonitorListener*>
+		getBatteryMonitorListeners();
+
 	void actionPerformed(Action action);
-	void stateChanged(State* state);
 	void validate();
 
 protected:
-	ToggleAnalogInput analog =
-			ToggleAnalogInput(BT_ANALOG_PIN, BATTM_SPV,
-					BATTM_DISC_VOLTAGE, BATTM_HYSTERISIS_VALUE);
-	Timer timer = Timer(64, BATTM_SPV, 3);
+	Timer timer ;
+	unsigned short int measPeriod ;
+	unsigned short int dischargeValue;
+	unsigned short int fullchargeValue;
+	unsigned short int alarmTriggerValue;
+	short int hysteresis;
+	AnalogInput analog;
+	unsigned short int oldMeas = -1;
+	bool alarm = false;
 
-	short int dischargeValue = 0;
-	short int fullchargeValue = 1023;
-	short int alarmTriggerValue = 512;
-	//float referenceVoltage = 5.0;
-	short int measPeriod = 1024;
+	std::vector<IBatteryMonitorListener*>
+		batteryListeners = std::vector<IBatteryMonitorListener*>();
 
-	unsigned short int oldValue = 0;
+	void onValueChanged(unsigned short int oldValue);
+	void onAlarmStateChanged();
+	void notifyBatteryValueChanged(short int oldValue);
+	void notifyBatteryTriggerAlarmStateChanged();
 
 };
 

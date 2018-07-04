@@ -26,10 +26,10 @@ void VoltageMonitoring::propertyChanged(
 				unsigned short int propertyId,
 				const void* oldPropery){
 
-	if(propertyId==HVProbe::MEASUREMENT_PROPERTY){
+	if(propertyId==HVProbe::HVP_MEASUREMENT_PROPERTY){
 		unsigned short int value = probe.getAnalogValue();
 		float measur = probe.getMeasurement();
-		float volt = probe.getVoltage();
+		float volt = probe.getVoltage(AREF_VOLTAGE);
 
 		Serial.print("AnalogValue: ");
 		Serial.print(value);

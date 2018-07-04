@@ -21,6 +21,7 @@ public:
 
 	void clearRecordsTable();
 	uint8_t getPinNumber();
+	unsigned short int getSPV();
 	unsigned short int getAnalogValue();
 	void setPropertyListener(IPropertyListener * l);
 	IPropertyListener* getPropertyListener();

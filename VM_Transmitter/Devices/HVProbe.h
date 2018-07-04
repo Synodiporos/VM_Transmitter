@@ -15,8 +15,8 @@
 
 class HVProbe : public AnalogInput, IActionListener{
 public:
-	static const short int MEASUREMENT_CHANGED = 1;
-	static const short int MEASUREMENT_PROPERTY = 10;
+	//static const short int MEASUREMENT_CHANGED = 1;
+	static const short int HVP_MEASUREMENT_PROPERTY = 10;
 
 	HVProbe();
 	HVProbe(uint8_t pinNumber);
@@ -25,9 +25,12 @@ public:
 			unsigned short int bitrate);
 	virtual ~HVProbe();
 	void initialize();
+	void startRecord();
+	void pauseRecord();
+	void stopRecord();
 
 	float getMeasurement();
-	float getVoltage();
+	float getVoltage(float VREF);
 
 	void setMeasurementListener(IPropertyListener* listener);
 	IPropertyListener* getMeasurementListener();
@@ -41,7 +44,7 @@ public:
 	void validateTimer();
 
 private:
-	Timer timer = Timer(128, 0, MEASUREMENT_CHANGED);
+	Timer timer = Timer(128, 0);
 	unsigned short int oldAnalogValue = 0;
 	IPropertyListener* measurementListener = nullptr;
 };

@@ -15,9 +15,24 @@
 #include "System/SystemConstants.h"
 #include "VoltageMonitoring.h"
 #include "Devices/BatteryMonitor.h"
+#include "Controller.h"
 
-VoltageMonitoring monitor = VoltageMonitoring();
-BatteryMonitor battery = BatteryMonitor();
+//VoltageMonitoring monitor = VoltageMonitoring();
+HVProbe hvProbe = HVProbe(
+		HV_ANALOG_PIN,
+		HVPROBE_SPV,
+		HVPROBE_BITRATE);
+
+BatteryMonitor battery = BatteryMonitor(
+		BT_ANALOG_PIN,
+		BATTM_SPV,
+		BATTM_MEAS_PERIOD,
+		BATTM_ALARM_VALUE,
+		BATTM_HYSTERISIS_VALUE,
+		BATTM_DISC_VALUE,
+		BATTM_FULL_VALUE);
+
+Controller controller = Controller();
 
 // the setup routine runs once when you press reset:
 void setup() {
@@ -40,6 +55,13 @@ void setup() {
 	TIMSK1 |= (1 << OCIE1A);
 	sei();          // enable global interrupts
 
+	// Initialize Controller
+	controller.setHVProbe(&hvProbe);
+	controller.setBatteryMonitor(&battery);
+
+	//hvProbe.startRecord();
+	battery.startRecord();
+
 	Serial.println("Transmitter Started!");
 	//delay(1000);
 }
@@ -48,12 +70,12 @@ void setup() {
 void loop() {
 
 	//monitor.validate();
-	monitor.validateTimer();
-	//battery.validate();
+	hvProbe.validateTimer();
+	battery.validate();
 
-	delay(2);
+	delay(1);
 }
 
 ISR(TIMER1_COMPA_vect){
-	monitor.validate();
+	hvProbe.validate();
 }

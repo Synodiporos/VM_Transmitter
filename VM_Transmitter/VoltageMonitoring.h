@@ -27,9 +27,10 @@ public:
 	void validate();
 	void validateTimer();
 
-private:
+protected:
 	HVProbe probe = HVProbe(HV_ANALOG_PIN,
 			HVPROBE_SPV, HVPROBE_BITRATE);
+
 };
 
 #endif /* VOLTAGEMONITORING_H_ */

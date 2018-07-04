@@ -73,15 +73,21 @@ void ToggleAnalogInput::onAnalogValueChanged(
 	if(!this->state){
 		if(this->_analogValue >= (this->switchValue + this->hysterisis)){
 			this->state = true;
+			onToggleStateChanged(state);
 			notifyToggleStateChanged();
 		}
 	}
 	else{
 		if(this->_analogValue <= (this->switchValue)){
 			this->state = false;
+			onToggleStateChanged(state);
 			notifyToggleStateChanged();
 		}
 	}
+}
+
+void ToggleAnalogInput::onToggleStateChanged(bool state){
+
 }
 
 void ToggleAnalogInput::notifyToggleStateChanged(){

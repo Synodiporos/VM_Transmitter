@@ -39,6 +39,7 @@ protected:
 	virtual void onAnalogValueChanged(
 					unsigned short int analogValue,
 					unsigned short int old);
+	virtual void onToggleStateChanged(bool state);
 	void notifyToggleStateChanged();
 };
 
