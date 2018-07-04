@@ -4,7 +4,7 @@
  *  Created on: Jul 4, 2018
  *      Author: sgeorgiadis
  */
-
+#include "Arduino.h"
 #include "NotificationSystem.h"
 
 NotificationSystem::NotificationSystem(){
@@ -27,7 +27,16 @@ void NotificationSystem::initialize(){
 	t13->setNextTone(t14);
 	t14->setNextTone(t15);
 	t15->setNextTone(t16);
-	ledMode_active.setHeadTone(t11);
+	ledMode_warning.setHeadTone(t11);
+
+	LEDTone* t31 = new LED_M3_T1;
+	LEDTone* t32 = new LED_M3_T2;
+	LEDTone* t33 = new LED_M3_T3;
+	LEDTone* t34 = new LED_M3_T4;
+	t31->setNextTone(t32);
+	t32->setNextTone(t33);
+	t33->setNextTone(t34);
+	ledMode_active.setHeadTone(t31);
 }
 
 void NotificationSystem::notifyActive(){

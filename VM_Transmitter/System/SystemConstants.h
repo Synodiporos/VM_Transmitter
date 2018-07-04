@@ -45,4 +45,9 @@
 #define LED_M2_T5 LEDTone(255, 25)
 #define LED_M2_T6 LEDTone(0, 2775)
 
+#define LED_M3_T1 LEDTone(255, 25)
+#define LED_M3_T2 LEDTone(0, 75)
+#define LED_M3_T3 LEDTone(255, 25)
+#define LED_M3_T4 LEDTone(0, 2875)
+
 #endif /* SYSTEM_SYSTEMCONSTANTS_H_ */

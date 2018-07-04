@@ -1,10 +1,12 @@
 /AnalogInput/
 /Commons/
 /Devices/
-/core/
-/Timer/
-/libraries/
-/Buzzer/
-/LED/
 /LEDPlayer/
 /System/
+/Timer/
+/core/
+/libraries/
+/sources.mk
+/subdir.mk
+/makefile
+/objects.mk

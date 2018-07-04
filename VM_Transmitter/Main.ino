@@ -1,23 +1,10 @@
-/*
- Fade
 
- This example shows how to fade an LED on pin 9
- using the analogWrite() function.
-
- The analogWrite() function uses PWM, so if
- you want to change the pin you're using, be
- sure to use another PWM capable pin. On most
- Arduino, the PWM pins are identified with 
- a "~" sign, like ~3, ~5, ~6, ~9, ~10 and ~11.
-
- This example code is in the public domain.
- */
 #include "System/SystemConstants.h"
 #include "Devices/BatteryMonitor.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
 
-//VoltageMonitoring monitor = VoltageMonitoring();
+
 HVProbe hvProbe = HVProbe(
 		HV_ANALOG_PIN,
 		HVPROBE_SPV,
@@ -38,6 +25,11 @@ NotificationSystem notification = NotificationSystem();
 
 // the setup routine runs once when you press reset:
 void setup() {
+	pinMode(LED_WHITE_PIN, OUTPUT);
+	pinMode(LED_RED_PIN, OUTPUT);
+	digitalWrite(LED_WHITE_PIN, HIGH);
+	digitalWrite(LED_RED_PIN, HIGH);
+
 	Serial.begin(9600);
 	Serial.println("Transmitter Starting...");
 
@@ -76,38 +68,35 @@ void setup() {
 	controller.setHVProbe(&hvProbe);
 	controller.setBatteryMonitor(&battery);
 	controller.setNotificationSystem(&notification);
-
 	controller.activate();
 
 	//hvProbe.startRecord();
 	//battery.startRecord();
 
-	pinMode(LED_WHITE_PIN, OUTPUT);
-	pinMode(LED_RED_PIN, OUTPUT);
-
-	analogWrite(LED_WHITE_PIN, 100);
-	analogWrite(LED_RED_PIN, 128);
-
+	delay(500);
 	Serial.println("Transmitter Started!");
-	//delay(1000);
+
+	digitalWrite(LED_WHITE_PIN, LOW);
+	digitalWrite(LED_RED_PIN, LOW);
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
 
-	//monitor.validate();
 	hvProbe.validateTimer();
 	hvProbe.validate();
 	battery.validate();
+
 	notification.validate();
-	delay(1);
+	//delay(1);
 }
 
 /*ISR(TIMER1_COMPA_vect){
 	hvProbe.validate();
 }*/
 
+/*
 ISR(TIMER0_COMPA_vect){
 	//Serial.println("TT");
 
-}
+}*/

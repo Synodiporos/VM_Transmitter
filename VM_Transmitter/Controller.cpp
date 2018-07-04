@@ -20,8 +20,10 @@ void Controller::activate(){
 		batteryMonitor->startRecord();
 	if(hvProbe)
 		hvProbe->startRecord();
-	if(notification)
+	if(notification){
 		notification->notifyActive();
+		notification->notifyWarning();
+	}
 }
 
 void Controller::deactivate(){
@@ -79,6 +81,9 @@ void Controller::propertyChanged(
 void Controller::onHVProbeVoltageChanged(unsigned short int value){
 	float measur = hvProbe->getMeasurement();
 	float volt = hvProbe->getVoltage(AREF_VOLTAGE);
+
+	//if(measur>1)
+		//notification->notifyWarning();
 
 	Serial.print("HVProbe Value: ");
 	Serial.print(value);

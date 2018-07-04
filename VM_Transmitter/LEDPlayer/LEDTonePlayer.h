@@ -33,14 +33,14 @@ public:
 
 private:
 	int8_t _pinNumber = -1;
-	//0=stop, 1=pause, 2=play
-	uint8_t _state = 0;
+	LEDTone* _headTone = nullptr;
 	short int _iterations = 1;
 	short int _performedIter = 0;
 	unsigned long int _millis = 0;
 	unsigned short int _interval = 0;
-	LEDTone* _headTone = nullptr;
 	LEDTone* _currentTone = _headTone;
+	//0=stop, 1=pause, 2=play
+	uint8_t _state = 0;
 
 	void playNextTone();
 	void resumeFromCurrent();

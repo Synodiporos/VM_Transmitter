@@ -1,8 +1,8 @@
 /*
  * LEDTone.h
  *
- *  Created on: Jul 4, 2018
- *      Author: sgeorgiadis
+ *  Created on: 4 Ιουλ 2018
+ *      Author: Synodiporos
  */
 
 #ifndef LEDPLAYER_LEDTONE_H_
@@ -11,51 +11,20 @@
 
 class LEDTone {
 public:
-	LEDTone::LEDTone(int8_t frequency,
-			unsigned short int duration) {
-		setFrequency(frequency);
-		setDuration(duration);
-	}
-
-	LEDTone(int8_t frequency,
+	LEDTone(uint8_t frequency,
+			unsigned short int duration);
+	LEDTone(uint8_t frequency,
 			unsigned short int duration,
-			LEDTone* next){
-		setFrequency(frequency);
-		setDuration(duration);
-		setNextTone(next);
-	}
+			LEDTone* next);
+	~LEDTone();
 
-	~LEDTone() {
-		delete this->next;
-	}
-
-	void setFrequency(int8_t frequency){
-		this->frequency = frequency;
-	}
-
-	int8_t getFrequency(){
-		return this->frequency;
-	}
-
-	unsigned short int getDuration(){
-		return this->duration;
-	}
-
-	void setDuration(unsigned short int duration){
-		this->duration = duration;
-	}
-
-	void setNextTone(LEDTone* next){
-		this->next = next;
-	}
-
-	LEDTone* getNextTone(){
-		return this->next;
-	}
-
-	bool hasNext(){
-		return this->next!=0;
-	}
+	void setFrequency(uint8_t frequency);
+	uint8_t getFrequency();
+	unsigned short int getDuration();
+	void setDuration(unsigned short int duration);
+	void setNextTone(LEDTone* next);
+	LEDTone* getNextTone();
+	bool hasNext();
 
 private:
 	uint8_t frequency = 0;

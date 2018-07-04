@@ -23,9 +23,9 @@ public:
 
 	void validate();
 
-private:
+
 	LEDTonePlayer ledMode_active =
-			LEDTonePlayer(LED_WHITE_PIN, nullptr, 0);
+			LEDTonePlayer(LED_WHITE_PIN, nullptr, 3);
 	LEDTonePlayer ledMode_warning =
 				LEDTonePlayer(LED_RED_PIN, nullptr, 0);
 
