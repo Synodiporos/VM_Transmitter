@@ -38,6 +38,8 @@ AnalogInput \
 Commons \
 . \
 Devices \
+LEDPlayer \
+System \
 Timer \
 core/core \
 libraries/ArduinoSTL/src \

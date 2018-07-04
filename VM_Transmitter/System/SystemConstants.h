@@ -9,13 +9,15 @@
 #define SYSTEM_SYSTEMCONSTANTS_H_
 
 
-#define HV_ANALOG_PIN (uint8_t) A0 //A1
-#define BT_ANALOG_PIN (uint8_t) A1 //A0
+#define HV_ANALOG_PIN (uint8_t) A1 //A1
+#define BT_ANALOG_PIN (uint8_t) A0 //A0
+#define LED_RED_PIN 9
+#define LED_WHITE_PIN 10
 
 #define AREF_VOLTAGE 3.794
 
 #define HVPROBE_SPV (unsigned short int)32 // 32
-#define HVPROBE_TIMER_CYCLES (unsigned short int)60 // 61
+#define HVPROBE_TIMER_CYCLES (unsigned short int)61 // 61
 #define HVPROBE_UNITS (char*)"kV"
 #define HVPROBE_MIN_MEAS_RANGE (float)0
 #define HVPROBE_MAX_MEAS_RANGE (float)45
@@ -28,5 +30,19 @@
 #define BATTM_MEAS_PERIOD 1024
 #define BATTM_SPV 16
 
+
+#define LED_M1_T1 LEDTone(255, 25)
+#define LED_M1_T2 LEDTone(0, 75)
+#define LED_M1_T3 LEDTone(255, 25)
+#define LED_M1_T4 LEDTone(0, 75)
+#define LED_M1_T5 LEDTone(255, 25)
+#define LED_M1_T6 LEDTone(0, 2775)
+
+#define LED_M2_T1 LEDTone(255, 25)
+#define LED_M2_T2 LEDTone(0, 75)
+#define LED_M2_T3 LEDTone(255, 25)
+#define LED_M2_T4 LEDTone(0, 75)
+#define LED_M2_T5 LEDTone(255, 25)
+#define LED_M2_T6 LEDTone(0, 2775)
 
 #endif /* SYSTEM_SYSTEMCONSTANTS_H_ */

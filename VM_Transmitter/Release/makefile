@@ -15,6 +15,8 @@ RM := del
 -include libraries\ArduinoSTL\src\subdir.mk
 -include core\core\subdir.mk
 -include Timer\subdir.mk
+-include System\subdir.mk
+-include LEDPlayer\subdir.mk
 -include Devices\subdir.mk
 -include Commons\subdir.mk
 -include AnalogInput\subdir.mk

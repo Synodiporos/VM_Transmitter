@@ -15,6 +15,24 @@ Controller::~Controller() {
 	// TODO Auto-generated destructor stub
 }
 
+void Controller::activate(){
+	if(batteryMonitor)
+		batteryMonitor->startRecord();
+	if(hvProbe)
+		hvProbe->startRecord();
+	if(notification)
+		notification->notifyActive();
+}
+
+void Controller::deactivate(){
+	if(batteryMonitor)
+		batteryMonitor->stopRecord();
+	if(hvProbe)
+		hvProbe->stopRecord();
+	if(notification)
+		notification->stopNotify();
+}
+
 void Controller::setBatteryMonitor(BatteryMonitor* batteryMonitor){
 	if(this->batteryMonitor!=batteryMonitor){
 		if(this->batteryMonitor)
@@ -35,8 +53,8 @@ void Controller::setHVProbe(HVProbe* hvProbe){
 	}
 }
 
-void Controller::setNotificationSystem(){
-
+void Controller::setNotificationSystem(NotificationSystem* ns){
+	this->notification = ns;
 }
 
 void Controller::setLoggerSystem(){
@@ -94,5 +112,7 @@ void Controller::onBatteryTriggerAlarmStateChanged(
 	Serial.print("Battery Alarm State: ");
 	Serial.print(alarm);
 	Serial.println(  );
+
+	notification->notifyWarning();
 }
 

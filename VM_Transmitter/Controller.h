@@ -15,6 +15,7 @@
 #include "Devices/BatteryMonitor.h"
 #include "Devices/IBatteryMonitorListener.h"
 #include "System/SystemConstants.h"
+#include "System/NotificationSystem.h"
 
 class Controller : public IBatteryMonitorListener,
 	IPropertyListener{
@@ -22,9 +23,12 @@ public:
 	Controller();
 	virtual ~Controller();
 
+	void activate();
+	void deactivate();
+
 	void setBatteryMonitor(BatteryMonitor* batteryMonitor);
 	void setHVProbe(HVProbe* hvProbe);
-	void setNotificationSystem();
+	void setNotificationSystem(NotificationSystem* ns);
 	void setLoggerSystem();
 	void setRFDevice();
 
@@ -42,7 +46,7 @@ public:
 protected:
 	BatteryMonitor* batteryMonitor = nullptr;
 	HVProbe* hvProbe = nullptr;
-
+	NotificationSystem* notification = nullptr;
 };
 
 #endif /* CONTROLLER_H_ */

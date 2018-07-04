@@ -46,7 +46,10 @@ Controller.cpp.o: ..\Controller.cpp ..\Controller.h \
  C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/USBAPI.h \
  C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h \
  C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\standard/pins_arduino.h \
- ..\Devices/IBatteryMonitorListener.h ..\System/SystemConstants.h
+ ..\Devices/IBatteryMonitorListener.h ..\System/SystemConstants.h \
+ ..\System/NotificationSystem.h ..\System/SystemConstants.h \
+ ..\System/../LEDPlayer/LEDTone.h ..\System/../LEDPlayer/LEDTonePLayer.h \
+ ..\System/../LEDPlayer/LEDTone.h
 
 ..\Controller.h:
 
@@ -163,3 +166,13 @@ C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\stan
 ..\Devices/IBatteryMonitorListener.h:
 
 ..\System/SystemConstants.h:
+
+..\System/NotificationSystem.h:
+
+..\System/SystemConstants.h:
+
+..\System/../LEDPlayer/LEDTone.h:
+
+..\System/../LEDPlayer/LEDTonePLayer.h:
+
+..\System/../LEDPlayer/LEDTone.h:
