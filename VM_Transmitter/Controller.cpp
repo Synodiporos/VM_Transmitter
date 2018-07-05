@@ -21,8 +21,7 @@ void Controller::activate(){
 	if(hvProbe)
 		hvProbe->startRecord();
 	if(notification){
-		notification->notifyActive();
-		notification->notifyWarning();
+		notification->setActiveEnabled(true);
 	}
 }
 
@@ -79,6 +78,7 @@ void Controller::propertyChanged(
 }
 
 void Controller::onHVProbeVoltageChanged(unsigned short int value){
+
 	float measur = hvProbe->getMeasurement();
 	float volt = hvProbe->getVoltage(AREF_VOLTAGE);
 
@@ -92,6 +92,16 @@ void Controller::onHVProbeVoltageChanged(unsigned short int value){
 	Serial.print(" Measurement: ");
 	Serial.print(measur);
 	Serial.println( HVPROBE_UNITS );
+
+	/*byte b1 = lowByte(value);
+	byte b2 = highByte(value);
+	Serial.print("HVProbe Value: ");
+	Serial.print(value);
+	Serial.print(" HB: ");
+	Serial.println(b2, BIN);
+	Serial.print(" LB: ");
+	Serial.println(b1, BIN);*/
+
 }
 
 void Controller::onBatteryValueChanged(
@@ -118,6 +128,6 @@ void Controller::onBatteryTriggerAlarmStateChanged(
 	Serial.print(alarm);
 	Serial.println(  );
 
-	notification->notifyWarning();
+	//notification->setBatteryLowEnabled(true);
 }
 

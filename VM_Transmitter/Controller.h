@@ -14,6 +14,7 @@
 #include "Devices/HVProbe.h"
 #include "Devices/BatteryMonitor.h"
 #include "Devices/IBatteryMonitorListener.h"
+#include "Devices/HVProbe.h"
 #include "System/SystemConstants.h"
 #include "System/NotificationSystem.h"
 

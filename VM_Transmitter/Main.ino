@@ -23,6 +23,11 @@ Controller controller = Controller();
 
 NotificationSystem notification = NotificationSystem();
 
+
+long mil = millis();
+int c = 1;
+
+
 // the setup routine runs once when you press reset:
 void setup() {
 	pinMode(LED_WHITE_PIN, OUTPUT);
@@ -78,17 +83,58 @@ void setup() {
 
 	digitalWrite(LED_WHITE_PIN, LOW);
 	digitalWrite(LED_RED_PIN, LOW);
+
+	//delay(500);
+	mil = millis();
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
+	long interval = millis()-mil;
+
+	if(interval>=5000 ){
+		c++;
+		mil = millis();
+	}
+
+	switch (c){
+		case 1:{
+			//Serial.println("-------------1");
+			notification.setHVWarningEnabled(true);
+			break;
+		}
+		case 2:{
+			//Serial.println("-------------2");
+			notification.setBatteryLowEnabled(true);
+			break;
+		}
+		case 3:{
+			//Serial.println("-------------3");
+			notification.setErrorEnabled(true);
+			break;
+		}
+		case 4:{
+			//Serial.println("-------------3");
+			notification.setHVWarningEnabled(false);
+			break;
+		}
+		case 5:{
+			//Serial.println("-------------3");
+			notification.setBatteryLowEnabled(false);
+			break;
+		}
+		case 6:{
+			//Serial.println("-------------3");
+			notification.setErrorEnabled(false);
+			c = 0;
+			break;
+		}
+	}
 
 	hvProbe.validateTimer();
 	hvProbe.validate();
 	battery.validate();
-
 	notification.validate();
-	//delay(1);
 }
 
 /*ISR(TIMER1_COMPA_vect){
