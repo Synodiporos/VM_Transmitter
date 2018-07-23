@@ -138,11 +138,11 @@ void LEDTonePlayer::playTone(LEDTone* _tone){
 	if(!_tone)
 			return;
 	uint8_t freq = _tone->getFrequency();
-	/*if(freq==255)
+	if(freq==255)
 		digitalWrite(_pinNumber, HIGH);
 	else if(freq==0)
 		digitalWrite(_pinNumber, LOW);
-	else*/
+	else
 		analogWrite(_pinNumber, freq);
 
 	/*Serial.print("Play Tone: ");

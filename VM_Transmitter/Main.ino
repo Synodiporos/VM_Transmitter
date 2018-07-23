@@ -3,6 +3,7 @@
 #include "Devices/BatteryMonitor.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
+#include "System/SerialBroadcaster.h"
 
 
 HVProbe hvProbe = HVProbe(
@@ -23,6 +24,7 @@ Controller controller = Controller();
 
 NotificationSystem notification = NotificationSystem();
 
+SerialBroadcaster serialBroad = *SerialBroadcaster::getInstance();
 
 long mil = millis();
 int c = 1;
@@ -92,7 +94,7 @@ void setup() {
 void loop() {
 	long interval = millis()-mil;
 
-	if(interval>=5000 ){
+/*	if(interval>=5000 ){
 		c++;
 		mil = millis();
 	}
@@ -129,12 +131,13 @@ void loop() {
 			c = 0;
 			break;
 		}
-	}
+	}*/
 
-	hvProbe.validateTimer();
-	hvProbe.validate();
-	battery.validate();
-	notification.validate();
+	//hvProbe.validateTimer();
+	//hvProbe.validate();
+	//battery.validate();
+	//notification.validate();
+	serialBroad.validate();
 }
 
 /*ISR(TIMER1_COMPA_vect){

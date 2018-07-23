@@ -52,11 +52,13 @@ private:
 	byte state = 00000000;
 
 	LEDTone* active = LED_M1;
-	LEDTone* battery = LED_M2;
+	LEDTone* hvWarning_white = LED_M2;
+	LEDTone* hvWarning = LED_M5;
+	LEDTone* battery = LED_M6;
+	LEDTone* error = LED_M7;
 	LEDTone* connectionLost = LED_M3;
 	LEDTone* tranferData = LED_M4;
-	LEDTone* hvWarning = LED_M5;
-	LEDTone* error = LED_M6;
+
 
 	void onStateChanged(byte change);
 };

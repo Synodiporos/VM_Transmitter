@@ -14,6 +14,9 @@
 #define LED_BLUE_PIN 6
 #define LED_RED_PIN 9
 #define LED_WHITE_PIN 10
+#define BUZZER_PIN 5
+#define BUTTON_PIN 3
+
 
 #define AREF_VOLTAGE 3.794
 
@@ -34,6 +37,14 @@
 //ACTIVE
 #define LED_M1 new LEDTone(255, 25,	\
 		new LEDTone(0, 2975))
+//HV_WARNING WHITE
+#define LED_M2 new LEDTone(255, 25, \
+		new LEDTone(0, 75, \
+		new LEDTone(255, 25, \
+		new LEDTone(0, 675, \
+		new LEDTone(255, 25, \
+		new LEDTone(0, 175 \
+))))))
 //CONNECTION_LOST
 #define LED_M3 new LEDTone(255, 50, \
 		new LEDTone(0, 950))
@@ -45,27 +56,27 @@
 		new LEDTone(0, 2775 \
 ))))
 //HV_WARNING
-#define LED_M5 new LEDTone(255, 75, \
-		new LEDTone(0, 25, \
-		new LEDTone(255, 75, \
-		new LEDTone(0, 25, \
-		new LEDTone(255, 75, \
-		new LEDTone(0, 25, \
-		new LEDTone(255, 25, \
-		new LEDTone(0, 75, \
-		new LEDTone(255, 25, \
-		new LEDTone(0, 75, \
-		new LEDTone(255, 25, \
-		new LEDTone(0, 400 \
+#define LED_M5 new LEDTone(255, 40, \
+		new LEDTone(0, 60, \
+		new LEDTone(255, 40, \
+		new LEDTone(0, 60, \
+		new LEDTone(255, 40, \
+		new LEDTone(0, 60, \
+		new LEDTone(255, 40, \
+		new LEDTone(0, 60, \
+		new LEDTone(255, 40, \
+		new LEDTone(0, 60, \
+		new LEDTone(255, 40, \
+		new LEDTone(0, 460 \
 ))))))))))))
 //BATTERY
-#define LED_M2 new LEDTone(255, 25, \
-		new LEDTone(0, 75, \
-		new LEDTone(255, 50, \
-		new LEDTone(0, 1850 \
+#define LED_M6 new LEDTone(255, 40, \
+		new LEDTone(0, 60, \
+		new LEDTone(160, 100, \
+		new LEDTone(0, 1800 \
 ))))
 //ERROR
-#define LED_M6 new LEDTone(255, 750,\
+#define LED_M7 new LEDTone(255, 750,\
 		new LEDTone(0, 750))
 
 

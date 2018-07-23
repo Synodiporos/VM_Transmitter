@@ -30,11 +30,24 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 		ledRed.stop();
 		ledRed.setHeadTone(hvWarning);
 		ledRed.play();
+
+		ledWhite.stop();
+		ledWhite.setHeadTone(hvWarning_white);
+		ledWhite.play();
 	}
 	else{
 		state &= 255-HV_WARNING;
 		Serial.println( " - Disable RED");
 		ledRed.stop();
+
+		if(isActiveEnabled()){
+			ledWhite.stop();
+			ledWhite.setHeadTone(active);
+			ledWhite.play();
+		}else{
+			ledWhite.stop();
+		}
+
 		if(isBatterLowEnabled()){
 			Serial.println( " - Enable Battery");
 			ledRed.stop();
@@ -106,9 +119,17 @@ void NotificationSystem::setActiveEnabled(bool enabled){
 		return;
 	if(enabled){
 		state |= ACTIVE;
+		if(!isHVWarningEnabled()){
+			ledWhite.stop();
+			ledWhite.setHeadTone(active);
+			ledWhite.play();
+		}
 	}
 	else{
 		state &= 255-ACTIVE;
+		if(!isHVWarningEnabled()){
+			ledWhite.stop();
+		}
 	}
 	onStateChanged(ACTIVE);
 }

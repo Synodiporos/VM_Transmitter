@@ -1,15 +1,15 @@
 sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/binary.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/WCharacter.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/WString.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/HardwareSerial.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Stream.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Print.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Printable.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/USBAPI.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h \
- C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\standard/pins_arduino.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/binary.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/WCharacter.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/WString.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/HardwareSerial.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Stream.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Print.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Printable.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/USBAPI.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\variants\standard/pins_arduino.h \
  ..\System/SystemConstants.h ..\Devices/BatteryMonitor.h \
  ..\Devices/../AnalogInput/ToggleAnalogInput.h \
  ..\Devices/../AnalogInput/AnalogInput.h \
@@ -17,26 +17,26 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\Devices/../AnalogInput/../Commons/Object.h \
  ..\Devices/../AnalogInput/../Commons/IStateListener.h \
  ..\Devices/../AnalogInput/../Commons/State.h \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/string \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/basic_definitions \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/system_configuration.h \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/char_traits \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/exception \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/memory \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/new \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/cstddef \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/cstdlib \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/iterator_base \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/utility \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/cstdio \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/func_exception \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/vector \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/iterator \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/iosfwd \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/algorithm \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/functional \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/type_traits \
- C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/initializer_list \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/string \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/basic_definitions \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/system_configuration.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/char_traits \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/exception \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/memory \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/new \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/cstddef \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/cstdlib \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/iterator_base \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/utility \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/cstdio \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/func_exception \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/vector \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/iterator \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/iosfwd \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/algorithm \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/functional \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/type_traits \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/initializer_list \
  ..\Devices/../AnalogInput/../Commons/State.h \
  ..\Devices/../Commons/IStateListener.h \
  ..\Devices/../Commons/IActionListener.h ..\Devices/../Commons/Action.h \
@@ -51,29 +51,29 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\Devices/IBatteryMonitorListener.h ..\System/NotificationSystem.h \
  ..\System/SystemConstants.h ..\System/../LEDPlayer/LEDTone.h \
  ..\System/../LEDPlayer/LEDTonePLayer.h ..\System/../LEDPlayer/LEDTone.h \
- ..\Main.ino
+ ..\System/SerialBroadcaster.h ..\Main.ino
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/binary.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/binary.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/WCharacter.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/WCharacter.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/WString.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/WString.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/HardwareSerial.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/HardwareSerial.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Stream.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Stream.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Print.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Print.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Printable.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Printable.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/USBAPI.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/USBAPI.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\cores\arduino/Arduino.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h:
 
-C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\standard/pins_arduino.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\variants\standard/pins_arduino.h:
 
 ..\System/SystemConstants.h:
 
@@ -91,45 +91,45 @@ C:\Eclipse-neon\arduinoPlugin\packages\arduino\hardware\avr\1.6.20\variants\stan
 
 ..\Devices/../AnalogInput/../Commons/State.h:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/string:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/string:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/basic_definitions:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/basic_definitions:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/system_configuration.h:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/system_configuration.h:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/char_traits:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/char_traits:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/exception:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/exception:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/memory:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/memory:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/new:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/new:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/cstddef:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/cstddef:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/cstdlib:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/cstdlib:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/iterator_base:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/iterator_base:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/utility:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/utility:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/cstdio:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/cstdio:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/func_exception:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/func_exception:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/vector:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/vector:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/iterator:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/iterator:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/iosfwd:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/iosfwd:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/algorithm:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/algorithm:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/functional:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/functional:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/type_traits:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/type_traits:
 
-C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/initializer_list:
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/initializer_list:
 
 ..\Devices/../AnalogInput/../Commons/State.h:
 
@@ -178,5 +178,7 @@ C:\Eclipse-neon\arduinoPlugin\libraries\ArduinoSTL\1.0.4\src/initializer_list:
 ..\System/../LEDPlayer/LEDTonePLayer.h:
 
 ..\System/../LEDPlayer/LEDTone.h:
+
+..\System/SerialBroadcaster.h:
 
 ..\Main.ino:
