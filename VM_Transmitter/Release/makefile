@@ -10,6 +10,7 @@ RM := del
 -include sources.mk
 -include subdir.mk
 -include libraries\SPI\src\subdir.mk
+-include libraries\RF24\subdir.mk
 -include libraries\ArduinoSTL\src\abi\subdir.mk
 -include libraries\ArduinoSTL\src\subdir.mk
 -include core\core\subdir.mk
@@ -18,6 +19,7 @@ RM := del
 -include LEDPlayer\subdir.mk
 -include Devices\subdir.mk
 -include Commons\subdir.mk
+-include CMD\subdir.mk
 -include AnalogInput\subdir.mk
 -include objects.mk
 

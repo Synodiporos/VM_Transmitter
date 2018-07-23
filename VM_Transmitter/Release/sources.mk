@@ -35,6 +35,7 @@ CPP_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 AnalogInput \
+CMD \
 Commons \
 . \
 Devices \
@@ -44,5 +45,6 @@ Timer \
 core/core \
 libraries/ArduinoSTL/src \
 libraries/ArduinoSTL/src/abi \
+libraries/RF24 \
 libraries/SPI/src \
 
