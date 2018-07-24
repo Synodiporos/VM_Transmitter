@@ -16,6 +16,6 @@ RFTransceiver::~RFTransceiver() {
 	// TODO Auto-generated destructor stub
 }
 
-void init(){
+void begin(){
 
 }

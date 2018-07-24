@@ -26,7 +26,8 @@ SerialBroadcaster* SerialBroadcaster::getInstance(){
 }
 
 void SerialBroadcaster::validate(){
-	while (Serial.available()) {
+	int ss = Serial.available();
+	if (ss>0) {
 		// get the new byte:
 		char inChar = (char)Serial.read();
 		// add it to the inputString:
@@ -34,13 +35,19 @@ void SerialBroadcaster::validate(){
 		// if the incoming character is a newline, set a flag so the main loop can
 		// do something about it:
 		if (inChar == '\n') {
-		  stringComplete = true;
-		  onSerialMessageReceived();
+		  onSerialMessageReceived(inputString);
 		}
 	}
 }
 
-void SerialBroadcaster::onSerialMessageReceived(){
-	Serial.print(inputString.c_str());
+void SerialBroadcaster::onSerialMessageReceived(const string& msg){
+	Serial.print("Received: ");
+	Serial.println(msg.c_str());
+
+	msg += "\r";
+
+	CMD* cmd = AT::toCMD(msg);
+	cmd->print();
+
 	inputString = "";
 }

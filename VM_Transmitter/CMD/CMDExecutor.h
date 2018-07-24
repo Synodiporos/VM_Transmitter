@@ -8,13 +8,13 @@
 #ifndef CMD_CMDEXECUTOR_H_
 #define CMD_CMDEXECUTOR_H_
 
-#include "CMD.h"
 #include <queue>
+
+#include "../CMD/CMD.h"
 using namespace std;
 
 class CMDExecutor {
 public:
-
 	CMDExecutor();
 	virtual ~CMDExecutor();
 

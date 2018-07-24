@@ -5,9 +5,9 @@
  *      Author: Synodiporos
  */
 
-#include "CMDErrorReport.h"
+#include "../CMD/CMDErrorReport.h"
 
-CMDErrorReport::CMDErrorReport() {
+CMDErrorReport::CMDErrorReport() : CMD(){
 	// TODO Auto-generated constructor stub
 
 }

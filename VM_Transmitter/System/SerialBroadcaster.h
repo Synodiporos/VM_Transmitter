@@ -8,6 +8,9 @@
 #ifndef SYSTEM_SERIALBROADCASTER_H_
 #define SYSTEM_SERIALBROADCASTER_H_
 
+#include "../CMD/CMD.h"
+#include "../CMD/AT.h"
+
 class SerialBroadcaster {
 public:
 	virtual ~SerialBroadcaster();
@@ -17,10 +20,9 @@ public:
 private:
 	SerialBroadcaster();
 	static SerialBroadcaster* instance;
-	String inputString;
-	bool stringComplete = false;
+	string inputString;
 
-	void onSerialMessageReceived();
+	void onSerialMessageReceived(const string& msg);
 };
 
 #endif /* SYSTEM_SERIALBROADCASTER_H_ */

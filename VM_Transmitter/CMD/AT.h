@@ -10,7 +10,11 @@
 
 #include <vector>
 #include <string>
-#include "CMD.h"
+
+#include "ATCMDs.h"
+#include "../CMD/CMD.h"
+#include "../CMD/CMDErrorReport.h"
+#include "../CMD/CMDBatteryReport.h"
 using namespace std;
 
 #define AT_PREF AT
@@ -23,8 +27,8 @@ public:
 	virtual ~AT();
 
 
-	static bool parse(string input, string& command, vector<string>& params);
-	static int toCMD(const string& at, CMD& cmd);
+	static bool parse(const string& input, string& command, vector<string>& params);
+	static CMD* toCMD(const string& at);
 
 
 private:

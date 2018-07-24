@@ -8,13 +8,13 @@
 #ifndef CMD_CMDSTATUSREPORT_H_
 #define CMD_CMDSTATUSREPORT_H_
 
-#include "CMD.h"
+#include "../CMD/CMD.h"
 
 class CMDStatusReport: public CMD {
 public:
 	CMDStatusReport();
 	virtual ~CMDStatusReport();
-	virtual int execute();
+	int execute();
 };
 
 #endif /* CMD_CMDSTATUSREPORT_H_ */

@@ -7,13 +7,13 @@
 
 #ifndef CMD_CMDERRORREPORT_H_
 #define CMD_CMDERRORREPORT_H_
-#include "CMD.h"
+#include "../CMD/CMD.h"
 
-class CMDErrorReport {
+class CMDErrorReport : public CMD{
 public:
 	CMDErrorReport();
 	virtual ~CMDErrorReport();
-	virtual int execute();
+	int execute();
 };
 
 #endif /* CMD_CMDERRORREPORT_H_ */

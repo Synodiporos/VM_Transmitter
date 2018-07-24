@@ -18,7 +18,7 @@ public:
 	RFTransceiver();
 	virtual ~RFTransceiver();
 
-	void init();
+	void begin();
 
 
 

@@ -7,16 +7,14 @@
 
 #ifndef CMD_CMDBATTERYREPORT_H_
 #define CMD_CMDBATTERYREPORT_H_
-#include "CMD.h"
+#include "../CMD/CMD.h"
 
 class CMDBatteryReport : public CMD{
 public:
 	CMDBatteryReport();
 	CMDBatteryReport(std::vector<string>& params);
 	virtual ~CMDBatteryReport();
-
-	virtual int execute();
-
+	int execute();
 
 };
 

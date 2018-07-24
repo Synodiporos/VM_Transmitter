@@ -5,7 +5,7 @@
  *      Author: Synodiporos
  */
 
-#include "CMDStatusReport.h"
+#include "../CMD/CMDStatusReport.h"
 
 CMDStatusReport::CMDStatusReport() {
 	// TODO Auto-generated constructor stub

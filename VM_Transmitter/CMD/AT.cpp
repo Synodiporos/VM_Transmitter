@@ -4,10 +4,8 @@
  *  Created on: Jul 23, 2018
  *      Author: sgeorgiadis
  */
-
-#include "AT.h"
-#include "ATCommands.h"
-#include "CMDBatteryReport.h"
+#include "Arduino.h"
+#include "../CMD/AT.h"
 
 const string AT::PREF = "AT";
 const char AT::DELIM = ',';
@@ -16,12 +14,12 @@ AT::~AT() {
 	// TODO Auto-generated destructor stub
 }
 
-bool AT::parse(string input, string& command, vector<string>& params){
+bool AT::parse(const string& input,
+		string& command, vector<string>& params){
 
 	if(std::equal(PREF.begin(), PREF.end(), input.begin())){
 		unsigned int n = PREF.size();
 		unsigned int ei = 0;
-		vector<string> params_str;
 
 		string com = "";
 		while(input[n]!='\r'
@@ -33,6 +31,7 @@ bool AT::parse(string input, string& command, vector<string>& params){
 			}
 			com += input[n];
 			n++;
+			Serial.print(com.c_str());
 		}
 
 		if(ei>0){
@@ -55,28 +54,27 @@ bool AT::parse(string input, string& command, vector<string>& params){
 	}
 }
 
-int AT::toCMD(const string& at, CMD& cmd){
-	string command;
+CMD* AT::toCMD(const string& at){
+	string command = "";
 	vector<string> params;
+	CMD* cmd = new CMDErrorReport();
 	bool res = parse(at, command, params);
 
 	if(res){
 
-		switch(command){
-			case ATCommands::AT_BT :{
-				cmd = CMDBatteryReport(params);
-				break;
-			}
-			case "":{
+		//string& s = ATCommands::AT_BT;
+		if(command.compare(ATCMDs::AT_BT)==0){
+			cmd = new CMDBatteryReport(params);
+		}else if(command.compare(ATCMDs::AT_TLS)==0){
 
-			}
 		}
 
-		cmd.setName(command);
-		cmd.setParams(params);
-		return 1;
+		Serial.print(command.c_str());
+
+		//cmd->setName(command);
+		//cmd->setParams(params);
 	}
-	return 0;
+	return cmd;
 }
 
 void AT::split(const string& s, vector<string>& v) {

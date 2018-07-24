@@ -5,7 +5,7 @@
  *      Author: sgeorgiadis
  */
 
-#include "CMDExecutor.h"
+#include "../CMD/CMDExecutor.h"
 
 CMDExecutor::CMDExecutor() {
 	// TODO Auto-generated constructor stub

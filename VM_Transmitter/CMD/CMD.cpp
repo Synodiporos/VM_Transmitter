@@ -5,8 +5,9 @@
  *      Author: sgeorgiadis
  */
 
+#include "../CMD/CMD.h"
+
 #include "Arduino.h"
-#include "CMD.h"
 
 CMD::CMD(){
 
@@ -45,11 +46,11 @@ vector<string>& CMD::getParams(){
 	return this->params;
 }
 
-virtual void CMD::setSource(uint8_t source){
-
+void CMD::setSource(uint8_t source){
+	this->source = source;
 }
 
-virtual uint8_t CMD::getSource(){
+uint8_t CMD::getSource(){
 	return this->source;
 }
 

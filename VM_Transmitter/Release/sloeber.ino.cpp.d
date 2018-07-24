@@ -51,7 +51,11 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\Devices/IBatteryMonitorListener.h ..\System/NotificationSystem.h \
  ..\System/SystemConstants.h ..\System/../LEDPlayer/LEDTone.h \
  ..\System/../LEDPlayer/LEDTonePLayer.h ..\System/../LEDPlayer/LEDTone.h \
- ..\System/SerialBroadcaster.h ..\Main.ino
+ ..\System/SerialBroadcaster.h ..\System/../CMD/CMD.h \
+ ..\System/../CMD/AT.h ..\System/../CMD/ATCMDs.h \
+ ..\System/../CMD/../CMD/CMD.h ..\System/../CMD/../CMD/CMDErrorReport.h \
+ ..\System/../CMD/../CMD/../CMD/CMD.h \
+ ..\System/../CMD/../CMD/CMDBatteryReport.h ..\Main.ino
 
 C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h:
 
@@ -180,5 +184,19 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/initi
 ..\System/../LEDPlayer/LEDTone.h:
 
 ..\System/SerialBroadcaster.h:
+
+..\System/../CMD/CMD.h:
+
+..\System/../CMD/AT.h:
+
+..\System/../CMD/ATCMDs.h:
+
+..\System/../CMD/../CMD/CMD.h:
+
+..\System/../CMD/../CMD/CMDErrorReport.h:
+
+..\System/../CMD/../CMD/../CMD/CMD.h:
+
+..\System/../CMD/../CMD/CMDBatteryReport.h:
 
 ..\Main.ino:

@@ -5,9 +5,9 @@
  *      Author: Synodiporos
  */
 
-#include "CMDBatteryReport.h"
+#include "../CMD/CMDBatteryReport.h"
 
-CMDBatteryReport::CMDBatteryReport() {
+CMDBatteryReport::CMDBatteryReport() : CMD(){
 	// TODO Auto-generated constructor stub
 
 }
