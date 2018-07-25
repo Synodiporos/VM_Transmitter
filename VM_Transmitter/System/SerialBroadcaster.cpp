@@ -38,16 +38,18 @@ void SerialBroadcaster::validate(){
 		  onSerialMessageReceived(inputString);
 		}
 	}
+	delay(1);
 }
 
 void SerialBroadcaster::onSerialMessageReceived(const string& msg){
 	Serial.print("Received: ");
 	Serial.println(msg.c_str());
 
-	msg += "\r";
+	//msg += "\r";
 
 	CMD* cmd = AT::toCMD(msg);
 	cmd->print();
 
+	delete cmd;
 	inputString = "";
 }

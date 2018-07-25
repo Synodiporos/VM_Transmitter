@@ -20,12 +20,9 @@ public:
 	static const uint8_t ESP = 3;
 
 	CMD();
-	CMD(std::string name);
 	CMD(std::vector<string>& params);
-	CMD(std::string name, std::vector<string>& params);
 	virtual ~CMD();
 
-	virtual void setName(std::string name);
 	virtual std::string getName();
 	virtual void setParams(std::vector<string>& params);
 	virtual std::vector<string>& getParams();
@@ -37,7 +34,6 @@ public:
 	void print();
 
 protected:
-	std::string name;
 	std::vector<string> params;
 	uint8_t source = 0;
 };

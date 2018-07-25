@@ -21,6 +21,10 @@ CMDBatteryReport::~CMDBatteryReport() {
 	// TODO Auto-generated destructor stub
 }
 
+string CMDBatteryReport::getName(){
+	return "BT";
+}
+
 int CMDBatteryReport::execute(){
 
 	return 1;

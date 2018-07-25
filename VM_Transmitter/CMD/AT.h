@@ -15,6 +15,7 @@
 #include "../CMD/CMD.h"
 #include "../CMD/CMDErrorReport.h"
 #include "../CMD/CMDBatteryReport.h"
+#include "../CMD/CMDSettings.h"
 using namespace std;
 
 #define AT_PREF AT

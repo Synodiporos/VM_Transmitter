@@ -14,6 +14,7 @@ public:
 	CMDBatteryReport();
 	CMDBatteryReport(std::vector<string>& params);
 	virtual ~CMDBatteryReport();
+	string getName();
 	int execute();
 
 };

@@ -16,6 +16,10 @@ CMDErrorReport::~CMDErrorReport() {
 	// TODO Auto-generated destructor stub
 }
 
+string CMDErrorReport::getName(){
+	return "ER";
+}
+
 int CMDErrorReport::execute(){
 
 	return 1;

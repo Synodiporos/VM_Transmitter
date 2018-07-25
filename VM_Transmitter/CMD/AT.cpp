@@ -4,6 +4,10 @@
  *  Created on: Jul 23, 2018
  *      Author: sgeorgiadis
  */
+#include <iostream>
+#include <ctime>
+using namespace std;
+
 #include "Arduino.h"
 #include "../CMD/AT.h"
 
@@ -14,15 +18,29 @@ AT::~AT() {
 	// TODO Auto-generated destructor stub
 }
 
-bool AT::parse(const string& input,
-		string& command, vector<string>& params){
+bool AT::parse(const std::string& input,
+		std::string& command, vector<string>& params){
 
 	if(std::equal(PREF.begin(), PREF.end(), input.begin())){
 		unsigned int n = PREF.size();
 		unsigned int ei = 0;
 
-		string com = "";
-		while(input[n]!='\r'
+		//std::string& com;
+		//if(input.size()>2)
+		for(std::string::iterator it = input.begin()+3;
+				it != input.end(); ++it) {
+
+			if(*it=='='){
+				ei = n;
+				break;
+			}
+			//com += *it;
+			command.push_back(*it);
+			n++;
+
+			Serial.println(*it);
+		}
+		/*while(input[n]!='\r'
 				&& n<20
 				&& n<input.size()){
 			if(input[n]=='='){
@@ -31,21 +49,22 @@ bool AT::parse(const string& input,
 			}
 			com += input[n];
 			n++;
-			Serial.print(com.c_str());
-		}
-
+		}*/
 		if(ei>0){
 			string s = input.substr(ei+1, input.size()-1);
 			int found = s.find(&DELIM);
-			if(found!=-1){
+			/*if(found!=-1){
 				split(s, params);
 			}
 			else{
 				params.push_back(
 						input.substr(ei+1, input.size()-1));
-			}
+			}*/
 		}
-		command = com.substr(1, com.size()-1);
+		//if(command.size()>0)
+		//	command = command->substr(1, command->size()-1);
+		Serial.println(command.c_str());
+		command += '\r';
 		return true;
 	}
 	else{
@@ -54,8 +73,8 @@ bool AT::parse(const string& input,
 	}
 }
 
-CMD* AT::toCMD(const string& at){
-	string command = "";
+CMD* AT::toCMD(const std::string& at){
+	std::string command = "";
 	vector<string> params;
 	CMD* cmd = new CMDErrorReport();
 	bool res = parse(at, command, params);
@@ -65,19 +84,20 @@ CMD* AT::toCMD(const string& at){
 		//string& s = ATCommands::AT_BT;
 		if(command.compare(ATCMDs::AT_BT)==0){
 			cmd = new CMDBatteryReport(params);
-		}else if(command.compare(ATCMDs::AT_TLS)==0){
+		}
+		else if(command.compare(ATCMDs::AT_SET)==0){
+			cmd = new CMDSettings(params);
+		}
+		else if(command.compare(ATCMDs::AT_TLS)==0){
 
 		}
 
-		Serial.print(command.c_str());
-
-		//cmd->setName(command);
-		//cmd->setParams(params);
+		cmd->setParams(params);
 	}
 	return cmd;
 }
 
-void AT::split(const string& s, vector<string>& v) {
+void AT::split(const std::string& s, vector<string>& v) {
     auto i = 0;
     auto pos = s.find(DELIM);
     while (pos != string::npos) {
@@ -90,7 +110,7 @@ void AT::split(const string& s, vector<string>& v) {
     }
 }
 
-long AT::toLong(string str){
+long AT::toLong(const std::string str){
 	return atol(str.c_str());
 }
 

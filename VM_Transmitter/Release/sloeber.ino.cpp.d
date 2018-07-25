@@ -55,7 +55,9 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\System/../CMD/AT.h ..\System/../CMD/ATCMDs.h \
  ..\System/../CMD/../CMD/CMD.h ..\System/../CMD/../CMD/CMDErrorReport.h \
  ..\System/../CMD/../CMD/../CMD/CMD.h \
- ..\System/../CMD/../CMD/CMDBatteryReport.h ..\Main.ino
+ ..\System/../CMD/../CMD/CMDBatteryReport.h \
+ ..\System/../CMD/../CMD/CMDSettings.h ..\System/../CMD/../CMD/CMD.h \
+ ..\Main.ino
 
 C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h:
 
@@ -198,5 +200,9 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/initi
 ..\System/../CMD/../CMD/../CMD/CMD.h:
 
 ..\System/../CMD/../CMD/CMDBatteryReport.h:
+
+..\System/../CMD/../CMD/CMDSettings.h:
+
+..\System/../CMD/../CMD/CMD.h:
 
 ..\Main.ino:

@@ -6,23 +6,14 @@
  */
 
 #include "../CMD/CMD.h"
-
+using namespace std;
 #include "Arduino.h"
 
 CMD::CMD(){
 
 }
 
-CMD::CMD(string name) : name(name){
-	// TODO Auto-generated constructor stub
-}
-
 CMD::CMD(std::vector<string>& params) : params(params){
-
-}
-
-CMD::CMD(std::string name, std::vector<string>& params) :
-	name(name), params(params){
 
 }
 
@@ -30,12 +21,8 @@ CMD::~CMD() {
 	// TODO Auto-generated destructor stub
 }
 
-void CMD::setName(std::string name){
-	this->name = name;
-}
-
 string CMD::getName(){
-	return this->name;
+	return "Unknown CMD";
 }
 
 void CMD::setParams(vector<string>& params){
@@ -64,8 +51,8 @@ void CMD::print(){
 				it != p.end(); ++it) {
 		Serial.print( ((string)*it).c_str() );
 		if(it!=p.end()-1)
-			Serial.print( ", " );
+			Serial.print( ", ");
 	}
-	Serial.println("]");
+	Serial.println( "]" );
 }
 

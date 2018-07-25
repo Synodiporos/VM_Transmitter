@@ -13,6 +13,7 @@ class CMDErrorReport : public CMD{
 public:
 	CMDErrorReport();
 	virtual ~CMDErrorReport();
+	string getName();
 	int execute();
 };
 
