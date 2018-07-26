@@ -30,7 +30,7 @@ bool AT::parse(const std::string& input,
 		for(std::string::iterator it = input.begin()+3;
 				it != input.end(); ++it) {
 
-			if(*it=='='){
+			if(*it=='=' || *ΙΤ){
 				ei = n;
 				break;
 			}
@@ -40,16 +40,6 @@ bool AT::parse(const std::string& input,
 
 			Serial.println(*it);
 		}
-		/*while(input[n]!='\r'
-				&& n<20
-				&& n<input.size()){
-			if(input[n]=='='){
-				ei = n;
-				break;
-			}
-			com += input[n];
-			n++;
-		}*/
 		if(ei>0){
 			string s = input.substr(ei+1, input.size()-1);
 			int found = s.find(&DELIM);
@@ -63,8 +53,8 @@ bool AT::parse(const std::string& input,
 		}
 		//if(command.size()>0)
 		//	command = command->substr(1, command->size()-1);
-		Serial.println(command.c_str());
-		command += '\r';
+
+		//command += '\r';
 		return true;
 	}
 	else{
@@ -79,6 +69,7 @@ CMD* AT::toCMD(const std::string& at){
 	CMD* cmd = new CMDErrorReport();
 	bool res = parse(at, command, params);
 
+	Serial.println(command.c_str());
 	if(res){
 
 		//string& s = ATCommands::AT_BT;
