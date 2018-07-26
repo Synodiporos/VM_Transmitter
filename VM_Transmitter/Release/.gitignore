@@ -1,14 +1,10 @@
 /AnalogInput/
+/CMD/
 /Commons/
 /Devices/
 /LEDPlayer/
+/RFTransceiver/
 /System/
 /Timer/
 /core/
 /libraries/
-/makefile
-/objects.mk
-/sources.mk
-/subdir.mk
-/CMD/
-/CD/

@@ -16,6 +16,7 @@ RM := del
 -include core\core\subdir.mk
 -include Timer\subdir.mk
 -include System\subdir.mk
+-include RFTransceiver\subdir.mk
 -include LEDPlayer\subdir.mk
 -include Devices\subdir.mk
 -include Commons\subdir.mk
@@ -60,7 +61,7 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 AR += \
-C:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter\Release\arduino.ar \
+C:\Users\sgeorgiadis\git\VM_Transmitter\VM_Transmitter\VM_Transmitter\Release\arduino.ar \
 
 ELF += \
 VM_Transmitter.elf \
@@ -76,19 +77,19 @@ all: VM_Transmitter
 VM_Transmitter: $(HEX)
 	@echo 'Building target: $@'
 	@echo 'Printing size:'
-	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-size" -A "C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/VM_Transmitter.elf"
+	"C:\Eclipse-neon\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-size" -A "C:/Users/sgeorgiadis/git/VM_Transmitter/VM_Transmitter/VM_Transmitter/Release/VM_Transmitter.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-C:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter\Release\arduino.ar: $(AR_OBJ)
+C:\Users\sgeorgiadis\git\VM_Transmitter\VM_Transmitter\VM_Transmitter\Release\arduino.ar: $(AR_OBJ)
 	@echo 'Starting archiver'
-	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc-ar" rcs    C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/arduino.ar $(AR_OBJ)
+	"C:\Eclipse-neon\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc-ar" rcs    C:/Users/sgeorgiadis/git/VM_Transmitter/VM_Transmitter/VM_Transmitter/Release/arduino.ar $(AR_OBJ)
 	@echo 'Finished building: $@'
 	@echo ' '
 
 VM_Transmitter.elf: $(LINK_OBJ) $(AR)
 	@echo 'Starting combiner'
-	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc" -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o "C:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter/Release/VM_Transmitter.elf"   $(LINK_OBJ)   C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/arduino.ar  "-LC:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter/Release" -lm
+	"C:\Eclipse-neon\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc" -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o "C:\Users\sgeorgiadis\git\VM_Transmitter\VM_Transmitter\VM_Transmitter/Release/VM_Transmitter.elf"   $(LINK_OBJ)   C:/Users/sgeorgiadis/git/VM_Transmitter/VM_Transmitter/VM_Transmitter/Release/arduino.ar  "-LC:\Users\sgeorgiadis\git\VM_Transmitter\VM_Transmitter\VM_Transmitter/Release" -lm
 	@echo 'Finished building: $@'
 	@echo ' '
 

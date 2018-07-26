@@ -4,10 +4,8 @@
  *  Created on: Jul 23, 2018
  *      Author: sgeorgiadis
  */
-#include <iostream>
-#include <ctime>
-using namespace std;
 
+using namespace std;
 #include "Arduino.h"
 #include "../CMD/AT.h"
 
@@ -24,17 +22,14 @@ bool AT::parse(const std::string& input,
 	if(std::equal(PREF.begin(), PREF.end(), input.begin())){
 		unsigned int n = PREF.size();
 		unsigned int ei = 0;
-
-		//std::string& com;
-		//if(input.size()>2)
 		for(std::string::iterator it = input.begin()+3;
 				it != input.end(); ++it) {
-
-			if(*it=='=' || *ΙΤ){
+			if(*it=='='){
 				ei = n;
 				break;
 			}
-			//com += *it;
+			else if(*it=='\r')
+				break;
 			command.push_back(*it);
 			n++;
 
@@ -43,18 +38,7 @@ bool AT::parse(const std::string& input,
 		if(ei>0){
 			string s = input.substr(ei+1, input.size()-1);
 			int found = s.find(&DELIM);
-			/*if(found!=-1){
-				split(s, params);
-			}
-			else{
-				params.push_back(
-						input.substr(ei+1, input.size()-1));
-			}*/
 		}
-		//if(command.size()>0)
-		//	command = command->substr(1, command->size()-1);
-
-		//command += '\r';
 		return true;
 	}
 	else{
@@ -71,7 +55,6 @@ CMD* AT::toCMD(const std::string& at){
 
 	Serial.println(command.c_str());
 	if(res){
-
 		//string& s = ATCommands::AT_BT;
 		if(command.compare(ATCMDs::AT_BT)==0){
 			cmd = new CMDBatteryReport(params);

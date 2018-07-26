@@ -40,6 +40,7 @@ Commons \
 . \
 Devices \
 LEDPlayer \
+RFTransceiver \
 System \
 Timer \
 core/core \

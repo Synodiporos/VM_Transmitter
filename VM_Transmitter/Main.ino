@@ -88,6 +88,8 @@ void setup() {
 
 	//delay(500);
 	mil = millis();
+
+	Serial.println("Started!");
 }
 
 // the loop routine runs over and over again forever:
