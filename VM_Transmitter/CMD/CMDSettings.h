@@ -17,7 +17,8 @@ public:
 	CMDSettings(std::vector<string>& params);
 	virtual ~CMDSettings();
 	string getName();
-	int execute();
+	uint8_t onExecute();
+	void validate();
 };
 
 #endif /* CMD_CMDSETTINGS_H_ */

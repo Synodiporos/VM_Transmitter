@@ -25,7 +25,10 @@ string CMDBatteryReport::getName(){
 	return "BT";
 }
 
-int CMDBatteryReport::execute(){
+uint8_t CMDBatteryReport::onExecute(){
+	return RES_COMPLETED;
+}
 
-	return 1;
+void CMDBatteryReport::validate(){
+	CMD::validate();
 }

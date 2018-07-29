@@ -3,8 +3,12 @@
 /Commons/
 /Devices/
 /LEDPlayer/
+/Memory/
 /RFTransceiver/
 /System/
 /Timer/
 /core/
 /libraries/
+/makefile
+/sources.mk
+/subdir.mk

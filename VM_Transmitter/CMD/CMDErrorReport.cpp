@@ -6,21 +6,33 @@
  */
 
 #include "../CMD/CMDErrorReport.h"
+#include "Arduino.h"
+CMDErrorReport::CMDErrorReport() : CMDErrorReport('0'){
+}
 
-CMDErrorReport::CMDErrorReport() : CMD(){
-	// TODO Auto-generated constructor stub
-
+CMDErrorReport::CMDErrorReport(char code) : CMD() {
+	setErrorCode(code);
 }
 
 CMDErrorReport::~CMDErrorReport() {
 	// TODO Auto-generated destructor stub
 }
 
+void CMDErrorReport::setErrorCode(char code){
+	string c;
+	c.push_back(code);
+	getParams().push_back(c);
+}
+
 string CMDErrorReport::getName(){
 	return "ER";
 }
 
-int CMDErrorReport::execute(){
-
-	return 1;
+uint8_t CMDErrorReport::onExecute(){
+	return RES_COMPLETED;
 }
+
+void CMDErrorReport::validate(){
+	CMD::validate();
+}
+

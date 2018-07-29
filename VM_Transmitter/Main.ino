@@ -4,9 +4,12 @@
 #include "Controller.h"
 #include "System/NotificationSystem.h"
 #include "System/SerialBroadcaster.h"
+#include "Memory/MemoryFree.h"
+#include "Memory/pgmStrToRAM.h"
+#include <string>
+using namespace std;
 
-
-HVProbe hvProbe = HVProbe(
+/*HVProbe hvProbe = HVProbe(
 		HV_ANALOG_PIN,
 		HVPROBE_SPV,
 		HVPROBE_BITRATE);
@@ -22,7 +25,7 @@ BatteryMonitor battery = BatteryMonitor(
 
 Controller controller = Controller();
 
-NotificationSystem notification = NotificationSystem();
+NotificationSystem notification = NotificationSystem();*/
 
 SerialBroadcaster serialBroad = *SerialBroadcaster::getInstance();
 
@@ -34,11 +37,13 @@ int c = 1;
 void setup() {
 	pinMode(LED_WHITE_PIN, OUTPUT);
 	pinMode(LED_RED_PIN, OUTPUT);
+	pinMode(LED_BLUE_PIN, OUTPUT);
 	digitalWrite(LED_WHITE_PIN, HIGH);
 	digitalWrite(LED_RED_PIN, HIGH);
+	digitalWrite(LED_BLUE_PIN, HIGH);
 
 	Serial.begin(9600);
-	Serial.println("Transmitter Starting...");
+	Serial.println(F("OK"));
 
 	/*
 	// initialize Timer1
@@ -72,29 +77,54 @@ void setup() {
 */
 
 	// Initialize Controller
-	controller.setHVProbe(&hvProbe);
+	/*controller.setHVProbe(&hvProbe);
 	controller.setBatteryMonitor(&battery);
-	controller.setNotificationSystem(&notification);
-	controller.activate();
+	controller.setNotificationSystem(&notification);*/
+	//controller.activate();
 
 	//hvProbe.startRecord();
 	//battery.startRecord();
 
 	delay(500);
-	Serial.println("Transmitter Started!");
 
 	digitalWrite(LED_WHITE_PIN, LOW);
 	digitalWrite(LED_RED_PIN, LOW);
+	digitalWrite(LED_BLUE_PIN, LOW);
 
 	//delay(500);
 	mil = millis();
 
-	Serial.println("Started!");
+	//string df("asd");
+	//Serial.print("String");
+	//Serial.println(df->c_str());
+	//Serial.print("Size of fucking string:");
+	//int size = sizeof(df);
+	//Serial.println( size );
+
+	/*int hvS = sizeof(hvProbe);
+	Serial.print("Size of hvProbe:");
+	Serial.println(hvS);
+
+	int btS = sizeof(battery);
+	Serial.print("Size of battery:");
+	Serial.println(btS);
+
+	int ctS = sizeof(controller);
+	Serial.print("Size of controller:");
+	Serial.println(ctS);*/
+
+	//int ntS = sizeof(notification);
+	//Serial.print("Size of notification:");
+	//Serial.println(ntS);
+
+	Serial.print(F("Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
+	Serial.println(freeMemory(), DEC);  // print how much RAM is available.
+	// print how much RAM is available.
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
-	long interval = millis()-mil;
+//	long interval = millis()-mil;
 
 /*	if(interval>=5000 ){
 		c++;
@@ -135,11 +165,12 @@ void loop() {
 		}
 	}*/
 
-	//hvProbe.validateTimer();
-	//hvProbe.validate();
-	//battery.validate();
-	//notification.validate();
+	/*hvProbe.validateTimer();
+	hvProbe.validate();
+	battery.validate();
+	notification.validate();*/
 	serialBroad.validate();
+	//delay(10);
 }
 
 /*ISR(TIMER1_COMPA_vect){

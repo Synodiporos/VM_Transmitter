@@ -25,6 +25,10 @@ string CMDSettings::getName(){
 	return "SE";
 }
 
-int CMDSettings::execute(){
-	return 0;
+uint8_t CMDSettings::onExecute(){
+	return RES_COMPLETED;
+}
+
+void CMDSettings::validate(){
+	CMD::validate();
 }

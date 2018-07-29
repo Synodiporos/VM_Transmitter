@@ -11,9 +11,10 @@
 
 #define HV_ANALOG_PIN (uint8_t) A1 //A1
 #define BT_ANALOG_PIN (uint8_t) A0 //A0
-#define LED_BLUE_PIN 6
-#define LED_RED_PIN 9
-#define LED_WHITE_PIN 10
+#define LED_WHITE_PIN 6
+#define LED_RED_PIN 8
+#define LED_BLUE_PIN 7
+#define LED_WHITE_PIN 6
 #define BUZZER_PIN 5
 #define BUTTON_PIN 3
 

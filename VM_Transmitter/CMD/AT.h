@@ -10,7 +10,6 @@
 
 #include <vector>
 #include <string>
-
 #include "ATCMDs.h"
 #include "../CMD/CMD.h"
 #include "../CMD/CMDErrorReport.h"

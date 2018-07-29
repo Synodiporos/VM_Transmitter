@@ -22,18 +22,47 @@ void CMDExecutor::begin(){
 
 bool CMDExecutor::pushCMD(CMD* cmd){
 	if(cmd){
-		this->queue.push(cmd);
+		this->vector.push_back(cmd);
+		cmd->setStateListener(this);
+		return true;
+	}
+	return false;
+}
+
+bool CMDExecutor::removeCMD(CMD* cmd){
+	std::vector<CMD*>::iterator it;
+	it = find(vector.begin(), vector.end(), cmd);
+	if(cmd){
+		vector.erase(it);
 		return true;
 	}
 	return false;
 }
 
 bool CMDExecutor::isEmpty(){
-	return this->queue.empty();
+	return this->vector.empty();
 }
 
-void CMDExecutor::clear()
-{
-   std::queue<CMD*> empty;
-   std::swap(queue, empty );
+void CMDExecutor::clear(){
+   std::vector<CMD*> empty;
+   std::swap(vector, empty );
+}
+
+void CMDExecutor::stateChanged(State* state){
+	if(state){
+		CMD* source = (CMD*)state->getSource();
+		uint8_t st = source->getState();
+		if(st == STATE_COMPLETED){
+			this->removeCMD(source);
+		}
+	}
+}
+
+void CMDExecutor::validate(){
+	for(std::vector<CMD*>::iterator it = vector.begin();
+				it != vector.end(); ++it) {
+		CMD* cmd = *it;
+		if(cmd && cmd->isExecuted())
+			cmd->validate();
+	}
 }

@@ -22,10 +22,10 @@ void NotificationSystem::initialize(){
 void NotificationSystem::setHVWarningEnabled(bool enabled){
 	if(isHVWarningEnabled()==enabled)
 		return;
-	Serial.println( " setHVWarningEnabled ");
+	Serial.println(F( " setHVWarningEnabled "));
 	if(enabled){
 		state |= HV_WARNING;
-		Serial.println( " - Enabled HV");
+		Serial.println(F( " - Enabled HV"));
 
 		ledRed.stop();
 		ledRed.setHeadTone(hvWarning);
@@ -37,7 +37,7 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 	}
 	else{
 		state &= 255-HV_WARNING;
-		Serial.println( " - Disable RED");
+		Serial.println(F( " - Disable RED"));
 		ledRed.stop();
 
 		if(isActiveEnabled()){
@@ -49,7 +49,7 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 		}
 
 		if(isBatterLowEnabled()){
-			Serial.println( " - Enable Battery");
+			Serial.println(F( " - Enable Battery"));
 			ledRed.stop();
 			ledRed.setHeadTone(battery);
 			ledRed.play();
@@ -65,7 +65,7 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 	if(enabled){
 		state |= BATTERY;
 		if(!isHVWarningEnabled()){
-			Serial.println( " - Enable Battery");
+			Serial.println(F( " - Enable Battery"));
 			ledRed.stop();
 			ledRed.setHeadTone(battery);
 			ledRed.play();
@@ -74,10 +74,10 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 	else{
 		state &= 255-BATTERY;
 		if(!isHVWarningEnabled()){
-			Serial.println( " - Disable RED");
+			Serial.println(F( " - Disable RED"));
 			ledRed.stop();
 			if(isErrorEnabled()){
-				Serial.println( " - Enable Error");
+				Serial.println(F( " - Enable Error"));
 				ledRed.stop();
 				ledRed.setHeadTone(error);
 				ledRed.play();
@@ -95,7 +95,7 @@ void NotificationSystem::setErrorEnabled(bool enabled){
 		state |= ERROR;
 		if(!isHVWarningEnabled()){
 			if(!isBatterLowEnabled()){
-				Serial.println( " - Enable Error");
+				Serial.println(F(" - Enable Error"));
 				ledRed.stop();
 				ledRed.setHeadTone(error);
 				ledRed.play();
@@ -106,7 +106,7 @@ void NotificationSystem::setErrorEnabled(bool enabled){
 		state &= 255-ERROR;
 		if(!isHVWarningEnabled()){
 			if(!isBatterLowEnabled()){
-				Serial.println( " - Disable RED");
+				Serial.println(F( " - Disable RED"));
 				ledRed.stop();
 			}
 		}
@@ -184,14 +184,14 @@ void NotificationSystem::onStateChanged(byte change){
 		}
 	}
 	else if(change>=8){
-		Serial.println("BLUE change");
+		Serial.println(F("BLUE change"));
 		byte state = this->state || 11100000;
 		if(change>=state){
 
 		}
 	}
 	else if(change>=4){
-		Serial.println("WHITE change");
+		Serial.println(F("WHITE change"));
 		byte state = this->state || 11111000;
 		if(change>=state){
 

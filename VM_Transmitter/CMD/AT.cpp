@@ -5,7 +5,6 @@
  *      Author: sgeorgiadis
  */
 
-using namespace std;
 #include "Arduino.h"
 #include "../CMD/AT.h"
 
@@ -22,7 +21,20 @@ bool AT::parse(const std::string& input,
 	if(std::equal(PREF.begin(), PREF.end(), input.begin())){
 		unsigned int n = PREF.size();
 		unsigned int ei = 0;
-		for(std::string::iterator it = input.begin()+3;
+
+		for(char c : input) {
+			if(c=='='){
+				ei = n;
+				break;
+			}
+			else if(c=='\r')
+				break;
+			command.push_back(c);
+			n++;
+		}
+
+		/*std::vector<char>::iterator it = input.begin();
+		for(it;
 				it != input.end(); ++it) {
 			if(*it=='='){
 				ei = n;
@@ -33,8 +45,8 @@ bool AT::parse(const std::string& input,
 			command.push_back(*it);
 			n++;
 
-			Serial.println(*it);
-		}
+			//Serial.println(*it);
+		}*/
 		if(ei>0){
 			string s = input.substr(ei+1, input.size()-1);
 			int found = s.find(&DELIM);
@@ -50,10 +62,10 @@ bool AT::parse(const std::string& input,
 CMD* AT::toCMD(const std::string& at){
 	std::string command = "";
 	vector<string> params;
-	CMD* cmd = new CMDErrorReport();
+	CMD* cmd = nullptr;
 	bool res = parse(at, command, params);
 
-	Serial.println(command.c_str());
+	//Serial.println(command.c_str());
 	if(res){
 		//string& s = ATCommands::AT_BT;
 		if(command.compare(ATCMDs::AT_BT)==0){
@@ -61,13 +73,17 @@ CMD* AT::toCMD(const std::string& at){
 		}
 		else if(command.compare(ATCMDs::AT_SET)==0){
 			cmd = new CMDSettings(params);
+			cmd->setParams(params);
 		}
 		else if(command.compare(ATCMDs::AT_TLS)==0){
 
 		}
-
-		cmd->setParams(params);
+		else{
+			cmd = new CMDErrorReport('1');
+		}
 	}
+	else
+		cmd = new CMDErrorReport();
 	return cmd;
 }
 

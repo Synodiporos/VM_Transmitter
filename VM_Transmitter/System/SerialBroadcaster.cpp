@@ -6,6 +6,8 @@
  */
 #include "Arduino.h"
 #include "SerialBroadcaster.h"
+#include "../Memory/MemoryFree.h"
+#include "../Memory/pgmStrToRAM.h"
 
 SerialBroadcaster* SerialBroadcaster::instance = 0;
 
@@ -30,26 +32,39 @@ void SerialBroadcaster::validate(){
 	if (ss>0) {
 		// get the new byte:
 		char inChar = (char)Serial.read();
-		// add it to the inputString:
-		inputString += inChar;
+		//inputString += inChar;
 		// if the incoming character is a newline, set a flag so the main loop can
 		// do something about it:
-		if (inChar == '\n') {
-		  onSerialMessageReceived(inputString);
+		if (inChar == '\n' || inChar == '\r') {
+			//inputString.erase(std::remove_if(
+			//		inputString.begin(), inputString.end(), std::isspace),
+			//		inputString.end());
+			if(inputString.size()>0){
+				inputString.push_back('\r');
+				onSerialMessageReceived(inputString);
+			}
 		}
+		else
+			inputString.push_back(inChar);
 	}
-	delay(1);
+	delay(10);
 }
 
 void SerialBroadcaster::onSerialMessageReceived(const string& msg){
-	Serial.print("Received: ");
-	Serial.println(msg.c_str());
-
+	Serial.print(F("Received: "));
+	const char* c = msg.c_str();
+	Serial.println(c);
 	//msg += "\r";
 
-	CMD* cmd = AT::toCMD(msg);
-	cmd->print();
+	CMD* cmd = new CMDErrorReport();//AT::toCMD(msg);
+	//cmd->print();
+	//cmd->execute();
 
+	//delete cmd;
+	inputString.clear();
+
+	Serial.print(F("Free RAM = "));
+	Serial.println(freeMemory(), DEC);
 	delete cmd;
-	inputString = "";
+	delete c;
 }

@@ -16,6 +16,10 @@ CMDStatusReport::~CMDStatusReport() {
 	// TODO Auto-generated destructor stub
 }
 
-int CMDStatusReport::execute(){
-	return 1;
+uint8_t CMDStatusReport::onExecute(){
+	return RES_COMPLETED;
+}
+
+void CMDStatusReport::validate(){
+	CMD::validate();
 }

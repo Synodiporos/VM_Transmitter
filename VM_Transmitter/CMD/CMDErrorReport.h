@@ -12,9 +12,15 @@
 class CMDErrorReport : public CMD{
 public:
 	CMDErrorReport();
+	CMDErrorReport(char code);
 	virtual ~CMDErrorReport();
 	string getName();
-	int execute();
+	void setErrorCode(char code);
+	uint8_t onExecute();
+	void validate();
+	void print();
+
+	string st;
 };
 
 #endif /* CMD_CMDERRORREPORT_H_ */

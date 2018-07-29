@@ -8,24 +8,26 @@
 #ifndef CMD_CMDEXECUTOR_H_
 #define CMD_CMDEXECUTOR_H_
 
-#include <queue>
-
-#include "../CMD/CMD.h"
+#include <vector>
 using namespace std;
+#include "../CMD/CMD.h"
+#include "../Commons/IStateListener.h"
 
-class CMDExecutor {
+class CMDExecutor : public IStateListener{
 public:
 	CMDExecutor();
 	virtual ~CMDExecutor();
 
 	bool pushCMD(CMD* cmd);
+	bool removeCMD(CMD* cmd);
 	bool isEmpty();
 	void clear();
-
+	void stateChanged(State* state);
 	void validate();
 
+
 private:
-	queue<CMD*> queue;
+	vector<CMD*> vector;
 
 	void begin();
 };

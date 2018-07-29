@@ -10,32 +10,61 @@
 #include <string>
 #include <vector>
 using namespace std;
+#include <stdint.h>
+#include "../Commons/IStateListener.h"
+
+#define SYSTEM 0
+#define SRL 1
+#define RF 2
+#define ESP 3
+#define RES_ERROR 0
+#define RES_COMPLETED 1
+#define RES_ONPROGRESS 2
+#define RES_WRONGPARAMS 3
+#define STATE_STOPED 0
+#define STATE_EXECUTED 1
+#define STATE_ONPROGRESS 2
+#define STATE_COMPLETED 3
 
 class CMD {
 public:
-
-	static const uint8_t SYSTEM = 0;
-	static const uint8_t SRL = 1;
-	static const uint8_t RF = 2;
-	static const uint8_t ESP = 3;
-
 	CMD();
 	CMD(std::vector<string>& params);
 	virtual ~CMD();
 
+	unsigned int getId();
 	virtual std::string getName();
 	virtual void setParams(std::vector<string>& params);
 	virtual std::vector<string>& getParams();
-	virtual void setSource(uint8_t source);
-	virtual uint8_t getSource();
+	void setSource(uint8_t source);
+	uint8_t getSource();
+	void setStateListener(IStateListener* l);
+	IStateListener* getStateListener();
 
-	virtual int execute() = 0;
+	uint8_t getState();
+	virtual bool isExecuted();
+
+	uint8_t execute();
+	virtual void validate();
 
 	void print();
 
 protected:
-	std::vector<string> params;
 	uint8_t source = 0;
+	IStateListener* stateListener = nullptr;
+
+	virtual bool setState(uint8_t state);
+	virtual uint8_t onExecute() = 0;
+	virtual void onCompleted();
+	virtual void onError(const uint8_t error);
+	virtual void onStateChanged(uint8_t state);
+	virtual void notifyStateChanged(uint8_t state);
+
+private:
+	std::vector<string> params;
+	uint8_t state = STATE_STOPED;
+	static unsigned int idCount;
+	unsigned int id;
 };
 
 #endif /* CMD_CMD_H_ */

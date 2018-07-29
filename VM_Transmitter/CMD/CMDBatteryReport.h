@@ -15,8 +15,8 @@ public:
 	CMDBatteryReport(std::vector<string>& params);
 	virtual ~CMDBatteryReport();
 	string getName();
-	int execute();
-
+	uint8_t onExecute();
+	void validate();
 };
 
 #endif /* CMD_CMDBATTERYREPORT_H_ */

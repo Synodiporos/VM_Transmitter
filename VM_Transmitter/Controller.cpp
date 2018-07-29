@@ -85,11 +85,11 @@ void Controller::onHVProbeVoltageChanged(unsigned short int value){
 	//if(measur>1)
 		//notification->notifyWarning();
 
-	Serial.print("HVProbe Value: ");
+	Serial.print(F("HVProbe Value: "));
 	Serial.print(value);
-	Serial.print(" Voltage: ");
+	Serial.print(F(" Voltage: "));
 	Serial.print(volt);
-	Serial.print(" Measurement: ");
+	Serial.print(F(" Measurement: "));
 	Serial.print(measur);
 	Serial.println( HVPROBE_UNITS );
 
@@ -111,11 +111,11 @@ void Controller::onBatteryValueChanged(
 	float volts = source->getVoltage(AREF_VOLTAGE);
 	short int perc = source->getPercentage();
 
-	Serial.print("Battery Value: ");
+	Serial.print(F("Battery Value: "));
 	Serial.print(value);
-	Serial.print(" Voltage: ");
+	Serial.print(F(" Voltage: "));
 	Serial.print(volts);
-	Serial.print("V Percentage: ");
+	Serial.print(F("V Percentage: "));
 	Serial.print(perc);
 	Serial.println( "%" );
 
@@ -124,7 +124,7 @@ void Controller::onBatteryValueChanged(
 void Controller::onBatteryTriggerAlarmStateChanged(
 			BatteryMonitor* source, bool alarm){
 
-	Serial.print("Battery Alarm State: ");
+	Serial.print(F("Battery Alarm State: "));
 	Serial.print(alarm);
 	Serial.println(  );
 

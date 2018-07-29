@@ -14,7 +14,8 @@ class CMDStatusReport: public CMD {
 public:
 	CMDStatusReport();
 	virtual ~CMDStatusReport();
-	int execute();
+	uint8_t onExecute();
+	void validate();
 };
 
 #endif /* CMD_CMDSTATUSREPORT_H_ */

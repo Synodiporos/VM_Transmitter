@@ -16,6 +16,8 @@
 #include "../Math/MathUtil.h"
 #include "IBatteryMonitorListener.h"
 #include "Arduino.h"
+#include <vector>
+using namespace std;
 
 //class IBatteryMonitorListener;
 
