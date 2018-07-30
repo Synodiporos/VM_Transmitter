@@ -6,6 +6,9 @@
 #include "System/SerialBroadcaster.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"
+#include "CMD/CMDExecutor.h"
+#include "CMD/CMD.h"
+#include "CMD/CMDStartUp.h"
 #include <string>
 using namespace std;
 
@@ -26,6 +29,8 @@ BatteryMonitor battery = BatteryMonitor(
 Controller controller = Controller();
 
 NotificationSystem notification = NotificationSystem();*/
+
+CMDExecutor executor = *CMDExecutor::getInstance();
 
 SerialBroadcaster serialBroad = *SerialBroadcaster::getInstance();
 
@@ -117,6 +122,9 @@ void setup() {
 	//Serial.print("Size of notification:");
 	//Serial.println(ntS);
 
+	CMDStartUp* startUpCmd = new CMDStartUp();
+	startUpCmd->execute();
+
 	Serial.print(F("Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
 	Serial.println(freeMemory(), DEC);  // print how much RAM is available.
 	// print how much RAM is available.
@@ -169,6 +177,7 @@ void loop() {
 	hvProbe.validate();
 	battery.validate();
 	notification.validate();*/
+	executor.validate();
 	serialBroad.validate();
 	//delay(10);
 }

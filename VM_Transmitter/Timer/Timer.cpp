@@ -87,6 +87,10 @@ unsigned long Timer::getMillisPassed(){
 	return millis() - this->startTime + millisPassed;
 }
 
+uint8_t Timer::getState(){
+	return this->state;
+}
+
 void Timer::setActionListener(IActionListener* listener){
 	this->actionListener = listener;
 }

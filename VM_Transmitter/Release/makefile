@@ -81,25 +81,25 @@ all: VM_Transmitter
 VM_Transmitter: $(HEX)
 	@echo 'Building target: $@'
 	@echo 'Printing size:'
-	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/VM_Transmitter.elf"
+	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-size" -A "C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/VM_Transmitter.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 C:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter\Release\arduino.ar: $(AR_OBJ)
 	@echo 'Starting archiver'
-	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-ar" rcs    C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/arduino.ar $(AR_OBJ)
+	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc-ar" rcs    C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/arduino.ar $(AR_OBJ)
 	@echo 'Finished building: $@'
 	@echo ' '
 
 VM_Transmitter.elf: $(LINK_OBJ) $(AR)
 	@echo 'Starting combiner'
-	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m3 -mthumb -Os -Wl,--gc-sections "-TC:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\sam\1.6.11\variants\arduino_due_x/linker_scripts/gcc/flash.ld" "-Wl,-Map,C:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter/Release/VM_Transmitter.map" -o "C:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter/Release/VM_Transmitter.elf" "-LC:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter/Release" -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,--start-group -u _sbrk -u link -u _close -u _fstat -u _isatty -u _lseek -u _read -u _write -u _exit -u kill -u _getpid   $(LINK_OBJ)  "C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\sam\1.6.11\variants\arduino_due_x/libsam_sam3x8e_gcc_rel.a"  C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/arduino.ar  -Wl,--end-group -lm -gcc
+	"C:\eclipse\cpp-oxygen\eclipse\/arduinoPlugin/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/bin/avr-gcc" -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o "C:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter/Release/VM_Transmitter.elf"   $(LINK_OBJ)   C:/Users/Synodiporos/git/VM_Transmitter/VM_Transmitter/Release/arduino.ar  "-LC:\Users\Synodiporos\git\VM_Transmitter\VM_Transmitter/Release" -lm
 	@echo 'Finished building: $@'
 	@echo ' '
 
 VM_Transmitter.hex: $(ELF)
 	@echo 'Create eeprom image'
-	${A.RECIPE.OBJCOPY.BIN.PATTERN}
+	${A.RECIPE.OBJCOPY.EEP.PATTERN}
 	${A.RECIPE.OBJCOPY.HEX.PATTERN}
 	@echo 'Finished building: $@'
 	@echo ' '

@@ -50,7 +50,7 @@ void SerialBroadcaster::validate(){
 	delay(10);
 }
 
-void SerialBroadcaster::onSerialMessageReceived(const string& msg){
+void SerialBroadcaster::onSerialMessageReceived(const string msg){
 	Serial.print(F("Received: "));
 	const char* c = msg.c_str();
 	Serial.println(c);

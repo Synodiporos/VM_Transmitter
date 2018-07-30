@@ -13,22 +13,24 @@ using namespace std;
 #include "../CMD/CMD.h"
 #include "../Commons/IStateListener.h"
 
-class CMDExecutor : public IStateListener{
-public:
-	CMDExecutor();
-	virtual ~CMDExecutor();
+class CMD;
 
+class CMDExecutor {
+public:
+
+	virtual ~CMDExecutor();
+	static CMDExecutor* getInstance();
 	bool pushCMD(CMD* cmd);
 	bool removeCMD(CMD* cmd);
 	bool isEmpty();
 	void clear();
-	void stateChanged(State* state);
 	void validate();
 
 
 private:
-	vector<CMD*> vector;
-
+	std::vector<CMD*> vector;
+	static CMDExecutor* instance;
+	CMDExecutor();
 	void begin();
 };
 

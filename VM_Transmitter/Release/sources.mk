@@ -45,11 +45,11 @@ RFTransceiver \
 System \
 Timer \
 core/core \
-core/core/USB \
-core/core/avr \
-core/variant \
 libraries/ArduinoSTL/src \
 libraries/ArduinoSTL/src/abi \
 libraries/RF24 \
 libraries/SPI/src \
+core/core/USB \
+core/core/avr \
+core/variant \
 

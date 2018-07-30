@@ -22,7 +22,7 @@ private:
 	static SerialBroadcaster* instance;
 	string inputString;
 
-	void onSerialMessageReceived(const string& msg);
+	void onSerialMessageReceived(const string msg);
 };
 
 #endif /* SYSTEM_SERIALBROADCASTER_H_ */

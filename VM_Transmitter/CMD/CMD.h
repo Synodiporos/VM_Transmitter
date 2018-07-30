@@ -9,9 +9,10 @@
 #define CMD_CMD_H_
 #include <string>
 #include <vector>
-using namespace std;
 #include <stdint.h>
+using namespace std;
 #include "../Commons/IStateListener.h"
+#include "CMDExecutor.h"
 
 #define SYSTEM 0
 #define SRL 1
@@ -38,12 +39,8 @@ public:
 	virtual std::vector<string>& getParams();
 	void setSource(uint8_t source);
 	uint8_t getSource();
-	void setStateListener(IStateListener* l);
-	IStateListener* getStateListener();
-
 	uint8_t getState();
 	virtual bool isExecuted();
-
 	uint8_t execute();
 	virtual void validate();
 
@@ -51,14 +48,12 @@ public:
 
 protected:
 	uint8_t source = 0;
-	IStateListener* stateListener = nullptr;
 
 	virtual bool setState(uint8_t state);
 	virtual uint8_t onExecute() = 0;
 	virtual void onCompleted();
 	virtual void onError(const uint8_t error);
 	virtual void onStateChanged(uint8_t state);
-	virtual void notifyStateChanged(uint8_t state);
 
 private:
 	std::vector<string> params;

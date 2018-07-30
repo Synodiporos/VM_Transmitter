@@ -21,7 +21,6 @@ CMD::CMD(std::vector<string>& params)
 
 CMD::~CMD() {
 	// TODO Auto-generated destructor stub
-	delete stateListener;
 }
 
 unsigned int CMD::getId(){
@@ -92,7 +91,10 @@ uint8_t CMD::execute(){
 	Serial.print(F("Execute "));
 	this->print();
 	this->setState(STATE_EXECUTED);
-	return onExecute();
+	uint8_t res = onExecute();
+	CMDExecutor* executor = CMDExecutor::getInstance();
+	executor->pushCMD(this);
+	return res;
 }
 
 void CMD::validate(){
@@ -102,6 +104,7 @@ void CMD::validate(){
 //Called by concrete CMDs
 void CMD::onCompleted(){
 	setState(STATE_COMPLETED);
+	CMDExecutor::getInstance()->removeCMD(this);
 }
 
 void CMD::onError(const uint8_t error){
@@ -109,11 +112,6 @@ void CMD::onError(const uint8_t error){
 }
 
 void CMD::onStateChanged(uint8_t state){
-	this->notifyStateChanged(state);
+
 }
 
-void CMD::notifyStateChanged(uint8_t state){
-	if(this->stateListener)
-		this->stateListener->stateChanged(
-				new State(this, 's', &state));
-}

@@ -18,7 +18,6 @@
 #define BUZZER_PIN 5
 #define BUTTON_PIN 3
 
-
 #define AREF_VOLTAGE 3.794
 
 #define HVPROBE_SPV (unsigned short int)32 // 32

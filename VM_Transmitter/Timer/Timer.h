@@ -38,8 +38,8 @@ public:
 	void setIterations(unsigned int iterations);
 	unsigned int getIterations();
 	unsigned int getIterationsPerformed();
-	uint8_t getState();
 	unsigned long getMillisPassed();
+	uint8_t getState();
 
 	void setActionListener(IActionListener* listener);
 	IActionListener* getActionListener();
