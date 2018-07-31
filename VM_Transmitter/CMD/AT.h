@@ -11,10 +11,11 @@
 #include <vector>
 #include <string>
 #include "ATCMDs.h"
-#include "../CMD/CMD.h"
-#include "../CMD/CMDErrorReport.h"
-#include "../CMD/CMDBatteryReport.h"
-#include "../CMD/CMDSettings.h"
+#include "CMD.h"
+#include "CMDErrorReport.h"
+#include "CMDBatteryReport.h"
+#include "CMDSettings.h"
+#include "CMDTestLeds.h"
 using namespace std;
 
 #define AT_PREF AT

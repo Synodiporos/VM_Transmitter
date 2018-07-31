@@ -76,6 +76,9 @@ CMD* AT::toCMD(const std::string& at){
 			cmd->setParams(params);
 		}
 		else if(command.compare(ATCMDs::AT_TLS)==0){
+			cmd = new CMDTestLeds();
+		}
+		else if(command.compare(ATCMDs::AT_TBZ)==0){
 
 		}
 		else{

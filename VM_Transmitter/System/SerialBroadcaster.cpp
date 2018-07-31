@@ -29,9 +29,15 @@ SerialBroadcaster* SerialBroadcaster::getInstance(){
 
 void SerialBroadcaster::validate(){
 	int ss = Serial.available();
+
 	if (ss>0) {
+		//Serial.print(F("BUF: "));
+		//Serial.println(ss);
+
 		// get the new byte:
 		char inChar = (char)Serial.read();
+		//Serial.println((int)inChar);
+
 		//inputString += inChar;
 		// if the incoming character is a newline, set a flag so the main loop can
 		// do something about it:
@@ -40,12 +46,17 @@ void SerialBroadcaster::validate(){
 			//		inputString.begin(), inputString.end(), std::isspace),
 			//		inputString.end());
 			if(inputString.size()>0){
-				inputString.push_back('\r');
+				//inputString.push_back('\r');
 				onSerialMessageReceived(inputString);
+				Serial.println(inputString.size());
+				inputString.clear();
 			}
 		}
 		else
-			inputString.push_back(inChar);
+			inputString += inChar;
+
+		if(inputString.size()>16)
+			inputString.clear();
 	}
 	delay(10);
 }
@@ -56,15 +67,16 @@ void SerialBroadcaster::onSerialMessageReceived(const string msg){
 	Serial.println(c);
 	//msg += "\r";
 
-	CMD* cmd = new CMDErrorReport();//AT::toCMD(msg);
+	//CMD* cmd = new CMDErrorReport();//AT::toCMD(msg);
+	//cmd->setSource(SRL);
 	//cmd->print();
 	//cmd->execute();
 
 	//delete cmd;
-	inputString.clear();
 
-	Serial.print(F("Free RAM = "));
-	Serial.println(freeMemory(), DEC);
-	delete cmd;
-	delete c;
+
+	//Serial.print(F("Free RAM = "));
+	//Serial.println(freeMemory(), DEC);
+	//delete cmd;
+	//delete c;
 }

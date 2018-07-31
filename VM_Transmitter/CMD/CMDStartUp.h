@@ -13,15 +13,18 @@
 #include "CMD.h"
 #include "../Timer/Timer.h"
 
+#define STARTUP_INTERVAL 1000
+
 class CMDStartUp: public CMD {
 public:
 	CMDStartUp();
 	virtual ~CMDStartUp();
+	std::string getName();
 	uint8_t onExecute();
 	void validate();
 
 private:
-	Timer timer =  Timer(1000, 1);
+	unsigned long time = 0;
 };
 
 #endif /* CMD_CMDSTARTUP_H_ */

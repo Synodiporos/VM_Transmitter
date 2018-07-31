@@ -54,14 +54,13 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\System/SerialBroadcaster.h ..\System/../CMD/CMD.h \
  ..\System/../CMD/../Commons/IStateListener.h \
  ..\System/../CMD/CMDExecutor.h ..\System/../CMD/../CMD/CMD.h \
- ..\System/../CMD/AT.h ..\System/../CMD/ATCMDs.h \
- ..\System/../CMD/../CMD/CMDErrorReport.h \
- ..\System/../CMD/../CMD/../CMD/CMD.h \
- ..\System/../CMD/../CMD/CMDBatteryReport.h \
- ..\System/../CMD/../CMD/CMDSettings.h ..\System/../CMD/../CMD/CMD.h \
- ..\Memory/MemoryFree.h ..\Memory/pgmStrToRAM.h ..\CMD/CMDExecutor.h \
- ..\CMD/CMD.h ..\CMD/CMDStartUp.h ..\CMD/../System/SystemConstants.h \
- ..\CMD/CMD.h ..\CMD/../Timer/Timer.h ..\Main.ino
+ ..\System/../CMD/AT.h ..\System/../CMD/ATCMDs.h ..\System/../CMD/CMD.h \
+ ..\System/../CMD/CMDErrorReport.h ..\System/../CMD/CMDBatteryReport.h \
+ ..\System/../CMD/CMDSettings.h ..\System/../CMD/CMDTestLeds.h \
+ ..\System/../CMD/../System/SystemConstants.h ..\Memory/MemoryFree.h \
+ ..\Memory/pgmStrToRAM.h ..\CMD/CMD.h ..\CMD/CMDStartUp.h \
+ ..\CMD/../System/SystemConstants.h ..\CMD/CMD.h ..\CMD/../Timer/Timer.h \
+ ..\Main.ino
 
 C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h:
 
@@ -203,21 +202,21 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/initi
 
 ..\System/../CMD/ATCMDs.h:
 
-..\System/../CMD/../CMD/CMDErrorReport.h:
+..\System/../CMD/CMD.h:
 
-..\System/../CMD/../CMD/../CMD/CMD.h:
+..\System/../CMD/CMDErrorReport.h:
 
-..\System/../CMD/../CMD/CMDBatteryReport.h:
+..\System/../CMD/CMDBatteryReport.h:
 
-..\System/../CMD/../CMD/CMDSettings.h:
+..\System/../CMD/CMDSettings.h:
 
-..\System/../CMD/../CMD/CMD.h:
+..\System/../CMD/CMDTestLeds.h:
+
+..\System/../CMD/../System/SystemConstants.h:
 
 ..\Memory/MemoryFree.h:
 
 ..\Memory/pgmStrToRAM.h:
-
-..\CMD/CMDExecutor.h:
 
 ..\CMD/CMD.h:
 

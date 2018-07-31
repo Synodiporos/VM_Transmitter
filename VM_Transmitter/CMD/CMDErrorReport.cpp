@@ -29,6 +29,17 @@ string CMDErrorReport::getName(){
 }
 
 uint8_t CMDErrorReport::onExecute(){
+	uint8_t source = getSource();
+	if(source==SRL){
+		Serial.print(F("ERROR "));
+		Serial.println(getParams()[0].c_str());
+	}
+	else if(source==RF){
+
+	}
+	else{
+
+	}
 	return RES_COMPLETED;
 }
 

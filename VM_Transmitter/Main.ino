@@ -6,7 +6,6 @@
 #include "System/SerialBroadcaster.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"
-#include "CMD/CMDExecutor.h"
 #include "CMD/CMD.h"
 #include "CMD/CMDStartUp.h"
 #include <string>
@@ -30,22 +29,19 @@ Controller controller = Controller();
 
 NotificationSystem notification = NotificationSystem();*/
 
-CMDExecutor executor = *CMDExecutor::getInstance();
-
-SerialBroadcaster serialBroad = *SerialBroadcaster::getInstance();
+SerialBroadcaster* serialBroad = SerialBroadcaster::getInstance();
+CMDExecutor* executor = CMDExecutor::getInstance();
 
 long mil = millis();
 int c = 1;
-
 
 // the setup routine runs once when you press reset:
 void setup() {
 	pinMode(LED_WHITE_PIN, OUTPUT);
 	pinMode(LED_RED_PIN, OUTPUT);
 	pinMode(LED_BLUE_PIN, OUTPUT);
-	digitalWrite(LED_WHITE_PIN, HIGH);
-	digitalWrite(LED_RED_PIN, HIGH);
-	digitalWrite(LED_BLUE_PIN, HIGH);
+	pinMode(BUZZER_PIN, OUTPUT);
+
 
 	Serial.begin(9600);
 	Serial.println(F("OK"));
@@ -90,12 +86,6 @@ void setup() {
 	//hvProbe.startRecord();
 	//battery.startRecord();
 
-	delay(500);
-
-	digitalWrite(LED_WHITE_PIN, LOW);
-	digitalWrite(LED_RED_PIN, LOW);
-	digitalWrite(LED_BLUE_PIN, LOW);
-
 	//delay(500);
 	mil = millis();
 
@@ -122,8 +112,8 @@ void setup() {
 	//Serial.print("Size of notification:");
 	//Serial.println(ntS);
 
-	CMDStartUp* startUpCmd = new CMDStartUp();
-	startUpCmd->execute();
+	CMDStartUp* startUp = new CMDStartUp();
+	startUp->execute();
 
 	Serial.print(F("Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
 	Serial.println(freeMemory(), DEC);  // print how much RAM is available.
@@ -132,13 +122,23 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-//	long interval = millis()-mil;
+	/*long interval = millis()-mil;
 
-/*	if(interval>=5000 ){
+	if(interval>=1000 ){
 		c++;
 		mil = millis();
-	}
 
+		CMD* cmd = new CMDErrorReport();
+		cmd->print();
+
+		Serial.print(F("Free RAM = "));
+		Serial.println(freeMemory(), DEC);
+		delete cmd;
+
+		Serial.print(F("Free RAM after delete = "));
+		Serial.println(freeMemory(), DEC);
+	}*/
+/*
 	switch (c){
 		case 1:{
 			//Serial.println("-------------1");
@@ -177,8 +177,8 @@ void loop() {
 	hvProbe.validate();
 	battery.validate();
 	notification.validate();*/
-	executor.validate();
-	serialBroad.validate();
+	serialBroad->validate();
+	executor->validate();
 	//delay(10);
 }
 

@@ -6,6 +6,7 @@
  */
 
 #include "../CMD/CMDExecutor.h"
+#include "Arduino.h"
 
 CMDExecutor* CMDExecutor::instance = nullptr;
 
@@ -16,13 +17,14 @@ CMDExecutor::CMDExecutor() {
 
 CMDExecutor::~CMDExecutor() {
 	// TODO Auto-generated destructor stub
+	delete instance;
 }
 
 
 CMDExecutor* CMDExecutor::getInstance(){
-	if(CMDExecutor::instance == nullptr){
+	if(!instance)
 		instance = new CMDExecutor();
-	}
+
 	return instance;
 }
 
@@ -39,17 +41,17 @@ bool CMDExecutor::pushCMD(CMD* cmd){
 }
 
 bool CMDExecutor::removeCMD(CMD* cmd){
-	std::vector<CMD*>::iterator iter;
+	std::vector<CMD*>::iterator iterator;
 	//it = std::find(vector.begin(), vector.end(), cmd);
 	for(std::vector<CMD*>::iterator it = vector.begin();
 					it != vector.end(); ++it) {
 		if(*it==cmd)		{
-			iter = it;
+			iterator = it;
 			break;
 		}
 	}
 	if(cmd){
-		vector.erase(iter);
+		vector.erase(iterator);
 		return true;
 	}
 	return false;
@@ -66,9 +68,7 @@ void CMDExecutor::clear(){
 
 
 void CMDExecutor::validate(){
-	for(std::vector<CMD*>::iterator it = vector.begin();
-				it != vector.end(); ++it) {
-		CMD* cmd = *it;
+	for(CMD* cmd : vector) {
 		//if(cmd && cmd->isExecuted())
 			cmd->validate();
 	}

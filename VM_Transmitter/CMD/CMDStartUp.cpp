@@ -15,21 +15,25 @@ CMDStartUp::~CMDStartUp() {
 	// TODO Auto-generated destructor stub
 }
 
+std::string CMDStartUp::getName(){
+	return "SUP";
+}
+
 uint8_t CMDStartUp::onExecute(){
 	digitalWrite(LED_WHITE_PIN, HIGH);
 	digitalWrite(LED_RED_PIN, HIGH);
 	digitalWrite(LED_BLUE_PIN, HIGH);
-
-	this->timer.start();
+	tone(BUZZER_PIN, 4000, 50);
+	this->time = millis();
 	return RES_ONPROGRESS;
 }
 
 void CMDStartUp::validate(){
-	if(this->timer.getState() == Timer::TIMER_STOP){
-
+	if(millis() - time > STARTUP_INTERVAL){
 		digitalWrite(LED_WHITE_PIN, LOW);
 		digitalWrite(LED_RED_PIN, LOW);
 		digitalWrite(LED_BLUE_PIN, LOW);
+		noTone(BUZZER_PIN);
 		CMD::onCompleted();
 	}
 }

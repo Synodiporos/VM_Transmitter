@@ -13,9 +13,6 @@ RM := del
 -include libraries\RF24\subdir.mk
 -include libraries\ArduinoSTL\src\abi\subdir.mk
 -include libraries\ArduinoSTL\src\subdir.mk
--include core\variant\subdir.mk
--include core\core\avr\subdir.mk
--include core\core\USB\subdir.mk
 -include core\core\subdir.mk
 -include Timer\subdir.mk
 -include System\subdir.mk

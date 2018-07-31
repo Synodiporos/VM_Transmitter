@@ -28,7 +28,7 @@ unsigned int CMD::getId(){
 }
 
 string CMD::getName(){
-	return "Unknown CMD";
+	return "?";
 }
 
 void CMD::setParams(vector<string>& params){
@@ -75,6 +75,8 @@ void CMD::print(){
 	Serial.print(getName().c_str());
 	Serial.print(F(" id:"));
 	Serial.print(getId());
+	Serial.print(F(" source:"));
+	Serial.print(getSource());
 	Serial.print(F(" params:["));
 
 	vector<string> p = getParams();
@@ -92,8 +94,13 @@ uint8_t CMD::execute(){
 	this->print();
 	this->setState(STATE_EXECUTED);
 	uint8_t res = onExecute();
-	CMDExecutor* executor = CMDExecutor::getInstance();
-	executor->pushCMD(this);
+	if(res==RES_ONPROGRESS)
+		CMDExecutor::getInstance()->pushCMD(this);
+	else if(res==RES_COMPLETED)
+		onCompleted();
+	else
+		onError(RES_WRONGPARAMS);
+
 	return res;
 }
 
