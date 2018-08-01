@@ -19,10 +19,10 @@ HVProbe::HVProbe(uint8_t pinNumber, uint8_t spv) :
 }
 
 HVProbe::HVProbe(uint8_t pinNumber, uint8_t spv,
-			unsigned short int bitrate) :
+			unsigned short int period) :
 	AnalogInput(pinNumber, spv){
 		initialize();
-		timer.setInterval(bitrate);
+		timer.setInterval(period);
 }
 
 HVProbe::~HVProbe() {

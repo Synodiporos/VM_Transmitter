@@ -14,8 +14,8 @@ using namespace std;
 /*HVProbe hvProbe = HVProbe(
 		HV_ANALOG_PIN,
 		HVPROBE_SPV,
-		HVPROBE_BITRATE);
-
+		HVPROBE_PERIOD);
+*/
 BatteryMonitor battery = BatteryMonitor(
 		BT_ANALOG_PIN,
 		BATTM_SPV,
@@ -26,9 +26,7 @@ BatteryMonitor battery = BatteryMonitor(
 		BATTM_FULL_VALUE);
 
 Controller controller = Controller();
-
-NotificationSystem notification = NotificationSystem();*/
-
+NotificationSystem* notification = NotificationSystem::getInstance();
 SerialBroadcaster* serialBroad = SerialBroadcaster::getInstance();
 CMDExecutor* executor = CMDExecutor::getInstance();
 
@@ -84,7 +82,7 @@ void setup() {
 	//controller.activate();
 
 	//hvProbe.startRecord();
-	//battery.startRecord();
+	battery.startRecord();
 
 	//delay(500);
 	mil = millis();
@@ -111,6 +109,7 @@ void setup() {
 	//int ntS = sizeof(notification);
 	//Serial.print("Size of notification:");
 	//Serial.println(ntS);
+
 
 	CMDStartUp* startUp = new CMDStartUp();
 	startUp->execute();
@@ -173,10 +172,10 @@ void loop() {
 		}
 	}*/
 
-	/*hvProbe.validateTimer();
-	hvProbe.validate();
+	//hvProbe.validateTimer();
+	//hvProbe.validate();
 	battery.validate();
-	notification.validate();*/
+	notification->validate();
 	serialBroad->validate();
 	executor->validate();
 	//delay(10);

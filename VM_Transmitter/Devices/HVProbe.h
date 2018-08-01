@@ -22,7 +22,7 @@ public:
 	HVProbe(uint8_t pinNumber);
 	HVProbe(uint8_t pinNumber, uint8_t spv);
 	HVProbe(uint8_t pinNumber, uint8_t spv,
-			unsigned short int bitrate);
+			unsigned short int period);
 	virtual ~HVProbe();
 	void initialize();
 	void startRecord();
@@ -44,7 +44,7 @@ public:
 	void validateTimer();
 
 private:
-	Timer timer = Timer(128, 0);
+	Timer timer = Timer(HVPROBE_PERIOD, 0);
 	unsigned short int oldAnalogValue = 0;
 	IPropertyListener* measurementListener = nullptr;
 };

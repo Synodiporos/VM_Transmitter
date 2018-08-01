@@ -143,26 +143,15 @@ void BatteryMonitor::actionPerformed(Action action){
 		analog.validate();
 	}
 	else if(act==Timer::TIMER_STOP){
-		//Serial.println("TIMER STOP ");
 		unsigned short int value = analog.getAnalogValue();
 		if(value!=oldMeas){
-
-			/*Serial.print("-Battery: ");
-			Serial.print(value);
-			Serial.print(" - ");
-			Serial.print(getVoltage(AREF_VOLTAGE));
-			Serial.print("V - ");
-			Serial.print(getPercentage());
-			Serial.println("%");*/
 			onValueChanged(oldMeas);
 			notifyBatteryValueChanged(oldMeas);
 			oldMeas = value;
-
 		}
 		timer.start();
 	}
 }
-
 
 void BatteryMonitor::onValueChanged(unsigned short int oldValue){
 	if(!this->alarm){

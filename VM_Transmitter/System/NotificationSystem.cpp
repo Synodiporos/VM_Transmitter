@@ -7,12 +7,21 @@
 #include "Arduino.h"
 #include "NotificationSystem.h"
 
+NotificationSystem* NotificationSystem::instance = nullptr;
+
 NotificationSystem::NotificationSystem(){
 	initialize();
 }
 
 NotificationSystem::~NotificationSystem() {
 	// TODO Auto-generated destructor stub
+}
+
+NotificationSystem* NotificationSystem::getInstance(){
+	if(instance==nullptr){
+		instance = new NotificationSystem();
+	}
+	return instance;
 }
 
 void NotificationSystem::initialize(){
@@ -28,12 +37,8 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 		Serial.println(F( " - Enabled HV"));
 
 		ledRed.stop();
-		ledRed.setHeadTone(hvWarning);
+		ledRed.setHeadTone(LED_M5);
 		ledRed.play();
-
-		ledWhite.stop();
-		ledWhite.setHeadTone(hvWarning_white);
-		ledWhite.play();
 	}
 	else{
 		state &= 255-HV_WARNING;
@@ -42,7 +47,7 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 
 		if(isActiveEnabled()){
 			ledWhite.stop();
-			ledWhite.setHeadTone(active);
+			ledWhite.setHeadTone(LED_M1);
 			ledWhite.play();
 		}else{
 			ledWhite.stop();
@@ -51,7 +56,7 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 		if(isBatterLowEnabled()){
 			Serial.println(F( " - Enable Battery"));
 			ledRed.stop();
-			ledRed.setHeadTone(battery);
+			ledRed.setHeadTone(LED_M6);
 			ledRed.play();
 		}
 	}
@@ -67,7 +72,7 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 		if(!isHVWarningEnabled()){
 			Serial.println(F( " - Enable Battery"));
 			ledRed.stop();
-			ledRed.setHeadTone(battery);
+			ledRed.setHeadTone(LED_M6);
 			ledRed.play();
 		}
 	}
@@ -79,7 +84,7 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 			if(isErrorEnabled()){
 				Serial.println(F( " - Enable Error"));
 				ledRed.stop();
-				ledRed.setHeadTone(error);
+				ledRed.setHeadTone(LED_M7);
 				ledRed.play();
 			}
 		}
@@ -97,7 +102,7 @@ void NotificationSystem::setErrorEnabled(bool enabled){
 			if(!isBatterLowEnabled()){
 				Serial.println(F(" - Enable Error"));
 				ledRed.stop();
-				ledRed.setHeadTone(error);
+				ledRed.setHeadTone(LED_M7);
 				ledRed.play();
 			}
 		}
@@ -121,7 +126,7 @@ void NotificationSystem::setActiveEnabled(bool enabled){
 		state |= ACTIVE;
 		if(!isHVWarningEnabled()){
 			ledWhite.stop();
-			ledWhite.setHeadTone(active);
+			ledWhite.setHeadTone(LED_M1);
 			ledWhite.play();
 		}
 	}

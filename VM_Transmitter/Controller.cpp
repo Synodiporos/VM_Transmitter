@@ -118,7 +118,6 @@ void Controller::onBatteryValueChanged(
 	Serial.print(F("V Percentage: "));
 	Serial.print(perc);
 	Serial.println( "%" );
-
 }
 
 void Controller::onBatteryTriggerAlarmStateChanged(

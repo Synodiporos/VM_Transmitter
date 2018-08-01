@@ -11,11 +11,9 @@
 #include "../LEDPlayer/LEDTone.h"
 #include "../LEDPlayer/LEDTonePLayer.h"
 
-
-
 class NotificationSystem {
 public:
-	NotificationSystem();
+	static NotificationSystem* getInstance();
 	virtual ~NotificationSystem();
 	void initialize();
 
@@ -35,6 +33,14 @@ public:
 	void validate();
 
 private:
+	static NotificationSystem* instance;
+	byte state = 00000000;
+	#define HV_WARNING 128
+	#define BATTERY 64
+	#define ERROR 32
+	#define CONNECTION_LOST 16
+	#define TRANSFER 8
+	#define ACTIVE	4
 	LEDTonePlayer ledWhite =
 			LEDTonePlayer(LED_WHITE_PIN, nullptr, 0);
 	LEDTonePlayer ledRed =
@@ -42,24 +48,7 @@ private:
 	LEDTonePlayer ledBlue =
 			LEDTonePlayer(LED_BLUE_PIN, nullptr, 0);
 
-	#define HV_WARNING 128
-	#define BATTERY 64
-	#define ERROR 32
-	#define CONNECTION_LOST 16
-	#define TRANSFER 8
-	#define ACTIVE	4
-
-	byte state = 00000000;
-
-	LEDTone* active = LED_M1;
-	LEDTone* hvWarning_white = LED_M2;
-	LEDTone* hvWarning = LED_M5;
-	LEDTone* battery = LED_M6;
-	LEDTone* error = LED_M7;
-	LEDTone* connectionLost = LED_M3;
-	LEDTone* tranferData = LED_M4;
-
-
+	NotificationSystem();
 	void onStateChanged(byte change);
 };
 
