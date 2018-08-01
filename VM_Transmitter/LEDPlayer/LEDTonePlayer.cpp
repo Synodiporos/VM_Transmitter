@@ -100,8 +100,6 @@ void LEDTonePlayer::playNextTone(){
 	_interval = 0;
 	_millis = millis();
 
-
-
 	//Current Tone has next tone
 	if(_currentTone->hasNext()){
 		_currentTone = _currentTone->getNextTone();

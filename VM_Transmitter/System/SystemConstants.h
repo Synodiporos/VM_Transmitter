@@ -32,13 +32,14 @@
 #define BATTM_DISC_VALUE 814 // 3.0V
 #define BATTM_FULL_VALUE 977 // 3.6V
 #define BATTM_ALARM_VALUE 838 // 3.09V
-#define BATTM_HYSTERISIS_VALUE 3// 3.102V - 0.02v
+#define BATTM_HYSTERISIS_VALUE 3// 3.102V - 0.02v \ At 2.61V worked fine
 #define BATTM_MEAS_PERIOD 1024
 #define BATTM_SPV 16
 
 //ACTIVE
-#define LED_M1 new LEDTone(255, 20,	\
-		new LEDTone(0, 3970))
+#define LED_M1 new LEDTone(3, 40,	\
+		new LEDTone(255, 20, \
+		new LEDTone(0, 2960)))
 //CONNECTION_LOST
 #define LED_M3 new LEDTone(255, 50, \
 		new LEDTone(0, 950))
