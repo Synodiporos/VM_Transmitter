@@ -28,10 +28,11 @@
 #define HVPROBE_MAX_MEAS_RANGE (float)45
 #define HVPROBE_PERIOD 128
 //BATTERY CONFIG
-#define BATTM_DISC_VALUE 814 // 3.0V
-#define BATTM_FULL_VALUE 977 // 3.6V
+#define BATTM_OFFSET 16 //Vdrop = 50mV
+#define BATTM_DISC_VALUE 847 // 2.734V (Vd=0.124V) // At 2.61V worked fine
+#define BATTM_FULL_VALUE 1023 // 3.3V
 #define BATTM_ALARM_VALUE 838 // 3.09V
-#define BATTM_HYSTERISIS_VALUE 3// 3.102V - 0.02v \ At 2.61V worked fine
+#define BATTM_HYSTERISIS_VALUE 3// 3.102V - 0.02v
 #define BATTM_MEAS_PERIOD 1024
 #define BATTM_SPV 16
 //RF CONFIG
@@ -43,7 +44,7 @@
 //ACTIVE
 #define LED_M1 new LEDTone(3, 40,	\
 		new LEDTone(255, 20, \
-		new LEDTone(0, 2960)))
+		new LEDTone(0, 2940)))
 //CONNECTION_LOST
 #define LED_M3 new LEDTone(255, 50, \
 		new LEDTone(0, 950))
@@ -69,11 +70,9 @@
 		new LEDTone(0, 460 \
 ))))))))))))
 //BATTERY
-#define LED_M6 new LEDTone(255, 40, \
-		new LEDTone(0, 60, \
-		new LEDTone(160, 100, \
-		new LEDTone(0, 1800 \
-))))
+#define LED_M6 new LEDTone(255, 25, \
+		new LEDTone(0, 2985 \
+))
 //ERROR
 #define LED_M7 new LEDTone(255, 750,\
 		new LEDTone(0, 750))

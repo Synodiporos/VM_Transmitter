@@ -158,6 +158,7 @@ void BatteryMonitor::onValueChanged(unsigned short int oldValue){
 			notifyBatteryTriggerAlarmStateChanged();
 		}
 	}
+	Serial.println((int)alarm);
 }
 
 void BatteryMonitor::validate(){
@@ -174,7 +175,7 @@ void BatteryMonitor::validate(){
 		if(flag==1)
 			count = spv;
 		// calculate the average:
-		unsigned short int average = total / count;
+		unsigned short int average = (total / count) + BATTM_OFFSET;
 		// if we're at the end of the array...
 		if (readIndex >= spv) {
 			// ...wrap around to the beginning:
