@@ -13,7 +13,7 @@
 #include "CMD.h"
 #include "../Timer/Timer.h"
 
-#define STARTUP_INTERVAL 1000
+#define STARTUP_INTERVAL 500
 
 class CMDStartUp: public CMD {
 public:

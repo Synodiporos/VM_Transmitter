@@ -8,7 +8,7 @@
 #ifndef SYSTEM_SYSTEMCONSTANTS_H_
 #define SYSTEM_SYSTEMCONSTANTS_H_
 
-
+//PIN NUMBER CONGIG
 #define HV_ANALOG_PIN (uint8_t) A1 //A1
 #define BT_ANALOG_PIN (uint8_t) A0 //A0
 #define LED_RED_PIN 8
@@ -19,23 +19,27 @@
 #define RF_CE 9
 #define RF_CSN 10
 #define RF_IRQ 2
-
+//REFERENCE VOLTAGE
 #define AREF_VOLTAGE 3.303
-
+//HV Probe CONFIG
 #define HVPROBE_SPV (unsigned short int)32 // 32 Samples per Measurement
-//#define HVPROBE_TIMER_CYCLES (unsigned short int)61 // 61 millis
 #define HVPROBE_UNITS (char*)"kV"
 #define HVPROBE_MIN_MEAS_RANGE (float)0
 #define HVPROBE_MAX_MEAS_RANGE (float)45
 #define HVPROBE_PERIOD 128
-
+//BATTERY CONFIG
 #define BATTM_DISC_VALUE 814 // 3.0V
 #define BATTM_FULL_VALUE 977 // 3.6V
 #define BATTM_ALARM_VALUE 838 // 3.09V
 #define BATTM_HYSTERISIS_VALUE 3// 3.102V - 0.02v \ At 2.61V worked fine
 #define BATTM_MEAS_PERIOD 1024
 #define BATTM_SPV 16
+//RF CONFIG
+#define RF_READ_PIPE (byte) 00001
+#define RF_WRITE_PIPE (byte) 00002
+#define RF_CC_PERIOD 3000
 
+//LED NOTIFICATION MODES
 //ACTIVE
 #define LED_M1 new LEDTone(3, 40,	\
 		new LEDTone(255, 20, \

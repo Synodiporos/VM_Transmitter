@@ -2,7 +2,7 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2018-08-01 23:28:36
+//This file has been generated on 2018-08-02 18:07:56
 
 #include "Arduino.h"
 #include "System/SystemConstants.h"
@@ -10,6 +10,7 @@
 #include "Controller.h"
 #include "System/NotificationSystem.h"
 #include "System/SerialBroadcaster.h"
+#include "RFTransceiver/RFTransceiver.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"
 #include "CMD/CMD.h"

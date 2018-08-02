@@ -23,6 +23,7 @@ void Controller::activate(){
 	if(notification){
 		notification->setActiveEnabled(true);
 	}
+	initialization();
 }
 
 void Controller::deactivate(){
@@ -32,6 +33,12 @@ void Controller::deactivate(){
 		hvProbe->stopRecord();
 	if(notification)
 		notification->stopNotify();
+}
+
+void Controller::initialization(){
+	bool batteryAlarm = this->batteryMonitor->isAlarmEnabled();
+	this->notification->setBatteryLowEnabled(batteryAlarm);
+
 }
 
 void Controller::setBatteryMonitor(BatteryMonitor* batteryMonitor){
@@ -107,7 +114,7 @@ void Controller::onHVProbeVoltageChanged(unsigned short int value){
 void Controller::onBatteryValueChanged(
 			BatteryMonitor* source, short int oldValue){
 
-	short int value = source->getValue();
+	short int value = source->getMeasurementValue();
 	float volts = source->getVoltage(AREF_VOLTAGE);
 	short int perc = source->getPercentage();
 
@@ -124,9 +131,8 @@ void Controller::onBatteryTriggerAlarmStateChanged(
 			BatteryMonitor* source, bool alarm){
 
 	Serial.print(F("Battery Alarm State: "));
-	Serial.print(alarm);
-	Serial.println(  );
-
+	Serial.println(alarm);
+	this->notification->setBatteryLowEnabled(alarm);
 	//notification->setBatteryLowEnabled(true);
 }
 

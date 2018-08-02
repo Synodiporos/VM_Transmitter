@@ -26,7 +26,7 @@ public:
 
 	void activate();
 	void deactivate();
-
+	void initialization();
 	void setBatteryMonitor(BatteryMonitor* batteryMonitor);
 	void setHVProbe(HVProbe* hvProbe);
 	void setNotificationSystem(NotificationSystem* ns);

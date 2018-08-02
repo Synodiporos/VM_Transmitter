@@ -15,13 +15,13 @@ BatteryMonitor::BatteryMonitor(uint8_t pinNumber,
 		unsigned short int hysteresis,
 		unsigned short int dischargeValue,
 		unsigned short int fullchargeValue) :
+		analogPin(pinNumber),
+		spv(spv),
 		measPeriod(measPeriod),
 		dischargeValue(dischargeValue),
 		fullchargeValue(fullchargeValue),
 		alarmTriggerValue(alarmTriggerValue),
-		hysteresis(hysteresis),
-		analog(ToggleAnalogInput(pinNumber, spv))
-{
+		hysteresis(hysteresis){
 	initialize();
 }
 
@@ -30,27 +30,28 @@ BatteryMonitor::~BatteryMonitor() {
 }
 
 void BatteryMonitor::initialize(){
-	int br = getMeasurementPeriod()/analog.getSPV();
-	int mil = 1023/br;
-	timer = Timer(mil, br, 0);
-	timer.setActionListener(this);
+	clearRecordsTable();
 }
 
 void BatteryMonitor::startRecord(){
-	timer.start();
+	state = 2;
 }
 
 void BatteryMonitor::pauseRecord(){
-	timer.pause();
+	state = 1;
 }
 
 void BatteryMonitor::stopRecord(){
-	timer.stop();
-	this->analog.clearRecordsTable();
+	clearRecordsTable();
+	state = 0;
 }
 
-AnalogInput* BatteryMonitor::getAnalogInput(){
-	return &this->analog;
+void BatteryMonitor::clearRecordsTable(){
+	for (unsigned int i = 0; i < spv; i++)
+		readings[i] = 0;
+	total = 0;
+	readIndex = 0;
+	flag = 0;
 }
 
 void BatteryMonitor::setDischargeValue(short int dischargeValue){
@@ -93,20 +94,23 @@ short int BatteryMonitor::getHysteresis(){
 	return this->hysteresis;
 }
 
+bool BatteryMonitor::isAlarmEnabled(){
+	return this->alarm;
+}
 
-unsigned short int BatteryMonitor::getValue(){
-	return this->analog.getAnalogValue();
+unsigned short int BatteryMonitor::getMeasurementValue(){
+	return this->measurement;
 }
 
 uint8_t BatteryMonitor::getPercentage(){
-	return MathUtil::mapRange(analog.getAnalogValue(),
+	return MathUtil::mapRange(getMeasurementValue(),
 			getDischargeValue(),
 			getFullchargeValue(),
 			(short int)0, (short int)100);
 }
 
 float BatteryMonitor::getVoltage(float aref){
-	return MathUtil::map(analog.getAnalogValue(),
+	return MathUtil::map(getMeasurementValue(),
 				0, 1023, 0, aref);
 }
 
@@ -136,36 +140,20 @@ std::vector<IBatteryMonitorListener*> BatteryMonitor::
 	return this->batteryListeners;
 }
 
-void BatteryMonitor::actionPerformed(Action action){
-	unsigned short int act =
-			*(unsigned short int*)action.getContainer();
-	if(act==Timer::TIMER_TIC){
-		analog.validate();
-	}
-	else if(act==Timer::TIMER_STOP){
-		unsigned short int value = analog.getAnalogValue();
-		if(value!=oldMeas){
-			onValueChanged(oldMeas);
-			notifyBatteryValueChanged(oldMeas);
-			oldMeas = value;
-		}
-		timer.start();
-	}
-}
-
 void BatteryMonitor::onValueChanged(unsigned short int oldValue){
-	if(!this->alarm){
-		if(this->getValue() >
+	notifyBatteryValueChanged(oldValue);
+	if(this->alarm){
+		if(this->getMeasurementValue() >
 				(this->getAlarmTriggerValue()
 						+ this->getHysteresis())){
-			this->alarm = true;
+			this->alarm = false;
 			onAlarmStateChanged();
 			notifyBatteryTriggerAlarmStateChanged();
 		}
 	}
 	else{
-		if(this->getValue() <= (this->getAlarmTriggerValue())){
-			this->alarm = false;
+		if(this->getMeasurementValue() <= (this->getAlarmTriggerValue())){
+			this->alarm = true;
 			onAlarmStateChanged();
 			notifyBatteryTriggerAlarmStateChanged();
 		}
@@ -173,7 +161,36 @@ void BatteryMonitor::onValueChanged(unsigned short int oldValue){
 }
 
 void BatteryMonitor::validate(){
-	timer.validate();
+	if(state==2 && millis()-time >= measPeriod){
+		// subtract the last reading:
+		total = total - readings[readIndex];
+		// read from the sensor:
+		readings[readIndex] = analogRead(analogPin);
+		// add the reading to the total:
+		total = total + readings[readIndex];
+		// advance to the next position in the array:
+		readIndex = readIndex + 1;
+		int count = readIndex;
+		if(flag==1)
+			count = spv;
+		// calculate the average:
+		unsigned short int average = total / count;
+		// if we're at the end of the array...
+		if (readIndex >= spv) {
+			// ...wrap around to the beginning:
+			readIndex = 0;
+			flag = 1;
+			time = millis();
+
+			//Check if average value has changed
+			if(average != measurement){
+				//Update the analogeValue value
+				unsigned short int old = measurement;
+				measurement = average;
+				onValueChanged(old);
+			}
+		}
+	}
 }
 
 void BatteryMonitor::onAlarmStateChanged(){

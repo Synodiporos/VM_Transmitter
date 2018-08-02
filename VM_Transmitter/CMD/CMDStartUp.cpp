@@ -24,7 +24,7 @@ uint8_t CMDStartUp::onExecute(){
 	digitalWrite(LED_WHITE_PIN, HIGH);
 	digitalWrite(LED_RED_PIN, HIGH);
 	digitalWrite(LED_BLUE_PIN, HIGH);
-	tone(BUZZER_PIN, 4000, 250);
+	//tone(BUZZER_PIN, 4000, 250);
 	this->time = millis();
 	return RES_ONPROGRESS;
 }

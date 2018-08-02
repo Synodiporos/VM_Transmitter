@@ -21,7 +21,7 @@ using namespace std;
 
 //class IBatteryMonitorListener;
 
-class BatteryMonitor : public IActionListener{
+class BatteryMonitor{
 public:
 	BatteryMonitor(uint8_t pinNumber,
 			uint8_t spv,
@@ -36,8 +36,7 @@ public:
 	void startRecord();
 	void pauseRecord();
 	void stopRecord();
-
-	AnalogInput* getAnalogInput();
+	void clearRecordsTable();
 	void setDischargeValue(short int dischargeValue);
 	short int getDischargeValue();
 	void setFullchargeValue(short int fullchargeValue);
@@ -48,9 +47,10 @@ public:
 	unsigned short int getAlarmTriggerValue();
 	void setHysteresis(short int hysteresis);
 	short int getHysteresis();
+	bool isAlarmEnabled();
 
 
-	unsigned short int getValue();
+	unsigned short int getMeasurementValue();
 	uint8_t getPercentage();
 	float getVoltage(float aref);
 
@@ -61,19 +61,24 @@ public:
 	std::vector<IBatteryMonitorListener*>
 		getBatteryMonitorListeners();
 
-	void actionPerformed(Action action);
 	void validate();
 
 protected:
-	Timer timer ;
+	uint8_t analogPin;
+	uint8_t spv = 1;
 	unsigned short int measPeriod ;
 	unsigned short int dischargeValue;
 	unsigned short int fullchargeValue;
 	unsigned short int alarmTriggerValue;
 	short int hysteresis;
-	AnalogInput analog;
-	unsigned short int oldMeas = -1;
+	uint8_t state = 0;
+	unsigned long time = 0;
 	bool alarm = false;
+	unsigned short int measurement = 0;
+	int total = 0;
+	unsigned short int readings[BATTM_SPV];
+	unsigned short int readIndex = 0;
+	char flag = 0;
 
 	std::vector<IBatteryMonitorListener*>
 		batteryListeners = std::vector<IBatteryMonitorListener*>();

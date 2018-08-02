@@ -7,29 +7,43 @@
 
 #ifndef RFTRANSCEIVER_RFTRANSCEIVER_H_
 #define RFTRANSCEIVER_RFTRANSCEIVER_H_
+#include "../System/SystemConstants.h"
 #include "../Commons/IActionListener.h"
-#include "../Commons/Action.h";
+#include "../Commons/Action.h"
 #include "../Timer/Timer.h"
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
 
-
-class RFTransceiver : IActionListener{
+class RFTransceiver{
 public:
-	static const unsigned short int ON_CONNECTION_CHECK = 90;
+	static const unsigned short int ON_CONNECTION_STATE = 90;
+	static const unsigned short int ON_MESSAGE_RECEIVED = 91;
 	virtual ~RFTransceiver();
-
 	static RFTransceiver* getInstance();
-
 	void initialize();
-	void setCheckForConnectivity(bool enabled);
-	bool isCheckForConnectinty();
-
-	void actionPerformed(Action action);
+	void setActionListener(IActionListener* listener);
+	//void setCheckForConnectivity(bool enabled);
+	//bool isCheckForConnectinty();
+	uint8_t write(const char* msg);
+	void validate();
 
 private:
-	RFTransceiver();
 	static RFTransceiver* instance;
+	RF24 radio = RF24(RF_CE, RF_CSN);
+	bool isConnected = false;
+	unsigned long time = 0;
+	uint8_t ccIters = 3;
+	uint8_t ccCount = 0;
+	uint8_t ccSend = 0;
+	IActionListener* actionListener = nullptr;
+	RFTransceiver();
 
-	Timer timer = Timer(1000, 0, ON_CONNECTION_CHECK);
+	void setConnectionState(bool state);
+	void resetCCTimer();
+	void onMessageReceived(char* msg);
+	void onConnectionStateChanged(bool state);
+	void notifyActionPerformed(Action& action);
 
 };
 

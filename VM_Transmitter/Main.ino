@@ -4,6 +4,7 @@
 #include "Controller.h"
 #include "System/NotificationSystem.h"
 #include "System/SerialBroadcaster.h"
+#include "RFTransceiver/RFTransceiver.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"
 #include "CMD/CMD.h"
@@ -28,6 +29,7 @@ BatteryMonitor battery = BatteryMonitor(
 Controller controller = Controller();
 NotificationSystem* notification = NotificationSystem::getInstance();
 SerialBroadcaster* serialBroad = SerialBroadcaster::getInstance();
+//RFTransceiver* trasnceiver = RFTransceiver::getInstance();
 CMDExecutor* executor = CMDExecutor::getInstance();
 
 long mil = millis();
@@ -76,10 +78,10 @@ void setup() {
 */
 
 	// Initialize Controller
-	/*controller.setHVProbe(&hvProbe);
+	//controller.setHVProbe(hvProbe);
 	controller.setBatteryMonitor(&battery);
-	controller.setNotificationSystem(&notification);*/
-	//controller.activate();
+	controller.setNotificationSystem(notification);
+	controller.activate();
 
 	//hvProbe.startRecord();
 	battery.startRecord();
@@ -177,6 +179,7 @@ void loop() {
 	battery.validate();
 	notification->validate();
 	serialBroad->validate();
+	//trasnceiver->validate();
 	executor->validate();
 	//delay(10);
 }
