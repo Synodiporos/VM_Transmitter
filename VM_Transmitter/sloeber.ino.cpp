@@ -2,11 +2,12 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2018-08-02 19:24:23
+//This file has been generated on 2018-08-03 13:40:16
 
 #include "Arduino.h"
 #include "System/SystemConstants.h"
 #include "Devices/BatteryMonitor.h"
+#include "Devices/Mosfet.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
 #include "System/SerialBroadcaster.h"

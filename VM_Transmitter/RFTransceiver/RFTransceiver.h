@@ -12,7 +12,6 @@
 #include "../Commons/Action.h"
 #include "../Timer/Timer.h"
 #include <SPI.h>
-#include <nRF24L01.h>
 #include <RF24.h>
 
 class RFTransceiver{
@@ -21,7 +20,7 @@ public:
 	static const unsigned short int ON_MESSAGE_RECEIVED = 91;
 	virtual ~RFTransceiver();
 	static RFTransceiver* getInstance();
-	void initialize();
+	void initialize(RF24* radio);
 	void setActionListener(IActionListener* listener);
 	//void setCheckForConnectivity(bool enabled);
 	//bool isCheckForConnectinty();
@@ -29,8 +28,8 @@ public:
 	void validate();
 
 private:
+	RF24* radio = nullptr;
 	static RFTransceiver* instance;
-	RF24 radio = RF24(RF_CE, RF_CSN);
 	bool isConnected = false;
 	unsigned long time = 0;
 	uint8_t ccIters = 3;

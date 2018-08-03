@@ -16,11 +16,12 @@
 #define LED_WHITE_PIN 6
 #define BUZZER_PIN 5
 #define BUTTON_PIN 3
+#define MOSFET_PIN 4
 #define RF_CE 9
 #define RF_CSN 10
 #define RF_IRQ 2
 //REFERENCE VOLTAGE
-#define AREF_VOLTAGE 3.303
+#define AREF_VOLTAGE (float)3.335
 //HV Probe CONFIG
 #define HVPROBE_SPV (unsigned short int)32 // 32 Samples per Measurement
 #define HVPROBE_UNITS (char*)"kV"
@@ -28,11 +29,11 @@
 #define HVPROBE_MAX_MEAS_RANGE (float)45
 #define HVPROBE_PERIOD 128
 //BATTERY CONFIG
-#define BATTM_OFFSET 16 //Vdrop = 50mV
-#define BATTM_DISC_VALUE 847 // 2.734V (Vd=0.124V) // At 2.61V worked fine
-#define BATTM_FULL_VALUE 1023 // 3.3V
-#define BATTM_ALARM_VALUE 838 // 3.09V
-#define BATTM_HYSTERISIS_VALUE 3// 3.102V - 0.02v
+#define BATTM_OFFSET 17 //Vdrop = 56mV, 180mV
+#define BATTM_DISC_VALUE 828 // 2.7V \\ At 2.61V worked fine
+#define BATTM_FULL_VALUE 1023 // 3.335V
+#define BATTM_ALARM_VALUE 846 // 2.76V
+#define BATTM_HYSTERISIS_VALUE 10// 2.792V - 0.0326v
 #define BATTM_MEAS_PERIOD 1024
 #define BATTM_SPV 16
 //RF CONFIG

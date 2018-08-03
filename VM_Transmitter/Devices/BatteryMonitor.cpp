@@ -103,6 +103,7 @@ unsigned short int BatteryMonitor::getMeasurementValue(){
 }
 
 uint8_t BatteryMonitor::getPercentage(){
+
 	return MathUtil::mapRange(getMeasurementValue(),
 			getDischargeValue(),
 			getFullchargeValue(),

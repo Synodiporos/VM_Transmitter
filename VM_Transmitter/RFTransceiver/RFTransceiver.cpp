@@ -15,7 +15,7 @@ RFTransceiver::~RFTransceiver() {
 
 RFTransceiver::RFTransceiver() {
 	// TODO Auto-generated constructor stub
-	initialize();
+	//initialize();
 }
 
 RFTransceiver* RFTransceiver::getInstance(){
@@ -25,11 +25,15 @@ RFTransceiver* RFTransceiver::getInstance(){
 	return instance;
 }
 
-void RFTransceiver::initialize(){
-	if(radio.begin()){
-		radio.openWritingPipe(RF_WRITE_PIPE); // 00001
-		radio.openReadingPipe(1, RF_READ_PIPE); // 00002
-		radio.setPALevel(RF24_PA_MIN);
+void RFTransceiver::initialize(RF24* radio){
+	this->radio = radio;
+	Serial.println((long)radio);
+	if(radio->begin()){
+		radio->openWritingPipe(RF_WRITE_PIPE); // 00001
+		radio->openReadingPipe(1, RF_READ_PIPE); // 00002
+		radio->setPALevel(RF24_PA_MIN);
+
+		Serial.println(F("Radio Begin"));
 	}
 	else{
 		Serial.println(F("Radio ERROR"));
@@ -44,10 +48,10 @@ uint8_t RFTransceiver::write(const char* msg){
 	Serial.print(F("RF Sent: "));
 	Serial.println(msg);
 
-	radio.stopListening();
-	radio.write(msg, sizeof(msg));
+	radio->stopListening();
+	radio->write(msg, sizeof(msg));
 	//delay(1);
-	radio.startListening();
+	radio->startListening();
 	return 1;
 }
 
@@ -68,9 +72,9 @@ void RFTransceiver::validate(){
 			ccSend = 1;
 		}*/
 	}
-	if(radio.available()){
+	if(radio->available()){
 		char msg[32] = "";
-		radio.read(msg, sizeof(msg));
+		radio->read(msg, sizeof(msg));
 		onMessageReceived(msg);
 	}
 }

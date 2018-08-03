@@ -1,6 +1,7 @@
 
 #include "System/SystemConstants.h"
 #include "Devices/BatteryMonitor.h"
+#include "Devices/Mosfet.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
 #include "System/SerialBroadcaster.h"
@@ -25,12 +26,13 @@ BatteryMonitor battery = BatteryMonitor(
 		BATTM_HYSTERISIS_VALUE,
 		BATTM_DISC_VALUE,
 		BATTM_FULL_VALUE);
-
+Mosfet* mosfet = Mosfet::getInstance();
 Controller controller = Controller();
 NotificationSystem* notification = NotificationSystem::getInstance();
 SerialBroadcaster* serialBroad = SerialBroadcaster::getInstance();
-//RFTransceiver* trasnceiver = RFTransceiver::getInstance();
+RFTransceiver* trasnceiver = RFTransceiver::getInstance();
 CMDExecutor* executor = CMDExecutor::getInstance();
+RF24 radio(9, 10);
 
 long mil = millis();
 int c = 1;
@@ -42,10 +44,8 @@ void setup() {
 	pinMode(LED_BLUE_PIN, OUTPUT);
 	pinMode(BUZZER_PIN, OUTPUT);
 
-
 	Serial.begin(9600);
 	Serial.println(F("OK"));
-
 	/*
 	// initialize Timer1
 	cli();          // disable global interrupts
@@ -76,6 +76,9 @@ void setup() {
 	sei(); //allows interrupts
 
 */
+
+	//Initialaze RF
+	trasnceiver->initialize(&radio);
 
 	// Initialize Controller
 	//controller.setHVProbe(hvProbe);
@@ -123,22 +126,14 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-	/*long interval = millis()-mil;
+	long interval = millis()-mil;
 
-	if(interval>=1000 ){
+	if(interval>=3000 ){
 		c++;
 		mil = millis();
-
-		CMD* cmd = new CMDErrorReport();
-		cmd->print();
-
-		Serial.print(F("Free RAM = "));
-		Serial.println(freeMemory(), DEC);
-		delete cmd;
-
-		Serial.print(F("Free RAM after delete = "));
-		Serial.println(freeMemory(), DEC);
-	}*/
+		Serial.println(F("SwitchOn Mosfet"));
+		mosfet->switchON();
+	}
 /*
 	switch (c){
 		case 1:{
