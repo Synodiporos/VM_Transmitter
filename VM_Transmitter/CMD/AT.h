@@ -8,6 +8,7 @@
 #ifndef AT_AT_H_
 #define AT_AT_H_
 
+#include <Arduino.h>
 #include <vector>
 #include <string>
 #include "ATCMDs.h"
@@ -16,6 +17,7 @@
 #include "CMDBatteryReport.h"
 #include "CMDSettings.h"
 #include "CMDTestLeds.h"
+#include "CMDAck.h"
 using namespace std;
 
 #define AT_PREF AT
@@ -26,11 +28,8 @@ public:
 	static const char DELIM;
 
 	virtual ~AT();
-
-
 	static bool parse(const string& input, string& command, vector<string>& params);
 	static CMD* toCMD(const string& at);
-
 
 private:
 	static void split(const string& s, vector<string>& v);

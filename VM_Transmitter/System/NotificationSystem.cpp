@@ -31,30 +31,34 @@ void NotificationSystem::initialize(){
 void NotificationSystem::setHVWarningEnabled(bool enabled){
 	if(isHVWarningEnabled()==enabled)
 		return;
-	Serial.println(F( " setHVWarningEnabled "));
+	//Serial.println(F( " setHVWarningEnabled "));
 	if(enabled){
 		state |= HV_WARNING;
-		Serial.println(F( " - Enabled HV"));
+		//Serial.println(F( " - Enabled HV"));
 
 		ledRed.stop();
 		ledRed.setHeadTone(LED_M5);
 		ledRed.play();
+
+		ledBlue.stop();
+		ledWhite.stop();
 	}
 	else{
 		state &= 255-HV_WARNING;
-		Serial.println(F( " - Disable RED"));
+		//Serial.println(F( " - Disable RED"));
 		ledRed.stop();
 
 		if(isActiveEnabled()){
 			ledWhite.stop();
 			ledWhite.setHeadTone(LED_M1);
 			ledWhite.play();
-		}else{
-			ledWhite.stop();
 		}
-
+		if(isConnectionLostEnabled()){
+			ledBlue.stop();
+			ledBlue.setHeadTone(LED_M7);
+			ledBlue.play();
+		}
 		if(isBatterLowEnabled()){
-			Serial.println(F( " - Enable Battery"));
 			ledRed.stop();
 			ledRed.setHeadTone(LED_M6);
 			ledRed.play();
@@ -66,11 +70,9 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 void NotificationSystem::setBatteryLowEnabled(bool enabled){
 	if(isBatterLowEnabled()==enabled)
 			return;
-	Serial.println( " setBatteryLowEnabled ");
 	if(enabled){
 		state |= BATTERY;
 		if(!isHVWarningEnabled()){
-			Serial.println(F( " - Enable Battery"));
 			ledRed.stop();
 			ledRed.setHeadTone(LED_M6);
 			ledRed.play();
@@ -79,10 +81,10 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 	else{
 		state &= 255-BATTERY;
 		if(!isHVWarningEnabled()){
-			Serial.println(F( " - Disable RED"));
+			//Serial.println(F( " - Disable RED"));
 			ledRed.stop();
 			if(isErrorEnabled()){
-				Serial.println(F( " - Enable Error"));
+				//Serial.println(F( " - Enable Error"));
 				ledRed.stop();
 				ledRed.setHeadTone(LED_M7);
 				ledRed.play();
@@ -95,12 +97,12 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 void NotificationSystem::setErrorEnabled(bool enabled){
 	if(isErrorEnabled()==enabled)
 			return;
-	Serial.println( " setErrorEnabled ");
+	//Serial.println(F( " setErrorEnabled " ));
 	if(enabled){
 		state |= ERROR;
 		if(!isHVWarningEnabled()){
 			if(!isBatterLowEnabled()){
-				Serial.println(F(" - Enable Error"));
+				//Serial.println(F(" - Enable Error"));
 				ledRed.stop();
 				ledRed.setHeadTone(LED_M7);
 				ledRed.play();
@@ -142,9 +144,14 @@ void NotificationSystem::setActiveEnabled(bool enabled){
 void NotificationSystem::setConnectionLostEnabled(bool enabled){
 	if(enabled){
 		state |= CONNECTION_LOST;
+		ledBlue.stop();
+		ledBlue.setHeadTone(LED_M7);
+		if(!isHVWarningEnabled())
+			ledBlue.play();
 	}
 	else{
 		state &= 255-CONNECTION_LOST;
+		ledBlue.stop();
 	}
 }
 

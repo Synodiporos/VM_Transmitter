@@ -76,7 +76,6 @@ IPropertyListener* HVProbe::getMeasurementListener(){
 }
 
 void HVProbe::notifyMeasurementChanged(){
-	Serial.println(getMeasurement());
 	if(measurementListener)
 		measurementListener->propertyChanged(
 				this, HVP_MEASUREMENT_PROPERTY, &oldAnalogValue);
@@ -88,11 +87,8 @@ void HVProbe::analogValueChanged(
 
 }
 
-void HVProbe::validateTimer(){
-	timer.validate();
-}
-
 void HVProbe::validate(){
 	AnalogInput::validate();
+	timer.validate();
 }
 

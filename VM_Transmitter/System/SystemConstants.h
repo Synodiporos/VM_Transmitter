@@ -21,26 +21,41 @@
 #define RF_CSN 10
 #define RF_IRQ 2
 //REFERENCE VOLTAGE
-#define AREF_VOLTAGE (float)3.335
+#define AREF_VOLTAGE (float)3.297
 //HV Probe CONFIG
-#define HVPROBE_SPV (unsigned short int)32 // 32 Samples per Measurement
-#define HVPROBE_UNITS (char*)"kV"
+#define HVPROBE_SPV (unsigned short int)16 // 32 Samples per Measurement
+#define HVPROBE_UNITS (char*)"V"
 #define HVPROBE_MIN_MEAS_RANGE (float)0
 #define HVPROBE_MAX_MEAS_RANGE (float)45
-#define HVPROBE_PERIOD 128
+#define HVPROBE_PERIOD 96
+#define HVPROBE_FREQ (float)4
+#define HVPROBE_VOLTS_OFFSET (float)0
+//10-350 CONFIG
+#define FACTOR_10350 0.11367
 //BATTERY CONFIG
 #define BATTM_OFFSET 17 //Vdrop = 56mV, 180mV
-#define BATTM_DISC_VALUE 828 // 2.7V \\ At 2.61V worked fine
-#define BATTM_FULL_VALUE 1023 // 3.335V
-#define BATTM_ALARM_VALUE 846 // 2.76V
-#define BATTM_HYSTERISIS_VALUE 10// 2.792V - 0.0326v
-#define BATTM_MEAS_PERIOD 1024
-#define BATTM_SPV 16
+#define BATTM_DISC_VALUE (int)828 // 2.7V \\ At 2.61V worked fine
+#define BATTM_FULL_VALUE (int)1020 // 3.335V
+#define BATTM_ALARM_VALUE (int)846 // 2.76V
+#define BATTM_HYSTERISIS_VALUE (int)10// 2.792V - 0.0326v
+#define BATTM_MEAS_PERIOD (int)1024
+#define BATTM_FREQ 0.1
+//Serial
+#define SRL_BD 9600
 //RF CONFIG
 #define RF_READ_PIPE (byte) 00001
 #define RF_WRITE_PIPE (byte) 00002
-#define RF_CC_PERIOD 3000
-
+#define RF_CC_PERIOD 12000
+#define RF_PAYLOAD_SIZE 16
+//AT COMMANDS
+#define CMD_HV1 "HV1"
+#define CMD_SR1 "SR1"
+#define CMD_HV2 "HV2"
+#define CMD_BAT "BAT"
+#define CMD_ACK "ACK"
+#define CMD_ACR "ACR"
+//NOTIFICATION CONFIG
+#define NOT_HVWARNING_TRIG 6
 //LED NOTIFICATION MODES
 //ACTIVE
 #define LED_M1 new LEDTone(3, 40,	\
@@ -57,26 +72,24 @@
 		new LEDTone(0, 2775 \
 ))))
 //HV_WARNING
-#define LED_M5 new LEDTone(255, 40, \
-		new LEDTone(0, 60, \
-		new LEDTone(255, 40, \
-		new LEDTone(0, 60, \
-		new LEDTone(255, 40, \
-		new LEDTone(0, 60, \
-		new LEDTone(255, 40, \
-		new LEDTone(0, 60, \
-		new LEDTone(255, 40, \
-		new LEDTone(0, 60, \
-		new LEDTone(255, 40, \
-		new LEDTone(0, 460 \
-))))))))))))
+#define LED_M5 new LEDTone(255, 25, \
+		new LEDTone(0, 75, \
+		new LEDTone(255, 25, \
+		new LEDTone(0, 75, \
+		new LEDTone(255, 25, \
+		new LEDTone(0, 75, \
+		new LEDTone(255, 25, \
+		new LEDTone(0, 75, \
+		new LEDTone(255, 75, \
+		new LEDTone(0, 25 \
+))))))))))
 //BATTERY
-#define LED_M6 new LEDTone(255, 25, \
-		new LEDTone(0, 2985 \
+#define LED_M6 new LEDTone(255, 50, \
+		new LEDTone(0, 1950 \
 ))
 //ERROR
-#define LED_M7 new LEDTone(255, 750,\
-		new LEDTone(0, 750))
+#define LED_M7 new LEDTone(255, 250,\
+		new LEDTone(0, 500))
 
 
 #endif /* SYSTEM_SYSTEMCONSTANTS_H_ */

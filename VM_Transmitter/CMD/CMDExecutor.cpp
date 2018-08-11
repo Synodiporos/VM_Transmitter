@@ -41,20 +41,29 @@ bool CMDExecutor::pushCMD(CMD* cmd){
 }
 
 bool CMDExecutor::removeCMD(CMD* cmd){
-	std::vector<CMD*>::iterator iterator;
-	//it = std::find(vector.begin(), vector.end(), cmd);
+	if(!cmd)
+		return false;
+	//Serial.print(F("removeCmd: "));
+	//Serial.println((long)cmd);
+
+	return vector.erase(
+			remove(vector.begin(), vector.end(), cmd),
+			vector.end());/*
+
+	std::vector<CMD*>::iterator* tormv = nullptr;
 	for(std::vector<CMD*>::iterator it = vector.begin();
 					it != vector.end(); ++it) {
 		if(*it==cmd)		{
-			iterator = it;
+			tormv = &it;
 			break;
 		}
 	}
-	if(cmd){
-		vector.erase(iterator);
+	Serial.println((long)tormv);
+	if(tormv){
+		vector.erase(*tormv);
 		return true;
 	}
-	return false;
+	return false;*/
 }
 
 bool CMDExecutor::isEmpty(){

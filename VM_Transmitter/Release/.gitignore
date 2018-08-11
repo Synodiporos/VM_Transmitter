@@ -8,7 +8,9 @@
 /System/
 /Timer/
 /core/
-/libraries/
-/makefile
 /sources.mk
 /subdir.mk
+/libraries/
+/makefile
+/objects.mk
+/Buzzer/

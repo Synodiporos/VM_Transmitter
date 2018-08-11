@@ -5,7 +5,6 @@
  *      Author: sgeorgiadis
  */
 
-#include "Arduino.h"
 #include "../CMD/AT.h"
 
 const string AT::PREF = "AT";
@@ -22,34 +21,32 @@ bool AT::parse(const std::string& input,
 		unsigned int n = PREF.size();
 		unsigned int ei = 0;
 
-		for(char c : input) {
-			if(c=='='){
-				ei = n;
-				break;
-			}
-			else if(c=='\r')
-				break;
-			command.push_back(c);
-			n++;
-		}
-
-		/*std::vector<char>::iterator it = input.begin();
-		for(it;
-				it != input.end(); ++it) {
+		string com = "";
+		auto d = input.begin();
+		for (auto it = input.begin()+2;
+				it!=input.end(); ++it){
 			if(*it=='='){
 				ei = n;
 				break;
 			}
-			else if(*it=='\r')
-				break;
-			command.push_back(*it);
+			com += *it;
 			n++;
+		}
 
-			//Serial.println(*it);
-		}*/
 		if(ei>0){
 			string s = input.substr(ei+1, input.size()-1);
 			int found = s.find(&DELIM);
+			if(found!=-1){
+				split(s, params);
+			}
+			else{
+				params.push_back(
+						input.substr(ei+1, input.size()-1));
+			}
+		}
+		if(com.size()>0){
+			command.append( com.substr(1, com.size()-1) );
+			//command = com.substr(1, com.size()-1);
 		}
 		return true;
 	}
@@ -79,7 +76,10 @@ CMD* AT::toCMD(const std::string& at){
 			cmd = new CMDTestLeds();
 		}
 		else if(command.compare(ATCMDs::AT_TBZ)==0){
-
+			cmd = new CMDBatteryReport();
+		}
+		else if(command.compare(ATCMDs::AT_ACK)==0){
+			cmd = new CMDAck();
 		}
 		else{
 			cmd = new CMDErrorReport('1');

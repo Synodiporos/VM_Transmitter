@@ -7,6 +7,7 @@
 
 #include "CMDStartUp.h"
 #include "../System/NotificationSystem.h"
+#include "../RFTransceiver/RFTransceiver.h"
 
 CMDStartUp::CMDStartUp() : CMD(){
 	// TODO Auto-generated constructor stub
@@ -21,10 +22,11 @@ std::string CMDStartUp::getName(){
 }
 
 uint8_t CMDStartUp::onExecute(){
+	RFTransceiver::getInstance()->startConnectivityCheck();
 	digitalWrite(LED_WHITE_PIN, HIGH);
 	digitalWrite(LED_RED_PIN, HIGH);
 	digitalWrite(LED_BLUE_PIN, HIGH);
-	//tone(BUZZER_PIN, 4000, 250);
+	tone(BUZZER_PIN, 4000, 250);
 	this->time = millis();
 	return RES_ONPROGRESS;
 }

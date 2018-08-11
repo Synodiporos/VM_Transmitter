@@ -10,29 +10,23 @@
 #include "Memory/pgmStrToRAM.h"
 #include "CMD/CMD.h"
 #include "CMD/CMDStartUp.h"
+#include "AnalogInput/Probe.h"
+#include <SPI.h>
+#include <RF24.h>
 #include <string>
 using namespace std;
 
-/*HVProbe hvProbe = HVProbe(
-		HV_ANALOG_PIN,
-		HVPROBE_SPV,
-		HVPROBE_PERIOD);
-*/
-BatteryMonitor battery = BatteryMonitor(
-		BT_ANALOG_PIN,
-		BATTM_SPV,
-		BATTM_MEAS_PERIOD,
-		BATTM_ALARM_VALUE,
-		BATTM_HYSTERISIS_VALUE,
-		BATTM_DISC_VALUE,
-		BATTM_FULL_VALUE);
+BatteryMonitor* battery = BatteryMonitor::getInstance();
+
+Probe probe = Probe(HV_ANALOG_PIN, HVPROBE_PERIOD);
+
 Mosfet* mosfet = Mosfet::getInstance();
 Controller controller = Controller();
 NotificationSystem* notification = NotificationSystem::getInstance();
 SerialBroadcaster* serialBroad = SerialBroadcaster::getInstance();
 RFTransceiver* trasnceiver = RFTransceiver::getInstance();
 CMDExecutor* executor = CMDExecutor::getInstance();
-RF24 radio(9, 10);
+RF24 radio(RF_CE, RF_CSN);
 
 long mil = millis();
 int c = 1;
@@ -44,8 +38,8 @@ void setup() {
 	pinMode(LED_BLUE_PIN, OUTPUT);
 	pinMode(BUZZER_PIN, OUTPUT);
 
-	Serial.begin(9600);
-	Serial.println(F("OK"));
+	Serial.begin(SRL_BD);
+	Serial.println(F("SLAVE OK"));
 	/*
 	// initialize Timer1
 	cli();          // disable global interrupts
@@ -77,17 +71,21 @@ void setup() {
 
 */
 
+	probe.setFrequency(HVPROBE_FREQ);
+	probe.setEnabled(true);
+
 	//Initialaze RF
 	trasnceiver->initialize(&radio);
+	trasnceiver->printDetails();
+
+	battery->startRecord();
 
 	// Initialize Controller
-	//controller.setHVProbe(hvProbe);
-	controller.setBatteryMonitor(&battery);
-	controller.setNotificationSystem(notification);
+	controller.setBatteryMonitor(battery);
+	controller.setProbeA(&probe);
 	controller.activate();
 
-	//hvProbe.startRecord();
-	battery.startRecord();
+
 
 	//delay(500);
 	mil = millis();
@@ -131,51 +129,17 @@ void loop() {
 	if(interval>=3000 ){
 		c++;
 		mil = millis();
-		Serial.println(F("SwitchOn Mosfet"));
-		mosfet->switchON();
+		//Serial.println(F("SwitchOn Mosfet"));
+		//mosfet->switchON();
 	}
-/*
-	switch (c){
-		case 1:{
-			//Serial.println("-------------1");
-			notification.setHVWarningEnabled(true);
-			break;
-		}
-		case 2:{
-			//Serial.println("-------------2");
-			notification.setBatteryLowEnabled(true);
-			break;
-		}
-		case 3:{
-			//Serial.println("-------------3");
-			notification.setErrorEnabled(true);
-			break;
-		}
-		case 4:{
-			//Serial.println("-------------3");
-			notification.setHVWarningEnabled(false);
-			break;
-		}
-		case 5:{
-			//Serial.println("-------------3");
-			notification.setBatteryLowEnabled(false);
-			break;
-		}
-		case 6:{
-			//Serial.println("-------------3");
-			notification.setErrorEnabled(false);
-			c = 0;
-			break;
-		}
-	}*/
 
-	//hvProbe.validateTimer();
-	//hvProbe.validate();
-	battery.validate();
+
+	battery->validate();
 	notification->validate();
 	serialBroad->validate();
-	//trasnceiver->validate();
+	trasnceiver->validate();
 	executor->validate();
+	probe.validate();
 	//delay(10);
 }
 

@@ -11,15 +11,20 @@
 #include "Commons/Action.h"
 #include "Commons/IPropertyListener.h"
 #include "Commons/IStateListener.h"
+#include "Commons/IActionListener.h"
+#include "Commons/Action.h"
 #include "Devices/HVProbe.h"
 #include "Devices/BatteryMonitor.h"
 #include "Devices/IBatteryMonitorListener.h"
 #include "Devices/HVProbe.h"
+#include "AnalogInput/Probe.h"
 #include "System/SystemConstants.h"
 #include "System/NotificationSystem.h"
+#include "RFTransceiver/RFTransceiver.h"
+#include "CMD/AT.h"
 
 class Controller : public IBatteryMonitorListener,
-	IPropertyListener{
+	IPropertyListener, IActionListener{
 public:
 	Controller();
 	virtual ~Controller();
@@ -28,26 +33,28 @@ public:
 	void deactivate();
 	void initialization();
 	void setBatteryMonitor(BatteryMonitor* batteryMonitor);
-	void setHVProbe(HVProbe* hvProbe);
-	void setNotificationSystem(NotificationSystem* ns);
-	void setLoggerSystem();
-	void setRFDevice();
+	void setProbeA(Probe* probe);
 
 	void propertyChanged(
 				void* source,
 				unsigned short int propertyId,
 				const void* oldPropery);
+	void actionPerformed(Action action);
 
-	void onHVProbeVoltageChanged(unsigned short int value);
+protected:
+	BatteryMonitor* batteryMonitor = nullptr;
+	Probe* probeA = nullptr;
+	NotificationSystem* notification = NotificationSystem::getInstance();
+	RFTransceiver* transceiver = RFTransceiver::getInstance();
+
+	void onProbeAMeasurementChanged(unsigned short int value);
 	void onBatteryValueChanged(
 				BatteryMonitor* source, short int value);
 	void onBatteryTriggerAlarmStateChanged(
 				BatteryMonitor* source, bool alarm);
-
-protected:
-	BatteryMonitor* batteryMonitor = nullptr;
-	HVProbe* hvProbe = nullptr;
-	NotificationSystem* notification = nullptr;
+	void onMessageReceived(char* msg);
+	void onMessageSend(char* msg);
+	void onConnectionStateChanged(bool state);
 };
 
 #endif /* CONTROLLER_H_ */

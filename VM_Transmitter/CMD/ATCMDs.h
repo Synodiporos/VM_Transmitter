@@ -19,6 +19,8 @@ public:
 	static const string AT_SET ;
 	static const string AT_TLS ; //Test LEDs
 	static const string AT_TBZ ; //Test Buzzer
+
+	static const string AT_ACK ; //Test Buzzer
 };
 
 #endif /* CMD_ATCMDS_H_ */

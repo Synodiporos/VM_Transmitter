@@ -69,7 +69,6 @@ LEDTone* LEDTonePlayer::getCurrentTone(){
 
 void LEDTonePlayer::play(){
 	if(_headTone && _state!=2){
-
 		//Serial.println("Buzzer Melody Start");
 		if(_state==0){
 			_interval = 0;
@@ -99,7 +98,6 @@ void LEDTonePlayer::stop(){
 void LEDTonePlayer::playNextTone(){
 	_interval = 0;
 	_millis = millis();
-
 	//Current Tone has next tone
 	if(_currentTone->hasNext()){
 		_currentTone = _currentTone->getNextTone();
@@ -109,7 +107,6 @@ void LEDTonePlayer::playNextTone(){
 	else{
 		//There are remaining iterations to be performed
 		_performedIter++;
-
 		if(_iterations==0 || _performedIter<_iterations){
 			_currentTone = _headTone;
 			playCurrentTone();
@@ -157,7 +154,6 @@ void LEDTonePlayer::validate(){
 		if((millis()-_millis + _interval) >= _currentTone->getDuration()){
 			playNextTone();
 		}
-
 	}
 	//_millis = millis();
 }

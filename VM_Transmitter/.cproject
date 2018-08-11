@@ -21,12 +21,12 @@
 								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.1798350124" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/SPI/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/RF24}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/RF24/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.481119847" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -34,12 +34,12 @@
 								<option id="io.sloeber.compiler.c.sketch.option.incpath.660604539" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/SPI/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/RF24}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/RF24/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.1733243794" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -47,12 +47,12 @@
 								<option id="io.sloeber.compiler.asm.sketch.option.incpath.140908968" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/core/variant}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/SPI/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/RF24}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/RF24/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/VM_Transmitter/libraries/ArduinoSTL/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.759171562" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>

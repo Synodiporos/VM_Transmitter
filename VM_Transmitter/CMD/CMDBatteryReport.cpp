@@ -26,6 +26,7 @@ string CMDBatteryReport::getName(){
 }
 
 uint8_t CMDBatteryReport::onExecute(){
+
 	return RES_COMPLETED;
 }
 

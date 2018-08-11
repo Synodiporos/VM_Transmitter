@@ -13,3 +13,5 @@ const string ATCMDs::AT_SETS = "SETS";
 const string ATCMDs::AT_SET = "SET";
 const string ATCMDs::AT_TLS = "TLS"; //Test LEDs
 const string ATCMDs::AT_TBZ = "TBZ"; //Test Buzzer
+
+const string ATCMDs::AT_ACK = "ACK"; //Test Buzzer

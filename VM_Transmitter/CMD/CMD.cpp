@@ -9,6 +9,9 @@
 using namespace std;
 #include "Arduino.h"
 
+#include "../Memory/MemoryFree.h"
+#include "../Memory/pgmStrToRAM.h"
+
 unsigned int CMD::idCount = 0;
 
 CMD::CMD() : id(++idCount){
@@ -101,6 +104,9 @@ uint8_t CMD::execute(){
 	else
 		onError(RES_WRONGPARAMS);
 
+
+	Serial.print(F("Free RAM after CMD = "));
+	Serial.println(freeMemory(), DEC);
 	return res;
 }
 

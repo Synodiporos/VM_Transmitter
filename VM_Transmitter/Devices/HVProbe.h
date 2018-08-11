@@ -41,7 +41,6 @@ public:
 					unsigned short int old);
 
 	void validate();
-	void validateTimer();
 
 private:
 	Timer timer = Timer(HVPROBE_PERIOD, 0);
