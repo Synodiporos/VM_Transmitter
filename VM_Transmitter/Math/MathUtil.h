@@ -43,6 +43,10 @@ public:
 		return (value * 1023)/VREF;
 	}
 
+	float stringToFloat(std::string str){
+		return std::atof(str.c_str());
+	}
+
 };
 
 #endif /* MATH_MATHUTIL_H_ */

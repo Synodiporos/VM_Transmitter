@@ -41,7 +41,7 @@
 #define BATTM_MEAS_PERIOD (int)1024
 #define BATTM_FREQ 0.1
 //Serial
-#define SRL_BD 9600
+#define SRL_BD 115200
 //RF CONFIG
 #define RF_READ_PIPE (byte) 00001
 #define RF_WRITE_PIPE (byte) 00002
