@@ -1,4 +1,5 @@
 /AnalogInput/
+/Buzzer/
 /CMD/
 /Commons/
 /Devices/
@@ -8,9 +9,7 @@
 /System/
 /Timer/
 /core/
-/sources.mk
-/subdir.mk
 /libraries/
 /makefile
-/objects.mk
-/Buzzer/
+/sources.mk
+/subdir.mk

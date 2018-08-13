@@ -51,6 +51,7 @@
 #define CMD_HV1 "HV1"
 #define CMD_SR1 "SR1"
 #define CMD_HV2 "HV2"
+#define CMD_SR2 "SR2"
 #define CMD_BAT "BAT"
 #define CMD_ACK "ACK"
 #define CMD_ACR "ACR"

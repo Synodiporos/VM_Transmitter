@@ -8,6 +8,9 @@
 #ifndef MATH_MATHUTIL_H_
 #define MATH_MATHUTIL_H_
 
+#include <string>
+using namespace std;
+
 class MathUtil {
 public:
 
@@ -43,8 +46,8 @@ public:
 		return (value * 1023)/VREF;
 	}
 
-	float stringToFloat(std::string str){
-		return std::atof(str.c_str());
+	float stringToFloat(const char* str){
+		return std::atof(str);
 	}
 
 };
