@@ -11,6 +11,7 @@ NotificationSystem* NotificationSystem::instance = nullptr;
 
 NotificationSystem::NotificationSystem(){
 	initialize();
+
 }
 
 NotificationSystem::~NotificationSystem() {
@@ -29,6 +30,8 @@ void NotificationSystem::initialize(){
 }
 
 void NotificationSystem::setHVWarningEnabled(bool enabled){
+	if(!enable)
+			return;
 	if(isHVWarningEnabled()==enabled)
 		return;
 	//Serial.println(F( " setHVWarningEnabled "));
@@ -68,6 +71,8 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 }
 
 void NotificationSystem::setBatteryLowEnabled(bool enabled){
+	if(!enable)
+			return;
 	if(isBatterLowEnabled()==enabled)
 			return;
 	if(enabled){
@@ -95,6 +100,8 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 }
 
 void NotificationSystem::setErrorEnabled(bool enabled){
+	if(!enable)
+			return;
 	if(isErrorEnabled()==enabled)
 			return;
 	//Serial.println(F( " setErrorEnabled " ));
@@ -122,6 +129,8 @@ void NotificationSystem::setErrorEnabled(bool enabled){
 }
 
 void NotificationSystem::setActiveEnabled(bool enabled){
+	if(!enable)
+			return;
 	if(isActiveEnabled()==enabled)
 		return;
 	if(enabled){
@@ -142,6 +151,8 @@ void NotificationSystem::setActiveEnabled(bool enabled){
 }
 
 void NotificationSystem::setConnectionLostEnabled(bool enabled){
+	if(!enable)
+			return;
 	if(enabled){
 		state |= CONNECTION_LOST;
 		ledBlue.stop();
@@ -156,6 +167,8 @@ void NotificationSystem::setConnectionLostEnabled(bool enabled){
 }
 
 void NotificationSystem::setTranferDataEnabled(bool enabled){
+	if(!enable)
+			return;
 	if(enabled){
 		state |= TRANSFER;
 	}
@@ -196,14 +209,14 @@ void NotificationSystem::onStateChanged(byte change){
 		}
 	}
 	else if(change>=8){
-		Serial.println(F("BLUE change"));
+		//Serial.println(F("BLUE change"));
 		byte state = this->state || 11100000;
 		if(change>=state){
 
 		}
 	}
 	else if(change>=4){
-		Serial.println(F("WHITE change"));
+		//Serial.println(F("WHITE change"));
 		byte state = this->state || 11111000;
 		if(change>=state){
 
@@ -218,7 +231,20 @@ void NotificationSystem::stopNotify(){
 }
 
 void NotificationSystem::validate(){
+	if(!enable)
+		return;
+	player.validate();
 	ledWhite.validate();
 	ledRed.validate();
 	ledBlue.validate();
+}
+
+void NotificationSystem::setMelody(BuzzerTone* tone){
+	if(tone==nullptr){
+		this->player.stop();
+	}
+	else{
+		this->player.setHeadTone(tone);
+		this->player.play();
+	}
 }

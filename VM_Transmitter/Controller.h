@@ -22,6 +22,7 @@
 #include "System/NotificationSystem.h"
 #include "RFTransceiver/RFTransceiver.h"
 #include "CMD/AT.h"
+#include <string>
 
 class Controller : public IBatteryMonitorListener,
 	IPropertyListener, IActionListener{
@@ -34,6 +35,7 @@ public:
 	void initialization();
 	void setBatteryMonitor(BatteryMonitor* batteryMonitor);
 	void setProbeA(Probe* probe);
+	//void setProbeA(HVProbe* probe);
 
 	void propertyChanged(
 				void* source,
@@ -44,6 +46,7 @@ public:
 protected:
 	BatteryMonitor* batteryMonitor = nullptr;
 	Probe* probeA = nullptr;
+	//HVProbe* probeA = nullptr;
 	NotificationSystem* notification = NotificationSystem::getInstance();
 	RFTransceiver* transceiver = RFTransceiver::getInstance();
 

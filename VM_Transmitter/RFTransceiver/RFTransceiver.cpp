@@ -35,7 +35,7 @@ void RFTransceiver::initialize(RF24* radio){
 		radio->openWritingPipe(RF_WRITE_PIPE); // 00002
 		radio->openReadingPipe(1, RF_READ_PIPE); // 00001
 		radio->setPALevel(RF24_PA_MIN);
-		radio->setDataRate(RF24_1MBPS );
+		radio->setDataRate(RF24_250KBPS );
 		radio->startListening();
 
 		this->radioStarted = true;
@@ -70,9 +70,25 @@ void RFTransceiver::setActionListener(IActionListener* listener){
 	this->actionListener = listener;
 }
 
+void RFTransceiver::powerDown(){
+	this->radio->stopListening();
+	this->radio->powerDown();
+	this->active = false;
+	Serial.println(F("Radio PowerDown"));
+}
+
+void RFTransceiver::powerUp(){
+	this->radio->powerUp();
+	this->radio->startListening();
+	this->active = true;
+	timeS = millis();
+	Serial.println(F("Radio PowerUp"));
+}
+
 bool RFTransceiver::write(const char* msg){
 	if(!isRadioStarted())
 		return false;
+	powerUp();
 	Serial.print(F("RF Sent: "));
 	Serial.println(msg);
 
@@ -87,6 +103,7 @@ bool RFTransceiver::write(const char* msg){
 	//delay(1);
 	onMessageSend(msg);
 	radio->startListening();
+	timeS = millis();
 	return res;
 }
 
@@ -103,15 +120,18 @@ void RFTransceiver::validate(){
 			return;
 	if(radio->available()){
 		char msg[RF_PAYLOAD_SIZE];
-		radio->read(msg, sizeof(msg));
+		radio->read(msg, RF_PAYLOAD_SIZE);
+		msg[RF_PAYLOAD_SIZE] = '0';
 		onMessageReceived(msg);
+		timeS = millis();
 	}
 	validateConnectivity();
+	validateSleep();
 }
 
 void RFTransceiver::validateConnectivity(){
 	unsigned long interval = millis()-time;
-	unsigned int ccIntervals = 1000;
+	unsigned int ccIntervals = RF_CC_INTERVALS;
 	if(isRadioStarted()){
 		//unsigned long subinterval = interval - period;
 		if(ccCount==0){
@@ -137,6 +157,19 @@ void RFTransceiver::validateConnectivity(){
 
 		if(ccCount==4 && interval > RF_CC_PERIOD){
 			startConnectivityCheck();
+		}
+	}
+}
+
+void RFTransceiver::validateSleep(){
+	unsigned long interval = millis()-timeS;
+	if(isRadioStarted()){
+		if(active && interval > RF_PD_PERIOD){
+			powerDown();
+		}
+		if(!active && interval > RF_PU_PERIOD){
+			powerUp();
+			this->radio->startListening();
 		}
 	}
 }

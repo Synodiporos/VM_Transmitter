@@ -27,8 +27,8 @@
 #define HVPROBE_UNITS (char*)"V"
 #define HVPROBE_MIN_MEAS_RANGE (float)0
 #define HVPROBE_MAX_MEAS_RANGE (float)45
-#define HVPROBE_PERIOD 96
-#define HVPROBE_FREQ (float)4
+#define HVPROBE_PERIOD 128
+#define HVPROBE_FREQ (float)0.5
 #define HVPROBE_VOLTS_OFFSET (float)0
 //10-350 CONFIG
 #define FACTOR_10350 0.11367
@@ -45,7 +45,10 @@
 //RF CONFIG
 #define RF_READ_PIPE (byte) 00001
 #define RF_WRITE_PIPE (byte) 00002
-#define RF_CC_PERIOD 12000
+#define RF_CC_PERIOD 11000
+#define RF_CC_INTERVALS 500
+#define RF_PD_PERIOD 1200
+#define RF_PU_PERIOD 9500
 #define RF_PAYLOAD_SIZE 16
 //AT COMMANDS
 #define CMD_HV1 "HV1"
@@ -92,5 +95,10 @@
 #define LED_M7 new LEDTone(255, 250,\
 		new LEDTone(0, 500))
 
+
+#define MELODY_HV new BuzzerTone(NOTE_A7, 100, \
+		new BuzzerTone(NOTE_C8, 400, \
+		new BuzzerTone(NOTE_BREAK, 500 \
+)))
 
 #endif /* SYSTEM_SYSTEMCONSTANTS_H_ */

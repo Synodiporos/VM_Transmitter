@@ -2,6 +2,7 @@
 #include "System/SystemConstants.h"
 #include "Devices/BatteryMonitor.h"
 #include "Devices/Mosfet.h"
+#include "Devices/HVProbe.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
 #include "System/SerialBroadcaster.h"
@@ -11,15 +12,19 @@
 #include "CMD/CMD.h"
 #include "CMD/CMDStartUp.h"
 #include "AnalogInput/Probe.h"
+
+#include "Buzzer/BuzzerMelody.h"
+#include "Buzzer/BuzzerTone.h"
+#include "Buzzer/Pitches.h"
+
 #include <SPI.h>
 #include <RF24.h>
 #include <string>
 using namespace std;
 
 BatteryMonitor* battery = BatteryMonitor::getInstance();
-
 Probe probe = Probe(HV_ANALOG_PIN, HVPROBE_PERIOD);
-
+HVProbe hvProbe = HVProbe(HV_ANALOG_PIN, HVPROBE_SPV, HVPROBE_PERIOD);
 Mosfet* mosfet = Mosfet::getInstance();
 Controller controller = Controller();
 NotificationSystem* notification = NotificationSystem::getInstance();
@@ -27,6 +32,9 @@ SerialBroadcaster* serialBroad = SerialBroadcaster::getInstance();
 RFTransceiver* trasnceiver = RFTransceiver::getInstance();
 CMDExecutor* executor = CMDExecutor::getInstance();
 RF24 radio(RF_CE, RF_CSN);
+
+BuzzerMelody player =
+			BuzzerMelody(BUZZER_PIN, nullptr, 0);
 
 long mil = millis();
 int c = 1;
@@ -76,15 +84,17 @@ void setup() {
 
 	//Initialaze RF
 	trasnceiver->initialize(&radio);
-	trasnceiver->printDetails();
+	//trasnceiver->printDetails();
 
 	battery->startRecord();
+
+	hvProbe.startRecord();
 
 	// Initialize Controller
 	controller.setBatteryMonitor(battery);
 	controller.setProbeA(&probe);
+	//controller.setProbeA(&hvProbe);
 	controller.activate();
-
 
 
 	//delay(500);
@@ -126,11 +136,23 @@ void setup() {
 void loop() {
 	long interval = millis()-mil;
 
-	if(interval>=3000 ){
+	if(interval>=3000 && c==1){
 		c++;
 		mil = millis();
 		//Serial.println(F("SwitchOn Mosfet"));
 		//mosfet->switchON();
+
+		BuzzerTone* tone = new BuzzerTone(NOTE_A7, 25,
+				new BuzzerTone(NOTE_BREAK, 75,
+				new BuzzerTone(NOTE_C8, 25,
+				new BuzzerTone(NOTE_BREAK, 75,
+				new BuzzerTone(NOTE_C8, 25,
+				new BuzzerTone(NOTE_BREAK, 700))))));
+		player.setHeadTone(tone);
+		//player.play();
+
+		Serial.print(F("Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
+		Serial.println(freeMemory(), DEC);
 	}
 
 
@@ -140,6 +162,8 @@ void loop() {
 	trasnceiver->validate();
 	executor->validate();
 	probe.validate();
+	//hvProbe.validate();
+	player.validate();
 	//delay(10);
 }
 

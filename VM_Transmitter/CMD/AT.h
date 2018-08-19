@@ -18,6 +18,7 @@
 #include "CMDSettings.h"
 #include "CMDTestLeds.h"
 #include "CMDAck.h"
+#include <string>
 using namespace std;
 
 #define AT_PREF AT

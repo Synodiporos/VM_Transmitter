@@ -60,19 +60,24 @@ IPropertyListener* Probe::getListener(){
 }
 
 void Probe::validate(){
-	int div = 1;
-	if(isEnabled() && (millis()-time) >= (count*rate/div)){
-		if(count < div){
-			filter.input(analogRead(pin));
-			count++;
-		}
-		else{
-			setMeasurement(
-					filter.input(analogRead(pin)));
-			count=0;
-			time = millis();
-		}
+	if(isEnabled() && (millis()-time) >= rate){
+		setMeasurement(
+				filter.input(analogRead(pin)));
+		time = millis();
 	}
+
+	/*if(isEnabled() && (millis()-time) >= (count*rate/div)){
+			if(count < div){
+				filter.input(analogRead(pin));
+				count++;
+			}
+			else{
+				setMeasurement(
+						filter.input(analogRead(pin)));
+				count=0;
+				time = millis();
+			}
+		}*/
 }
 
 void Probe::notifyMeasurementChanged(unsigned int oldMeas){

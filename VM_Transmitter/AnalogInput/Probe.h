@@ -35,7 +35,7 @@ private:
 	unsigned long time = 0;
 	bool filterEnabled = true;
 	bool enabled = true;
-	uint8_t count = 0;
+	//uint8_t count = 0;
 	IPropertyListener* listener = nullptr;
 	//unsigned short int minMeasurement;
 	//unsigned short int maxMeasurement;

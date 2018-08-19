@@ -11,20 +11,30 @@
 BuzzerMelody::BuzzerMelody(uint8_t pinNumber) :
 	_pinNumber(pinNumber){
 	// TODO Auto-generated constructor stub
+	initialize();
 }
 
 BuzzerMelody::BuzzerMelody(uint8_t pinNumber, BuzzerTone* headTone) :
 	_pinNumber(pinNumber), _headTone(headTone){
 	// TODO Auto-generated constructor stub
+	initialize();
 }
 
 BuzzerMelody::BuzzerMelody(uint8_t pinNumber, BuzzerTone* headTone, short int iterations) :
-	_pinNumber(pinNumber), _headTone(headTone){
-	this->setIterations(iterations);
+	_pinNumber(pinNumber), _headTone(headTone),
+	_iterations(iterations){
+	initialize();
 }
 
 BuzzerMelody::~BuzzerMelody() {
 	// TODO Auto-generated destructor stub
+}
+
+void BuzzerMelody::initialize(){
+	_currentTone = _headTone;
+	int8_t pin = getPinNumber();
+	if(pin>0)
+		pinMode(pin, OUTPUT);
 }
 
 uint8_t BuzzerMelody::getPinNumber(){
@@ -33,7 +43,6 @@ uint8_t BuzzerMelody::getPinNumber(){
 
 void BuzzerMelody::setIterations(short int iterations){
 	this->_iterations = iterations;
-	this->_performedIter = 0;
 }
 
 short int BuzzerMelody::getIterations(){
@@ -42,6 +51,7 @@ short int BuzzerMelody::getIterations(){
 
 void BuzzerMelody::setHeadTone(BuzzerTone* headTone){
 	this->_headTone = headTone;
+	_currentTone = _headTone;
 }
 
 uint8_t BuzzerMelody::getState(){
@@ -57,16 +67,16 @@ BuzzerTone* BuzzerMelody::getCurrentTone(){
 }
 
 void BuzzerMelody::play(){
-	if(_headTone){
+	if(_headTone && _state!=2){
 		//Serial.println("Buzzer Melody Start");
 		if(_state==0){
 			_interval = 0;
 			_performedIter = 0;
 		}
+		_millis = millis();
+		this->_state = 2;
+		playCurrentTone();
 	}
-	_millis = millis();
-	this->_state = 2;
-	playCurrentTone();
 }
 
 void BuzzerMelody::pause(){
@@ -96,7 +106,7 @@ void BuzzerMelody::playNextTone(){
 	else{
 		//There are remaining iterations to be performed
 		_performedIter++;
-		if(_performedIter==-1 || _performedIter<_iterations)	{
+		if(_iterations==0 || _performedIter<_iterations){
 			_currentTone = _headTone;
 			playCurrentTone();
 		}
@@ -104,6 +114,8 @@ void BuzzerMelody::playNextTone(){
 		else{
 			_currentTone = _currentTone->getNextTone();
 			stop();
+			if(_performedIter==_iterations)
+						_performedIter=0;
 		}
 	}
 }
@@ -135,7 +147,8 @@ void BuzzerMelody::playTone(BuzzerTone* _tone){
 void BuzzerMelody::validate(){
 	if(_state==2){
 		//_interval = (millis() - _millis);
-		if((millis()-_millis + _interval) >= _currentTone->getDuration()){
+		if((millis()-_millis + _interval) >=
+				_currentTone->getDuration()){
 			playNextTone();
 		}
 	}

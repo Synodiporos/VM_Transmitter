@@ -151,7 +151,8 @@ void LEDTonePlayer::playTone(LEDTone* _tone){
 void LEDTonePlayer::validate(){
 	if(_state==2){
 		//_interval = (millis() - _millis);
-		if((millis()-_millis + _interval) >= _currentTone->getDuration()){
+		if((millis()-_millis + _interval) >=
+				_currentTone->getDuration()){
 			playNextTone();
 		}
 	}
