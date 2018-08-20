@@ -7,6 +7,7 @@
 
 #include "../CMD/CMD.h"
 using namespace std;
+#include <string>
 #include "Arduino.h"
 
 #include "../Memory/MemoryFree.h"
@@ -97,9 +98,9 @@ uint8_t CMD::execute(){
 	this->print();
 	this->setState(STATE_EXECUTED);
 	uint8_t res = onExecute();
-	if(res==RES_ONPROGRESS)
+//	if(res==RES_ONPROGRESS)
 		CMDExecutor::getInstance()->pushCMD(this);
-	else if(res==RES_COMPLETED)
+	if(res==RES_COMPLETED)
 		onCompleted();
 	else
 		onError(RES_WRONGPARAMS);

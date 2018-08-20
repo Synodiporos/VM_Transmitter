@@ -2,7 +2,7 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2018-08-19 22:55:55
+//This file has been generated on 2018-08-21 01:40:38
 
 #include "Arduino.h"
 #include "System/SystemConstants.h"
@@ -15,8 +15,6 @@
 #include "RFTransceiver/RFTransceiver.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"
-#include "CMD/CMD.h"
-#include "CMD/CMDStartUp.h"
 #include "AnalogInput/Probe.h"
 #include "Buzzer/BuzzerMelody.h"
 #include "Buzzer/BuzzerTone.h"

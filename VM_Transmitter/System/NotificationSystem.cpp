@@ -40,7 +40,7 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 		//Serial.println(F( " - Enabled HV"));
 
 		ledRed.stop();
-		ledRed.setHeadTone(LED_M5);
+		ledRed.setHeadTone(LTHVWarning);
 		ledRed.play();
 
 		ledBlue.stop();
@@ -53,17 +53,17 @@ void NotificationSystem::setHVWarningEnabled(bool enabled){
 
 		if(isActiveEnabled()){
 			ledWhite.stop();
-			ledWhite.setHeadTone(LED_M1);
+			ledWhite.setHeadTone(LTActive);
 			ledWhite.play();
 		}
 		if(isConnectionLostEnabled()){
 			ledBlue.stop();
-			ledBlue.setHeadTone(LED_M7);
+			ledBlue.setHeadTone(LTError);
 			ledBlue.play();
 		}
 		if(isBatterLowEnabled()){
 			ledRed.stop();
-			ledRed.setHeadTone(LED_M6);
+			ledRed.setHeadTone(LTBatteryWarning);
 			ledRed.play();
 		}
 	}
@@ -79,7 +79,7 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 		state |= BATTERY;
 		if(!isHVWarningEnabled()){
 			ledRed.stop();
-			ledRed.setHeadTone(LED_M6);
+			ledRed.setHeadTone(LTBatteryWarning);
 			ledRed.play();
 		}
 	}
@@ -91,7 +91,7 @@ void NotificationSystem::setBatteryLowEnabled(bool enabled){
 			if(isErrorEnabled()){
 				//Serial.println(F( " - Enable Error"));
 				ledRed.stop();
-				ledRed.setHeadTone(LED_M7);
+				ledRed.setHeadTone(LTError);
 				ledRed.play();
 			}
 		}
@@ -111,7 +111,7 @@ void NotificationSystem::setErrorEnabled(bool enabled){
 			if(!isBatterLowEnabled()){
 				//Serial.println(F(" - Enable Error"));
 				ledRed.stop();
-				ledRed.setHeadTone(LED_M7);
+				ledRed.setHeadTone(LTError);
 				ledRed.play();
 			}
 		}
@@ -137,7 +137,7 @@ void NotificationSystem::setActiveEnabled(bool enabled){
 		state |= ACTIVE;
 		if(!isHVWarningEnabled()){
 			ledWhite.stop();
-			ledWhite.setHeadTone(LED_M1);
+			ledWhite.setHeadTone(LTActive);
 			ledWhite.play();
 		}
 	}
@@ -156,7 +156,7 @@ void NotificationSystem::setConnectionLostEnabled(bool enabled){
 	if(enabled){
 		state |= CONNECTION_LOST;
 		ledBlue.stop();
-		ledBlue.setHeadTone(LED_M7);
+		ledBlue.setHeadTone(LTError);
 		if(!isHVWarningEnabled())
 			ledBlue.play();
 	}

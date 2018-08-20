@@ -7,6 +7,7 @@
 
 #include "../CMD/CMDExecutor.h"
 #include "Arduino.h"
+#include <vector>
 
 CMDExecutor* CMDExecutor::instance = nullptr;
 
@@ -46,10 +47,13 @@ bool CMDExecutor::removeCMD(CMD* cmd){
 	//Serial.print(F("removeCmd: "));
 	//Serial.println((long)cmd);
 
-	return vector.erase(
+	vector.erase(
 			remove(vector.begin(), vector.end(), cmd),
-			vector.end());/*
+			vector.end());
 
+	delete cmd;
+	return true;
+	/*
 	std::vector<CMD*>::iterator* tormv = nullptr;
 	for(std::vector<CMD*>::iterator it = vector.begin();
 					it != vector.end(); ++it) {

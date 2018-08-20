@@ -21,14 +21,14 @@
 #define RF_CSN 10
 #define RF_IRQ 2
 //REFERENCE VOLTAGE
-#define AREF_VOLTAGE (float)3.297
+#define AREF_VOLTAGE (float)3.332
 //HV Probe CONFIG
 #define HVPROBE_SPV (unsigned short int)16 // 32 Samples per Measurement
 #define HVPROBE_UNITS (char*)"V"
 #define HVPROBE_MIN_MEAS_RANGE (float)0
 #define HVPROBE_MAX_MEAS_RANGE (float)45
 #define HVPROBE_PERIOD 128
-#define HVPROBE_FREQ (float)0.5
+#define HVPROBE_FREQ (float)4
 #define HVPROBE_VOLTS_OFFSET (float)0
 //10-350 CONFIG
 #define FACTOR_10350 0.11367
@@ -64,10 +64,10 @@
 //ACTIVE
 #define LED_M1 new LEDTone(3, 40,	\
 		new LEDTone(255, 20, \
-		new LEDTone(0, 2940)))
+		new LEDTone(0, 3940)))
 //CONNECTION_LOST
-#define LED_M3 new LEDTone(255, 50, \
-		new LEDTone(0, 950))
+#define LED_M3 new LEDTone(255, 48, \
+		new LEDTone(0, 976))
 //TRANSFER
 #define LED_M4_ITER 1;
 #define LED_M4 new LEDTone(255, 25, \
@@ -76,17 +76,9 @@
 		new LEDTone(0, 2775 \
 ))))
 //HV_WARNING
-#define LED_M5 new LEDTone(255, 25, \
-		new LEDTone(0, 75, \
-		new LEDTone(255, 25, \
-		new LEDTone(0, 75, \
-		new LEDTone(255, 25, \
-		new LEDTone(0, 75, \
-		new LEDTone(255, 25, \
-		new LEDTone(0, 75, \
-		new LEDTone(255, 75, \
-		new LEDTone(0, 25 \
-))))))))))
+#define LED_M5 new LEDTone(255, 24, \
+		new LEDTone(0, 104 \
+))
 //BATTERY
 #define LED_M6 new LEDTone(255, 50, \
 		new LEDTone(0, 1950 \

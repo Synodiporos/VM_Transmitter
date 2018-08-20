@@ -23,7 +23,7 @@ void Controller::activate(){
 	if(transceiver)
 		transceiver->setActionListener(this);
 	if(notification){
-		//notification->setActiveEnabled(true);
+		notification->setActiveEnabled(true);
 		notification->enable = true;
 	}
 	initialization();
@@ -119,9 +119,11 @@ void Controller::onProbeAMeasurementChanged(unsigned short int value){
 	if(	value >= NOT_HVWARNING_TRIG ){
 		notification->setHVWarningEnabled(true);
 		batteryMonitor->pauseRecord();
+		transceiver->setAutoSleep(false);
 	}else{
 		notification->setHVWarningEnabled(false);
 		batteryMonitor->startRecord();
+		transceiver->setAutoSleep(true);
 	}
 
 	char at[RF_PAYLOAD_SIZE];
@@ -135,14 +137,14 @@ void Controller::onProbeAMeasurementChanged(unsigned short int value){
 	this->transceiver->write(at);
 	//Serial.println(at);
 
-	delay(1);
-	/*Serial.print(F("HVProbe Value: "));
+	//delay(1);
+	Serial.print(F("HVProbe Value: "));
 	Serial.print(value);
 	Serial.print(F(" Voltage: "));
 	Serial.print(probeA->voltage(AREF_VOLTAGE, 0));
 	Serial.print(F(" Measurement: "));
 	Serial.print(hv);
-	Serial.println( HVPROBE_UNITS );*/
+	Serial.println( HVPROBE_UNITS );
 }
 
 void Controller::onBatteryValueChanged(
@@ -210,5 +212,5 @@ void Controller::onMessageSend(char* msg){
 void Controller::onConnectionStateChanged(bool state){
 	//Serial.print(F("Connection State: "));
 	//Serial.println(state);
-	//this->notification->setConnectionLostEnabled(!state);
+	this->notification->setConnectionLostEnabled(!state);
 }

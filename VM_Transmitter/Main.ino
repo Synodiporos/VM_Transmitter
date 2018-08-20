@@ -9,8 +9,8 @@
 #include "RFTransceiver/RFTransceiver.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"
-#include "CMD/CMD.h"
-#include "CMD/CMDStartUp.h"
+//#include "CMD/CMD.h"
+//#include "CMD/CMDStartUp.h"
 #include "AnalogInput/Probe.h"
 
 #include "Buzzer/BuzzerMelody.h"
@@ -24,13 +24,13 @@ using namespace std;
 
 BatteryMonitor* battery = BatteryMonitor::getInstance();
 Probe probe = Probe(HV_ANALOG_PIN, HVPROBE_PERIOD);
-HVProbe hvProbe = HVProbe(HV_ANALOG_PIN, HVPROBE_SPV, HVPROBE_PERIOD);
+//HVProbe hvProbe = HVProbe(HV_ANALOG_PIN, HVPROBE_SPV, HVPROBE_PERIOD);
 Mosfet* mosfet = Mosfet::getInstance();
 Controller controller = Controller();
 NotificationSystem* notification = NotificationSystem::getInstance();
 SerialBroadcaster* serialBroad = SerialBroadcaster::getInstance();
 RFTransceiver* trasnceiver = RFTransceiver::getInstance();
-CMDExecutor* executor = CMDExecutor::getInstance();
+//CMDExecutor* executor = CMDExecutor::getInstance();
 RF24 radio(RF_CE, RF_CSN);
 
 BuzzerMelody player =
@@ -84,11 +84,12 @@ void setup() {
 
 	//Initialaze RF
 	trasnceiver->initialize(&radio);
+	trasnceiver->setAutoSleep(true);
 	//trasnceiver->printDetails();
 
 	battery->startRecord();
 
-	hvProbe.startRecord();
+	//hvProbe.startRecord();
 
 	// Initialize Controller
 	controller.setBatteryMonitor(battery);
@@ -123,11 +124,13 @@ void setup() {
 	//Serial.print("Size of notification:");
 	//Serial.println(ntS);
 
+	//Serial.print(F("@@ Free RAM Before CMD= ")); //F function does the same and is now a built in library, in IDE > 1.0.0
+	//	Serial.println(freeMemory(), DEC);
 
-	CMDStartUp* startUp = new CMDStartUp();
-	startUp->execute();
+	//CMDStartUp* startUp = new CMDStartUp();
+	//startUp->execute();
 
-	Serial.print(F("Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
+	Serial.print(F("@@ Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
 	Serial.println(freeMemory(), DEC);  // print how much RAM is available.
 	// print how much RAM is available.
 }
@@ -137,33 +140,33 @@ void loop() {
 	long interval = millis()-mil;
 
 	if(interval>=3000 && c==1){
-		c++;
+		//c++;
 		mil = millis();
 		//Serial.println(F("SwitchOn Mosfet"));
 		//mosfet->switchON();
 
-		BuzzerTone* tone = new BuzzerTone(NOTE_A7, 25,
+		/*BuzzerTone* tone = new BuzzerTone(NOTE_A7, 25,
 				new BuzzerTone(NOTE_BREAK, 75,
 				new BuzzerTone(NOTE_C8, 25,
 				new BuzzerTone(NOTE_BREAK, 75,
 				new BuzzerTone(NOTE_C8, 25,
-				new BuzzerTone(NOTE_BREAK, 700))))));
-		player.setHeadTone(tone);
+				new BuzzerTone(NOTE_BREAK, 700))))));*/
+		//player.setHeadTone(tone);
 		//player.play();
 
-		Serial.print(F("Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
-		Serial.println(freeMemory(), DEC);
+		//Serial.print(F("@@ Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
+		//Serial.println(freeMemory(), DEC);
 	}
 
-
+	probe.validate();
 	battery->validate();
 	notification->validate();
-	serialBroad->validate();
+	//serialBroad->validate();
 	trasnceiver->validate();
-	executor->validate();
-	probe.validate();
+	//executor->validate();
+
 	//hvProbe.validate();
-	player.validate();
+	//player.validate();
 	//delay(10);
 }
 

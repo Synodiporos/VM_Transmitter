@@ -71,8 +71,7 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\CMD/../RFTransceiver/RFTransceiver.h ..\System/SerialBroadcaster.h \
  ..\System/../CMD/CMD.h ..\System/../CMD/AT.h \
  ..\System/../RFTransceiver/RFTransceiver.h ..\Memory/MemoryFree.h \
- ..\Memory/pgmStrToRAM.h ..\CMD/CMD.h ..\CMD/CMDStartUp.h \
- ..\CMD/../Timer/Timer.h ..\Buzzer/BuzzerMelody.h ..\Buzzer/BuzzerTone.h \
+ ..\Memory/pgmStrToRAM.h ..\Buzzer/BuzzerMelody.h ..\Buzzer/BuzzerTone.h \
  ..\Buzzer/Pitches.h ..\Main.ino
 
 C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h:
@@ -274,12 +273,6 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\RF24\1.3.1/RF24_config.h:
 ..\Memory/MemoryFree.h:
 
 ..\Memory/pgmStrToRAM.h:
-
-..\CMD/CMD.h:
-
-..\CMD/CMDStartUp.h:
-
-..\CMD/../Timer/Timer.h:
 
 ..\Buzzer/BuzzerMelody.h:
 

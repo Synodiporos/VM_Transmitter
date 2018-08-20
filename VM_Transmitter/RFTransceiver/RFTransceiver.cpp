@@ -70,7 +70,18 @@ void RFTransceiver::setActionListener(IActionListener* listener){
 	this->actionListener = listener;
 }
 
+void RFTransceiver::setAutoSleep(bool autoSleep){
+	this->autoSleep = autoSleep;
+	timeS = millis();
+}
+
+bool RFTransceiver::isAutoSleep(){
+	return this->autoSleep;
+}
+
 void RFTransceiver::powerDown(){
+	if(!active)
+		return ;
 	this->radio->stopListening();
 	this->radio->powerDown();
 	this->active = false;
@@ -78,6 +89,8 @@ void RFTransceiver::powerDown(){
 }
 
 void RFTransceiver::powerUp(){
+	if(active)
+			return;
 	this->radio->powerUp();
 	this->radio->startListening();
 	this->active = true;
@@ -162,8 +175,8 @@ void RFTransceiver::validateConnectivity(){
 }
 
 void RFTransceiver::validateSleep(){
-	unsigned long interval = millis()-timeS;
-	if(isRadioStarted()){
+	if(isAutoSleep() && isRadioStarted()){
+		unsigned long interval = millis()-timeS;
 		if(active && interval > RF_PD_PERIOD){
 			powerDown();
 		}

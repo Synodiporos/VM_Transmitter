@@ -29,6 +29,8 @@ public:
 	void setActionListener(IActionListener* listener);
 	//void setCheckForConnectivity(bool enabled);
 	//bool isCheckForConnectinty();
+	void setAutoSleep(bool autoSleep);
+	bool isAutoSleep();
 	void powerDown();
 	void powerUp();
 	bool write(const char* msg);
@@ -43,6 +45,7 @@ private:
 	unsigned long timeS = 0;
 	uint8_t ccCount = 4; //4=STOP
 	bool radioStarted = false;
+	bool autoSleep = false;
 	bool active = true;
 	IActionListener* actionListener = nullptr;
 	RFTransceiver();
