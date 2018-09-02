@@ -2,9 +2,10 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2018-08-21 01:40:38
+//This file has been generated on 2018-09-02 18:51:04
 
 #include "Arduino.h"
+#include "libraries/LowPower/LowPower.h"
 #include "System/SystemConstants.h"
 #include "Devices/BatteryMonitor.h"
 #include "Devices/Mosfet.h"
@@ -25,6 +26,7 @@
 
 void setup() ;
 void loop() ;
+void onInterrupt();
 
 
 #include "Main.ino"

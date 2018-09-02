@@ -20,26 +20,32 @@
 #define RF_CE 9
 #define RF_CSN 10
 #define RF_IRQ 2
+#define WAKEUP_PIN 2
+//SLEEP CONFIG
+#define SLEEP_INTERVAL SLEEP_8S
 //REFERENCE VOLTAGE
-#define AREF_VOLTAGE (float)3.332
+#define AREF_VOLTAGE (float)3.339
 //HV Probe CONFIG
 #define HVPROBE_SPV (unsigned short int)16 // 32 Samples per Measurement
 #define HVPROBE_UNITS (char*)"V"
 #define HVPROBE_MIN_MEAS_RANGE (float)0
-#define HVPROBE_MAX_MEAS_RANGE (float)45
+#define HVPROBE_MAX_MEAS_RANGE (float)40
 #define HVPROBE_PERIOD 128
 #define HVPROBE_FREQ (float)4
 #define HVPROBE_VOLTS_OFFSET (float)0
 //10-350 CONFIG
-#define FACTOR_10350 0.11367
+#define FACTOR_10350 0.0944756
 //BATTERY CONFIG
-#define BATTM_OFFSET 17 //Vdrop = 56mV, 180mV
-#define BATTM_DISC_VALUE (int)828 // 2.7V \\ At 2.61V worked fine
-#define BATTM_FULL_VALUE (int)1020 // 3.335V
-#define BATTM_ALARM_VALUE (int)846 // 2.76V
-#define BATTM_HYSTERISIS_VALUE (int)10// 2.792V - 0.0326v
-#define BATTM_MEAS_PERIOD (int)1024
-#define BATTM_FREQ 0.1
+#define BATTM_OFFSET (float)-0.02//0.2 //62 // 0.202V
+#define BATTM_FACTOR (float)0.789
+#define BATTM_DISC_VALUE (float)2.7 // 2.7V \\ At 2.61V worked fine
+#define BATTM_FULL_VALUE (float)4.15 // 3.335V
+#define BATTM_ALARM_VALUE (int)2.9175 // 15%
+#define BATTM_HYSTERISIS_VALUE (int)0.029// 2%
+#define BATTM_MEAS_PERIOD (int)256
+#define BATTM_FREQ 0.128 // 8 sec
+#define BATTM_INTERVAL 40
+#define BATTM_ITERS 5
 //Serial
 #define SRL_BD 115200
 //RF CONFIG
@@ -62,9 +68,9 @@
 #define NOT_HVWARNING_TRIG 6
 //LED NOTIFICATION MODES
 //ACTIVE
-#define LED_M1 new LEDTone(3, 40,	\
+#define LED_M1 new LEDTone(3, 30,	\
 		new LEDTone(255, 20, \
-		new LEDTone(0, 3940)))
+		new LEDTone(0, 0)))
 //CONNECTION_LOST
 #define LED_M3 new LEDTone(255, 48, \
 		new LEDTone(0, 976))
@@ -76,8 +82,8 @@
 		new LEDTone(0, 2775 \
 ))))
 //HV_WARNING
-#define LED_M5 new LEDTone(255, 24, \
-		new LEDTone(0, 104 \
+#define LED_M5 new LEDTone(255, 28, \
+		new LEDTone(0, 100 \
 ))
 //BATTERY
 #define LED_M6 new LEDTone(255, 50, \

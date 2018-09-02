@@ -10,7 +10,8 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/USBAPI.h \
  C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h \
  C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\variants\standard/pins_arduino.h \
- ..\System/SystemConstants.h ..\Devices/BatteryMonitor.h \
+ ..\libraries/LowPower/LowPower.h ..\System/SystemConstants.h \
+ ..\Devices/BatteryMonitor.h \
  ..\Devices/../AnalogInput/ToggleAnalogInput.h \
  ..\Devices/../AnalogInput/AnalogInput.h \
  ..\Devices/../AnalogInput/../Commons/IPropertyListener.h \
@@ -95,6 +96,8 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21
 C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h:
 
 C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\variants\standard/pins_arduino.h:
+
+..\libraries/LowPower/LowPower.h:
 
 ..\System/SystemConstants.h:
 

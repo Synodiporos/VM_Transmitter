@@ -27,12 +27,13 @@ public:
 	virtual ~BatteryMonitor();
 	static BatteryMonitor* getInstance();
 	void initialize();
-	void startRecord();
-	void pauseRecord();
-	void stopRecord();
+	void measure();
+	//void startRecord();
+	//void pauseRecord();
+	//void stopRecord();
 	bool isAlarmEnabled();
 
-	unsigned short int getMeasurementValue();
+	float getMeasurementValue();
 	uint8_t getPercentage();
 	float getVoltage(float aref);
 
@@ -46,18 +47,17 @@ protected:
 	uint8_t state = 0;
 	unsigned long time = 0;
 	unsigned short int measurement = 0;
-	int total = 0;
-	FilterOnePole filter = FilterOnePole(LOWPASS, BATTM_FREQ, 102);
-	unsigned short int readIndex = 0;
-	char flag = 0;
+	FilterOnePole filter = FilterOnePole(LOWPASS, BATTM_FREQ, 1023);
 	bool alarm = false;
 	IBatteryMonitorListener* listener = nullptr;
+
 	BatteryMonitor();
+	void setMeasurement(unsigned int meas);
 	void onValueChanged(unsigned short int oldValue);
 	void onAlarmStateChanged();
 	void notifyBatteryValueChanged(short int oldValue);
 	void notifyBatteryTriggerAlarmStateChanged();
-
+	int toIntValue(unsigned int value);
 };
 
 #endif /* DEVICES_BATTERYMONITOR_H_ */

@@ -115,14 +115,68 @@ void Controller::actionPerformed(Action action){
 	}
 }
 
+bool Controller::isSleep(){
+	return this->sleep;
+}
+
+void Controller::onSystemStartUp(){
+	Serial.println("System Start Up!");
+}
+
+void Controller::onSystemSleep(){
+	Serial.println("System SLEEP!");
+	transceiver->powerDown();
+	notification->notifyActive();
+
+	unsigned long time = millis();
+	while(millis()-time<60){
+		notification->validate();
+		timer = millis();
+	}
+}
+
+void Controller::onSystemWakeup(uint8_t source){
+	if(source==SYSTEM_INTER){
+		Serial.println("ON Wake Up by INTERRUPT");
+	}
+	else{
+		Serial.println("ON Wake Up by TIMER");
+	}
+
+	transceiver->powerUp();
+	batteryMonitor->measure();
+	notification->notifyActive();
+
+	sleep = false;
+	timer = millis();
+}
+
+void Controller::onIterrate(){
+
+	//probeA->validate();
+	batteryMonitor->validate();
+	transceiver->validate();
+	notification->validate();
+
+	unsigned long interval = millis()-timer;
+	unsigned long interval2 = millis()-timer2;
+	if(interval>=2000)
+		sleep = true;
+
+	if(interval2>=100){
+	//	Serial.println("ON Iterate");
+		timer2 = millis();
+	}
+}
+
 void Controller::onProbeAMeasurementChanged(unsigned short int value){
 	if(	value >= NOT_HVWARNING_TRIG ){
 		notification->setHVWarningEnabled(true);
-		batteryMonitor->pauseRecord();
+		//batteryMonitor->pauseRecord();
 		transceiver->setAutoSleep(false);
 	}else{
 		notification->setHVWarningEnabled(false);
-		batteryMonitor->startRecord();
+		//batteryMonitor->startRecord();
 		transceiver->setAutoSleep(true);
 	}
 
@@ -149,22 +203,21 @@ void Controller::onProbeAMeasurementChanged(unsigned short int value){
 
 void Controller::onBatteryValueChanged(
 			BatteryMonitor* source, short int oldValue){
-	unsigned short int value = source->getMeasurementValue();
-	float volts = source->getVoltage(AREF_VOLTAGE)*100;
+	float vin = source->getMeasurementValue();
 	uint8_t perc = source->getPercentage();
 	uint8_t alarm = source->isAlarmEnabled();
 
-	Serial.print(F("Battery Value: "));
-	Serial.print(value);
-	Serial.print(F(" Voltage: "));
-	Serial.print(volts/100);
+	Serial.print(F("Battery Volts: "));
+	Serial.print(vin);
 	Serial.print(F("V Percentage: "));
 	Serial.print(perc);
-	Serial.println( "%" );
+	Serial.print( "%" );
+	Serial.print(F(" Alarm: "));
+	Serial.println(alarm);
 
 	char at[RF_PAYLOAD_SIZE];
 	char str[] = CMD_BAT;
-	sprintf (at, "AT+%s=%d,%d", str, (int)volts, perc);
+	sprintf (at, "AT+%s=%d,%d", str, (int)vin*100, perc);
 	//3+4+4+4+1+1
 	this->transceiver->write(at);
 	//Serial.println(at);

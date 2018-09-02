@@ -49,6 +49,7 @@ Timer \
 core/core \
 libraries/ArduinoSTL/src \
 libraries/ArduinoSTL/src/abi \
+libraries/LowPower \
 libraries/RF24 \
 libraries/SPI/src \
 

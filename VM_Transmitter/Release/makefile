@@ -11,6 +11,7 @@ RM := del
 -include subdir.mk
 -include libraries\SPI\src\subdir.mk
 -include libraries\RF24\subdir.mk
+-include libraries\LowPower\subdir.mk
 -include libraries\ArduinoSTL\src\abi\subdir.mk
 -include libraries\ArduinoSTL\src\subdir.mk
 -include core\core\subdir.mk

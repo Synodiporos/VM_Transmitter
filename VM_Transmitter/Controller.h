@@ -24,6 +24,9 @@
 #include "CMD/AT.h"
 #include <string>
 
+#define SYSTEM_TIMER 1
+#define SYSTEM_INTER 2
+
 class Controller : public IBatteryMonitorListener,
 	IPropertyListener, IActionListener{
 public:
@@ -43,12 +46,21 @@ public:
 				const void* oldPropery);
 	void actionPerformed(Action action);
 
+	bool isSleep();
+	void onSystemStartUp();
+	void onSystemSleep();
+	void onSystemWakeup(uint8_t source);
+	void onIterrate();
+
 protected:
 	BatteryMonitor* batteryMonitor = nullptr;
 	Probe* probeA = nullptr;
 	//HVProbe* probeA = nullptr;
 	NotificationSystem* notification = NotificationSystem::getInstance();
 	RFTransceiver* transceiver = RFTransceiver::getInstance();
+	bool sleep = false;
+	unsigned long timer = millis();
+	unsigned long timer2 = millis();
 
 	void onProbeAMeasurementChanged(unsigned short int value);
 	void onBatteryValueChanged(

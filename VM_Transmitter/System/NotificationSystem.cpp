@@ -26,7 +26,7 @@ NotificationSystem* NotificationSystem::getInstance(){
 }
 
 void NotificationSystem::initialize(){
-
+	ledWhite.setHeadTone(LTActive);
 }
 
 void NotificationSystem::setHVWarningEnabled(bool enabled){
@@ -148,6 +148,10 @@ void NotificationSystem::setActiveEnabled(bool enabled){
 		}
 	}
 	onStateChanged(ACTIVE);
+}
+
+void NotificationSystem::notifyActive(){
+	ledWhite.play();
 }
 
 void NotificationSystem::setConnectionLostEnabled(bool enabled){
