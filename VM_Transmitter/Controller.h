@@ -16,6 +16,7 @@
 #include "Devices/HVProbe.h"
 #include "Devices/BatteryMonitor.h"
 #include "Devices/IBatteryMonitorListener.h"
+#include "Devices/SurgeMonitor.h"
 #include "Devices/HVProbe.h"
 #include "AnalogInput/Probe.h"
 #include "System/SystemConstants.h"
@@ -58,10 +59,13 @@ protected:
 	//HVProbe* probeA = nullptr;
 	NotificationSystem* notification = NotificationSystem::getInstance();
 	RFTransceiver* transceiver = RFTransceiver::getInstance();
+	bool hvWarning = false;
 	bool sleep = false;
-	unsigned long timer = millis();
+	unsigned long sleepTimer = millis();
 	unsigned long timer2 = millis();
+	SurgeMonitor surgeMonitor;
 
+	void resetSleepTimer();
 	void onProbeAMeasurementChanged(unsigned short int value);
 	void onBatteryValueChanged(
 				BatteryMonitor* source, short int value);

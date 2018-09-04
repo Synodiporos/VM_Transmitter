@@ -40,7 +40,7 @@ public:
 private:
 	RF24* radio = nullptr;
 	static RFTransceiver* instance;
-	bool connected = false;
+	bool connected = true;
 	unsigned long time = 0;
 	unsigned long timeS = 0;
 	uint8_t ccCount = 4; //4=STOP

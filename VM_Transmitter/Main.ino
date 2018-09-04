@@ -25,7 +25,7 @@
 using namespace std;
 
 BatteryMonitor* battery;
-Probe probe = Probe(HV_ANALOG_PIN, HVPROBE_PERIOD);
+Probe probe = Probe(HV1_ANALOG_PIN, HVPROBE_PERIOD);
 //HVProbe hvProbe = HVProbe(HV_ANALOG_PIN, HVPROBE_SPV, HVPROBE_PERIOD);
 Mosfet* mosfet = Mosfet::getInstance();
 Controller controller = Controller();
@@ -56,7 +56,7 @@ void setup() {
 
 	//Initialaze RF
 	trasnceiver->initialize(&radio);
-	trasnceiver->setAutoSleep(true);
+	trasnceiver->setAutoSleep(false);
 	//trasnceiver->printDetails();
 
 	battery = BatteryMonitor::getInstance();
@@ -157,3 +157,7 @@ void onInterrupt(){
 		flag = 1;
 }
 
+// ON SLEEP WITH RF DOWN: 300 nA
+// ON WAKE UP WITH RF DOWN: 7.6 mA
+// ON WAKE UP WITH RF ON: 24.4 mA
+// AVERAGE 1.06 mA at 8 Seconds

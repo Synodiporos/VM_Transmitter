@@ -23,19 +23,24 @@
 
 class NotificationSystem {
 public:
-	bool enable = false;
 	static NotificationSystem* getInstance();
 	virtual ~NotificationSystem();
 	void initialize();
+	bool setEnabled(bool enabled);
+	bool isEnabled();
 
 	void setHVWarningEnabled(bool enabled);
 	void setBatteryLowEnabled(bool enabled);
 	void setErrorEnabled(bool enabled);
 	void setActiveEnabled(bool enabled);
-	void notifyActive();
+
+	void startNotify();
+	void stopNotify();
+
+	void validateChanges();
+
 	void setConnectionLostEnabled(bool enabled);
 	void setTranferDataEnabled(bool enabled);
-	void stopNotify();
 	void setMelody(BuzzerTone* tone);
 	bool isHVWarningEnabled();
 	bool isBatterLowEnabled();
@@ -47,22 +52,24 @@ public:
 
 private:
 	static NotificationSystem* instance;
+	bool enable = false;
 	byte state = 00000000;
 
 	LEDTone* LTActive = LED_M1;
 	LEDTone* LTHVWarning = LED_M5;
 	LEDTone* LTBatteryWarning = LED_M6;
 	LEDTone* LTError = LED_M7;
+	LEDTone* LTConnLost = LED_M3;
+	BuzzerTone* BTHVWarning = MELODY_HV;
 
 	LEDTonePlayer ledWhite =
-			LEDTonePlayer(LED_WHITE_PIN, LTActive, 1);
+			LEDTonePlayer(LED_BLUE_PIN, LTActive, 1);
 	LEDTonePlayer ledRed =
 			LEDTonePlayer(LED_RED_PIN, nullptr, 0);
-	LEDTonePlayer ledBlue =
-			LEDTonePlayer(LED_BLUE_PIN, nullptr, 0);
+	//LEDTonePlayer ledBlue =
+	//		LEDTonePlayer(LED_BLUE_PIN, nullptr, 0);
 	BuzzerMelody player =
-			BuzzerMelody(BUZZER_PIN, nullptr, 0);
-
+			BuzzerMelody(BUZZER_PIN, BTHVWarning, 0);
 
 
 	NotificationSystem();

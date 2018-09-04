@@ -151,10 +151,10 @@ int BatteryMonitor::toIntValue(unsigned int value){
 	float vout =
 			(value * AREF_VOLTAGE / 1023);
 
-	Serial.print("BAT value: ");
+	/*Serial.print("BAT value: ");
 	Serial.print(value);
 	Serial.print(" vout: ");
-	Serial.println(vout);
+	Serial.println(vout);*/
 
 	float vin = (vout/BATTM_FACTOR) + BATTM_OFFSET;
 	return vin * 100;

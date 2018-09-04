@@ -48,7 +48,7 @@ void HVProbe::stopRecord(){
 
 float HVProbe::getMeasurement(){
 	return MathUtil::mapRange(getAnalogValue(),
-			0, 1023, HVPROBE_MIN_MEAS_RANGE, HVPROBE_MAX_MEAS_RANGE);
+			0, 1023, 0, 40);
 }
 
 float HVProbe::getVoltage(float VREF){

@@ -24,7 +24,7 @@ void Controller::activate(){
 		transceiver->setActionListener(this);
 	if(notification){
 		notification->setActiveEnabled(true);
-		notification->enable = true;
+		notification->setEnabled(true);
 	}
 	initialization();
 }
@@ -45,8 +45,10 @@ void Controller::initialization(){
 	this->notification->setBatteryLowEnabled(batteryAlarm);
 
 	bool connState = transceiver->isConnected();
- 	//this->notification->setConnectionLostEnabled(!connState);
+ 	this->notification->setConnectionLostEnabled(!connState);
 
+ 	notification->setActiveEnabled(true);
+ 	notification->setEnabled(true);
  	//probeA->setEnabled(true);
  	/*unsigned int hvValue = this->probeA->getMeasurement();
  	if(	hvValue >= NOT_HVWARNING_TRIG ){
@@ -121,21 +123,30 @@ bool Controller::isSleep(){
 
 void Controller::onSystemStartUp(){
 	Serial.println("System Start Up!");
+
+	transceiver->powerUp();
+	transceiver->startConnectivityCheck();
+	batteryMonitor->measure();
+	notification->startNotify();
 }
 
 void Controller::onSystemSleep(){
 	Serial.println("System SLEEP!");
+	//SPI.end();
+	//pinMode(2, INPUT_PULLUP);
 	transceiver->powerDown();
-	notification->notifyActive();
+
+	//notification->notifyActive();
 
 	unsigned long time = millis();
 	while(millis()-time<60){
 		notification->validate();
-		timer = millis();
+		resetSleepTimer();
 	}
 }
 
 void Controller::onSystemWakeup(uint8_t source){
+	Serial.println();
 	if(source==SYSTEM_INTER){
 		Serial.println("ON Wake Up by INTERRUPT");
 	}
@@ -144,24 +155,26 @@ void Controller::onSystemWakeup(uint8_t source){
 	}
 
 	transceiver->powerUp();
+	transceiver->startConnectivityCheck();
 	batteryMonitor->measure();
-	notification->notifyActive();
+	notification->startNotify();
 
 	sleep = false;
-	timer = millis();
+	resetSleepTimer();
 }
 
 void Controller::onIterrate(){
 
-	//probeA->validate();
+	probeA->validate();
 	batteryMonitor->validate();
 	transceiver->validate();
 	notification->validate();
 
-	unsigned long interval = millis()-timer;
+	unsigned long interval = millis()-sleepTimer;
 	unsigned long interval2 = millis()-timer2;
-	if(interval>=2000)
+	if(!hvWarning && interval>=WAKEUP_INTERVAL){
 		sleep = true;
+	}
 
 	if(interval2>=100){
 	//	Serial.println("ON Iterate");
@@ -169,16 +182,26 @@ void Controller::onIterrate(){
 	}
 }
 
+void Controller::resetSleepTimer(){
+	sleepTimer = millis();
+}
+
 void Controller::onProbeAMeasurementChanged(unsigned short int value){
-	if(	value >= NOT_HVWARNING_TRIG ){
+	if(	value >= SM_SURGE_MIN){
+		hvWarning = true;
 		notification->setHVWarningEnabled(true);
 		//batteryMonitor->pauseRecord();
 		transceiver->setAutoSleep(false);
 	}else{
+		hvWarning = false;
 		notification->setHVWarningEnabled(false);
 		//batteryMonitor->startRecord();
 		transceiver->setAutoSleep(true);
+		resetSleepTimer();
 	}
+
+	surgeMonitor.setDevice(1);
+	surgeMonitor.setMeasurement(value);
 
 	char at[RF_PAYLOAD_SIZE];
 	char str[] = CMD_HV1;
@@ -207,13 +230,13 @@ void Controller::onBatteryValueChanged(
 	uint8_t perc = source->getPercentage();
 	uint8_t alarm = source->isAlarmEnabled();
 
-	Serial.print(F("Battery Volts: "));
+	/*Serial.print(F("Battery Volts: "));
 	Serial.print(vin);
 	Serial.print(F("V Percentage: "));
 	Serial.print(perc);
 	Serial.print( "%" );
 	Serial.print(F(" Alarm: "));
-	Serial.println(alarm);
+	Serial.println(alarm);*/
 
 	char at[RF_PAYLOAD_SIZE];
 	char str[] = CMD_BAT;
@@ -256,6 +279,7 @@ void Controller::onMessageReceived(char* msg){
 	Serial.print(F(" at= "));
 	Serial.println(cmdN.c_str());*/
 	//delete cmd;
+	resetSleepTimer();
 }
 
 void Controller::onMessageSend(char* msg){
@@ -263,7 +287,7 @@ void Controller::onMessageSend(char* msg){
 }
 
 void Controller::onConnectionStateChanged(bool state){
-	//Serial.print(F("Connection State: "));
-	//Serial.println(state);
+	Serial.print(F("# Connection State: "));
+	Serial.println(state);
 	this->notification->setConnectionLostEnabled(!state);
 }

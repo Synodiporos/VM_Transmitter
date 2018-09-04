@@ -50,8 +50,8 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\Devices/HVProbe.h ..\Devices/../AnalogInput/AnalogInput.h \
  ..\Controller.h ..\Commons/IActionListener.h ..\Commons/Action.h \
  ..\Commons/IPropertyListener.h ..\Commons/IStateListener.h \
- ..\Devices/IBatteryMonitorListener.h ..\AnalogInput/Probe.h \
- ..\AnalogInput/Filters/FilterOnePole.h \
+ ..\Devices/IBatteryMonitorListener.h ..\Devices/SurgeMonitor.h \
+ ..\AnalogInput/Probe.h ..\AnalogInput/Filters/FilterOnePole.h \
  ..\AnalogInput/../Commons/IPropertyListener.h \
  ..\AnalogInput/../System/SystemConstants.h \
  ..\System/NotificationSystem.h ..\System/SystemConstants.h \
@@ -196,6 +196,8 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\ArduinoSTL\1.1.0\src/initi
 ..\Commons/IStateListener.h:
 
 ..\Devices/IBatteryMonitorListener.h:
+
+..\Devices/SurgeMonitor.h:
 
 ..\AnalogInput/Probe.h:
 

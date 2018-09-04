@@ -25,7 +25,7 @@ RFTransceiver* RFTransceiver::getInstance(){
 	return instance;
 }
 
-//MASTER
+//SLAVE
 void RFTransceiver::initialize(RF24* radio){
 	this->radio = radio;
 	if(radio->begin()){
@@ -34,8 +34,8 @@ void RFTransceiver::initialize(RF24* radio){
 		radio->setPayloadSize(RF_PAYLOAD_SIZE);
 		radio->openWritingPipe(RF_WRITE_PIPE); // 00002
 		radio->openReadingPipe(1, RF_READ_PIPE); // 00001
-		radio->setPALevel(RF24_PA_MIN);
-		radio->setDataRate(RF24_1MBPS );
+		radio->setPALevel(RF_PALEVEL);
+		radio->setDataRate(RF_DATARATE);
 		radio->startListening();
 
 		this->radioStarted = true;
@@ -83,6 +83,7 @@ void RFTransceiver::powerDown(){
 	if(!active)
 		return ;
 	this->radio->stopListening();
+	delay(2);
 	this->radio->powerDown();
 	this->active = false;
 	Serial.println(F("Radio PowerDown"));
@@ -102,8 +103,8 @@ bool RFTransceiver::write(const char* msg){
 	if(!isRadioStarted())
 		return false;
 	powerUp();
-	//Serial.print(F("RF Sent: "));
-	//Serial.println(msg);
+	Serial.print(F("RF Sent: "));
+	Serial.println(msg);
 
 	radio->stopListening();
 
@@ -158,7 +159,7 @@ void RFTransceiver::validateConnectivity(){
 			ccCount++;
 		}
 		else if(ccCount==2 && interval > ccIntervals){
-			onSendACK(ccCount);
+			//onSendACK(ccCount);
 			resetCCTimer();
 			ccCount++;
 		}

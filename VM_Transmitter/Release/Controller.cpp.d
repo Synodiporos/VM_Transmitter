@@ -47,8 +47,8 @@ Controller.cpp.o: ..\Controller.cpp ..\Controller.h \
  C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/USBAPI.h \
  C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\cores\arduino/Arduino.h \
  C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\variants\standard/pins_arduino.h \
- ..\Devices/IBatteryMonitorListener.h ..\AnalogInput/Probe.h \
- ..\AnalogInput/Filters/FilterOnePole.h \
+ ..\Devices/IBatteryMonitorListener.h ..\Devices/SurgeMonitor.h \
+ ..\AnalogInput/Probe.h ..\AnalogInput/Filters/FilterOnePole.h \
  ..\AnalogInput/../Commons/IPropertyListener.h \
  ..\AnalogInput/../System/SystemConstants.h ..\System/SystemConstants.h \
  ..\System/NotificationSystem.h ..\System/SystemConstants.h \
@@ -183,6 +183,8 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21
 C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\variants\standard/pins_arduino.h:
 
 ..\Devices/IBatteryMonitorListener.h:
+
+..\Devices/SurgeMonitor.h:
 
 ..\AnalogInput/Probe.h:
 
