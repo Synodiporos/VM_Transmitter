@@ -230,13 +230,13 @@ void Controller::onBatteryValueChanged(
 	uint8_t perc = source->getPercentage();
 	uint8_t alarm = source->isAlarmEnabled();
 
-	/*Serial.print(F("Battery Volts: "));
+	Serial.print(F("Battery Volts: "));
 	Serial.print(vin);
 	Serial.print(F("V Percentage: "));
 	Serial.print(perc);
 	Serial.print( "%" );
 	Serial.print(F(" Alarm: "));
-	Serial.println(alarm);*/
+	Serial.println(alarm);
 
 	char at[RF_PAYLOAD_SIZE];
 	char str[] = CMD_BAT;

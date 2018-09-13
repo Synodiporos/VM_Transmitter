@@ -12,9 +12,9 @@
 #define HV1_ANALOG_PIN (uint8_t) A1 //A1
 #define HV2_ANALOG_PIN (uint8_t) A2 //A1
 #define BT_ANALOG_PIN (uint8_t) A0 //A0
-#define LED_RED_PIN 8
-#define LED_BLUE_PIN 7
-#define LED_WHITE_PIN 6
+#define LED_RED_PIN 7
+#define LED_BLUE_PIN 6
+#define LED_WHITE_PIN 8
 #define BUZZER_PIN 5
 #define BUTTON_PIN 3
 #define MOSFET_PIN 4
@@ -26,7 +26,7 @@
 #define SLEEP_INTERVAL SLEEP_4S
 #define WAKEUP_INTERVAL 1000
 //REFERENCE VOLTAGE
-#define AREF_VOLTAGE (float)3.3335
+#define AREF_VOLTAGE (float)3.333
 //HV Probe CONFIG
 #define HVPROBE_SPV (unsigned short int)16 // 32 Samples per Measurement
 #define HVPROBE_UNITS (char*)"V"
@@ -41,11 +41,11 @@
 #define FACTOR_10350 0.0944756
 //BATTERY CONFIG
 #define BATTM_OFFSET (float)-0.03//0.2 //62 // 0.202V
-#define BATTM_FACTOR (float)0.789
+#define BATTM_FACTOR (float)0.79400
 #define BATTM_DISC_VALUE (float)2.7 // 2.7V \\ At 2.61V worked fine
 #define BATTM_FULL_VALUE (float)4.15 // 3.335V
-#define BATTM_ALARM_VALUE (int)2.9175 // 15%
-#define BATTM_HYSTERISIS_VALUE (int)0.029// 2%
+#define BATTM_ALARM_VALUE (float)2.9175 // 15%
+#define BATTM_HYSTERISIS_VALUE (float)0.0145// 1%
 #define BATTM_MEAS_PERIOD (int)256
 #define BATTM_FREQ 0.128 // 8 sec
 #define BATTM_INTERVAL 100

@@ -69,7 +69,7 @@ uint8_t BatteryMonitor::getPercentage(){
 }
 
 float BatteryMonitor::getVoltage(float aref){
-	return ((float)getMeasurementValue() * aref) / 1023;
+	return getMeasurementValue();
 }
 
 void BatteryMonitor::setBatteryMonitorListener(
@@ -83,9 +83,9 @@ IBatteryMonitorListener* BatteryMonitor::getBatteryMonitorListener(){
 
 void BatteryMonitor::onValueChanged(unsigned short int oldValue){
 	notifyBatteryValueChanged(oldValue);
-	unsigned int meas = getMeasurementValue();
+	float volts = getMeasurementValue();
 	if(this->alarm){
-		if(meas >
+		if(volts >
 				(BATTM_ALARM_VALUE + BATTM_HYSTERISIS_VALUE)){
 			this->alarm = false;
 			onAlarmStateChanged();
@@ -93,7 +93,7 @@ void BatteryMonitor::onValueChanged(unsigned short int oldValue){
 		}
 	}
 	else{
-		if(meas <= BATTM_ALARM_VALUE){
+		if(volts <= BATTM_ALARM_VALUE){
 			this->alarm = true;
 			onAlarmStateChanged();
 			notifyBatteryTriggerAlarmStateChanged();
