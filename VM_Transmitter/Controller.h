@@ -7,22 +7,23 @@
 
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
+#include <SPI.h>
+#include <RF24.h>
 #include "Commons/IActionListener.h"
 #include "Commons/Action.h"
 #include "Commons/IPropertyListener.h"
 #include "Commons/IStateListener.h"
 #include "Commons/IActionListener.h"
 #include "Commons/Action.h"
-#include "Devices/HVProbe.h"
 #include "Devices/BatteryMonitor.h"
 #include "Devices/IBatteryMonitorListener.h"
 #include "Devices/SurgeMonitor.h"
-#include "Devices/HVProbe.h"
+#include "Devices/Mosfet.h"
 #include "AnalogInput/Probe.h"
 #include "System/SystemConstants.h"
 #include "System/NotificationSystem.h"
 #include "RFTransceiver/RFTransceiver.h"
-#include "CMD/AT.h"
+#include "Util/CharUtil.h"
 #include <string>
 
 #define SYSTEM_TIMER 1
@@ -31,15 +32,12 @@
 class Controller : public IBatteryMonitorListener,
 	IPropertyListener, IActionListener{
 public:
-	Controller();
+	Controller(RF24& radio);
 	virtual ~Controller();
 
 	void activate();
 	void deactivate();
 	void initialization();
-	void setBatteryMonitor(BatteryMonitor* batteryMonitor);
-	void setProbeA(Probe* probe);
-	//void setProbeA(HVProbe* probe);
 
 	void propertyChanged(
 				void* source,
@@ -54,26 +52,36 @@ public:
 	void onIterrate();
 
 protected:
-	BatteryMonitor* batteryMonitor = nullptr;
-	Probe* probeA = nullptr;
-	//HVProbe* probeA = nullptr;
+	RF24& radio ;
+	BatteryMonitor* batteryMonitor = BatteryMonitor::getInstance();;
+	Probe probeA = Probe(HV1_ANALOG_PIN, HVPROBE_PERIOD);
+	Probe probeB = Probe(HV2_ANALOG_PIN, HVPROBE_PERIOD);
+	SurgeMonitor surgeMonitor;
+	Mosfet* mosfet = Mosfet::getInstance();
+	RFTransceiver* transceiver = RFTransceiver::getInstance(radio);
 	NotificationSystem* notification = NotificationSystem::getInstance();
-	RFTransceiver* transceiver = RFTransceiver::getInstance();
+
 	bool hvWarning = false;
 	bool sleep = false;
 	unsigned long sleepTimer = millis();
 	unsigned long timer2 = millis();
-	SurgeMonitor surgeMonitor;
+
 
 	void resetSleepTimer();
 	void onProbeAMeasurementChanged(unsigned short int value);
+	void onProbeBMeasurementChanged(unsigned short int value);
+	void onSurgeApplied(uint8_t device,
+			unsigned int charge, unsigned int slope);
 	void onBatteryValueChanged(
 				BatteryMonitor* source, short int value);
 	void onBatteryTriggerAlarmStateChanged(
 				BatteryMonitor* source, bool alarm);
-	void onMessageReceived(char* msg);
-	void onMessageSend(char* msg);
-	void onConnectionStateChanged(bool state);
+	void onRFStateChanged(uint8_t action, uint8_t state);
+	void onRFMessageReceived(char* msg);
+	void onRFResponseReceived(char* msg, uint8_t id);
+	void onRFMessageSend(char* msg);
+	void onRFMessageSendError(char* msg);
+
 };
 
 #endif /* CONTROLLER_H_ */

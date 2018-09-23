@@ -26,6 +26,11 @@ NotificationSystem* NotificationSystem::getInstance(){
 }
 
 void NotificationSystem::initialize(){
+	pinMode(LED_WHITE_PIN, OUTPUT);
+	pinMode(LED_RED_PIN, OUTPUT);
+	pinMode(LED_BLUE_PIN, OUTPUT);
+	pinMode(BUZZER_PIN, OUTPUT);
+
 	ledWhite.setHeadTone(LTActive);
 	ledWhite.setIterations(1);
 }

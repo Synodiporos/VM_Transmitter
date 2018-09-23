@@ -69,7 +69,7 @@ uint8_t BatteryMonitor::getPercentage(){
 }
 
 float BatteryMonitor::getVoltage(float aref){
-	return getMeasurementValue();
+	return ((float)getMeasurementValue() * aref) / 1023;
 }
 
 void BatteryMonitor::setBatteryMonitorListener(
@@ -83,9 +83,9 @@ IBatteryMonitorListener* BatteryMonitor::getBatteryMonitorListener(){
 
 void BatteryMonitor::onValueChanged(unsigned short int oldValue){
 	notifyBatteryValueChanged(oldValue);
-	float volts = getMeasurementValue();
+	unsigned int meas = getMeasurementValue();
 	if(this->alarm){
-		if(volts >
+		if(meas >
 				(BATTM_ALARM_VALUE + BATTM_HYSTERISIS_VALUE)){
 			this->alarm = false;
 			onAlarmStateChanged();
@@ -93,7 +93,7 @@ void BatteryMonitor::onValueChanged(unsigned short int oldValue){
 		}
 	}
 	else{
-		if(volts <= BATTM_ALARM_VALUE){
+		if(meas <= BATTM_ALARM_VALUE){
 			this->alarm = true;
 			onAlarmStateChanged();
 			notifyBatteryTriggerAlarmStateChanged();
@@ -157,5 +157,7 @@ int BatteryMonitor::toIntValue(unsigned int value){
 	Serial.println(vout);*/
 
 	float vin = (vout/BATTM_FACTOR) + BATTM_OFFSET;
+	if(vin<0)
+		vin = 0;
 	return vin * 100;
 }

@@ -7,7 +7,6 @@
 
 #ifndef DEVICES_BATTERYMONITOR_H_
 #define DEVICES_BATTERYMONITOR_H_
-#include "../AnalogInput/ToggleAnalogInput.h"
 #include "../Commons/IStateListener.h"
 #include "../Commons/IActionListener.h"
 #include "../Commons/Action.h"
@@ -46,7 +45,7 @@ protected:
 	static BatteryMonitor* instance;
 	uint8_t state = 0;
 	unsigned long time = 0;
-	unsigned short int measurement = 0;
+	unsigned int measurement = 0;
 	FilterOnePole filter = FilterOnePole(LOWPASS, BATTM_FREQ, 1023);
 	bool alarm = false;
 	IBatteryMonitorListener* listener = nullptr;

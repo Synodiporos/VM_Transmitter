@@ -34,10 +34,9 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-AnalogInput \
 AnalogInput/Filters \
+AnalogInput \
 Buzzer \
-CMD \
 Commons \
 . \
 Devices \
@@ -46,6 +45,7 @@ Memory \
 RFTransceiver \
 System \
 Timer \
+Util \
 core/core \
 libraries/ArduinoSTL/src \
 libraries/ArduinoSTL/src/abi \

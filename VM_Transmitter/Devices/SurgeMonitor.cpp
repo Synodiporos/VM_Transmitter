@@ -16,6 +16,14 @@ SurgeMonitor::~SurgeMonitor() {
 	// TODO Auto-generated destructor stub
 }
 
+void SurgeMonitor::setActionListener(IActionListener* listener){
+	this->actionListener = listener;
+}
+
+IActionListener* SurgeMonitor::getActionListener(){
+	return this->actionListener;
+}
+
 void SurgeMonitor::setDevice(uint8_t device){
 	if(this->device!=device)
 		this->device = device;
@@ -30,7 +38,6 @@ bool SurgeMonitor::isCharging(){
 }
 
 void SurgeMonitor::setMeasurement(unsigned int measurement){
-
 	if(measurement>SM_SURGE_MIN){
 		if(!isCharging()){
 			onCharging();
@@ -49,26 +56,11 @@ void SurgeMonitor::validate(){
 void SurgeMonitor::setMaxMeasurement(unsigned int max){
 	if(this->maxMeasure!=max){
 		this->maxMeasure = max;
-
 		float secs = (float)(millis() - time)/1000;
-		unsigned short int aps =
-				((float)(max-SM_SURGE_MIN)/secs)*100;
+		unsigned int aps =
+				((float)(max-initMeasure)/secs)*10;
 
 		buf[i] = aps;
-
-		Serial.print("&&& Probe Max: ");
-		Serial.print( maxMeasure);
-		Serial.print(" time: ");
-		Serial.print( secs);
-
-		int ii = (i+1);
-		if(ii==NOM)
-			ii=0;
-		Serial.print(" i: ");
-		Serial.print( i);
-		Serial.print(" ii: ");
-		Serial.println( ii);
-
 		i++;
 		if(i==NOM)
 			i=0;
@@ -84,31 +76,41 @@ void SurgeMonitor::clearBuffer(){
 
 void SurgeMonitor::onCharging(){
 	this->state = 1;
+	this->initMeasure = maxMeasure;
 	this->time = millis();
-	Serial.println("&&& OnCharging ");
+	//Serial.println("&&& OnCharging ");
 }
 
 void SurgeMonitor::onDischarged(){
-	this->state = 0;
-	this->maxMeasure = 0;
-	Serial.println("&&& OnDischarging");
-
 	int ii = (i);
 	if(ii==NOM)
 		ii=0;
-	float slope = (float)buf[ii]/100;
 
-	Serial.print(" Buffer: ");
+	unsigned int data[3];
+	data[0] = getDevice();
+	data[1] = maxMeasure;
+	data[2] = buf[ii];
+
+	notifyActionListener(data);
+/*
+	Serial.print("BUFFER: ");
 	for(int i=0; i<NOM; i++){
-		Serial.print(buf[i]);
-		Serial.print(", ");
+		Serial.print( buf[i]);
+		Serial.print( ", ");
 	}
+	Serial.println();*/
 
-	Serial.print(" Slope: ");
-	Serial.print(slope);
-	Serial.print(" aps");
-	Serial.println();
-
+	this->state = 0;
+	this->maxMeasure = 0;
+	this->initMeasure = 0;
 	clearBuffer();
+}
+
+void SurgeMonitor::notifyActionListener(unsigned int data[3]){
+	if(this->actionListener){
+		Action action =
+				Action(this, ON_SURGE_APPLIED, nullptr, data);
+		actionListener->actionPerformed(action);
+	}
 }
 
