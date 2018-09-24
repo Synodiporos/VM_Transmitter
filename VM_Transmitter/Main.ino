@@ -9,6 +9,7 @@ using namespace std;
 #include "Devices/Mosfet.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
+#include "System/PersistBuffer.h"
 //#include "System/SerialBroadcaster.h"
 #include "RFTransceiver/RFTransceiver.h"
 #include "Memory/MemoryFree.h"
@@ -29,19 +30,87 @@ uint8_t flag = 3;
 void setup() {
 
 	/////////////////////////////////
-	controller.activate();
-	controller.onSystemStartUp();
+	//controller.activate();
+	//controller.onSystemStartUp();
 
 	// Configure wake up pin as input.
 	// This will consumes few uA of current.
-	pinMode(WAKEUP_PIN, INPUT);
+	//pinMode(WAKEUP_PIN, INPUT);
 
+	Serial.begin(115200);
+	PersistBuffer buffer;
 
+	Serial.println(F("===   INITIALIZED   ==="));
+	buffer.initialize();
+	buffer.print();
+
+	Serial.println(F("===   CLEAR   ==="));
+	//buffer.clear();
+	buffer.print();
+
+	unsigned long time = millis();
+
+	Serial.println(F("===   ADDING   ==="));
+	uint8_t s = buffer.getSize() + 1;
+	uint32_t sl = s*100000;
+	Surge sur = {sl, s, (uint32_t)s*1000, (uint16_t)s*20};
+	buffer.push(sur);
+	buffer.print();
+
+	/*for(int i=10; i<11; i++){
+		Serial.print(F("PUSH: "));
+		Serial.println(i);
+		Surge s = {i*10000, i, i*1000, i*20};
+		//buffer.push(s);
+		buffer.print();
+	}
+	Serial.print(F("===   Millis: "));
+	Serial.println(millis()-time);
+	time = millis();
+
+	Serial.println(F("===   REMOVING   ==="));
+	for(int i=0; i<5; i++){
+		Serial.print(F("POP: "));
+		Serial.println(i);
+
+		Surge surge;
+		buffer.top(surge);
+
+		Serial.print(F("Surge: "));
+		Serial.print(surge.datetime);
+		Serial.print(", ");
+		Serial.print(surge.charge);
+		Serial.print(", ");
+		Serial.print(surge.slope);
+		Serial.print(", ");
+		Serial.println(surge.device);
+
+		//buffer.pop();
+		buffer.print();
+	}*/
+
+	for(int i=0; i<buffer.getSize()+4; i++){
+		Surge surge = {0,0,0,0};
+		buffer.getAt(i, surge);
+		Serial.print(F("Surge: "));
+		Serial.print(surge.datetime);
+		Serial.print(", ");
+		Serial.print(surge.device);
+		Serial.print(", ");
+		Serial.print(surge.charge);
+		Serial.print(", ");
+		Serial.println(surge.slope);
+	}
+
+	Serial.print(F("===   Millis: "));
+	Serial.println(millis()-time);
 
 	mil = millis();
 	Serial.print(F("@@ Free RAM = ")); //F function does the same and is now a built in library, in IDE > 1.0.0
 	Serial.println(freeMemory(), DEC);  // print how much RAM is available.
 	// print how much RAM is available.
+
+	delay(60000);
 }
 
 // the loop routine runs over and over again forever:

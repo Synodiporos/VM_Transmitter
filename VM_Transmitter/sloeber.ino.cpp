@@ -2,7 +2,7 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2018-09-24 00:16:49
+//This file has been generated on 2018-09-25 01:36:12
 
 #include "Arduino.h"
 #include <string>
@@ -14,6 +14,7 @@
 #include "Devices/Mosfet.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
+#include "System/PersistBuffer.h"
 #include "RFTransceiver/RFTransceiver.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"

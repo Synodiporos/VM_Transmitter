@@ -16,6 +16,13 @@
 
 #define NOM 5
 
+struct Surge{
+	uint32_t datetime;
+	uint8_t device;
+	uint32_t charge;
+	uint16_t slope;
+};
+
 class SurgeMonitor {
 public:
 	static const unsigned short int ON_SURGE_APPLIED = 20;

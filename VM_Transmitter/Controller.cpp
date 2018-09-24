@@ -296,6 +296,9 @@ void Controller::onProbeBMeasurementChanged(unsigned short int value){
 void Controller::onSurgeApplied(uint8_t device,
 		unsigned int charge, unsigned int slope){
 
+	Surge surge = {
+		1111111, 0, 100000, 10000
+	};
 	/*Serial.print("$$$ Surge Applied: ");
 	Serial.print(" Device:");
 	Serial.print( device);

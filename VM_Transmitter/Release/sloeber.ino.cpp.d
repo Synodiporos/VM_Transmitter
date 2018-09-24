@@ -57,6 +57,9 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  ..\RFTransceiver/../Commons/IActionListener.h \
  ..\RFTransceiver/../Commons/Action.h ..\RFTransceiver/../Timer/Timer.h \
  ..\RFTransceiver/../Util/CharUtil.h ..\Util/CharUtil.h \
+ ..\System/PersistBuffer.h \
+ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\libraries\EEPROM\src/EEPROM.h \
+ ..\System/../Devices/SurgeMonitor.h ..\System/../Util/EEPROMUtil.h \
  ..\Memory/MemoryFree.h ..\Memory/pgmStrToRAM.h ..\Buzzer/BuzzerMelody.h \
  ..\Buzzer/BuzzerTone.h ..\Buzzer/Pitches.h ..\Main.ino
 
@@ -213,6 +216,14 @@ C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\libraries\RF24\1.3.1/RF24_config.h:
 ..\RFTransceiver/../Util/CharUtil.h:
 
 ..\Util/CharUtil.h:
+
+..\System/PersistBuffer.h:
+
+C:\eclipse\cpp-oxygen\eclipse\arduinoPlugin\packages\arduino\hardware\avr\1.6.21\libraries\EEPROM\src/EEPROM.h:
+
+..\System/../Devices/SurgeMonitor.h:
+
+..\System/../Util/EEPROMUtil.h:
 
 ..\Memory/MemoryFree.h:
 
