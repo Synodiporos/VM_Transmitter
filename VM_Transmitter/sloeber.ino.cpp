@@ -2,7 +2,7 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2018-09-25 01:36:12
+//This file has been generated on 2018-09-30 23:12:39
 
 #include "Arduino.h"
 #include <string>
@@ -14,7 +14,6 @@
 #include "Devices/Mosfet.h"
 #include "Controller.h"
 #include "System/NotificationSystem.h"
-#include "System/PersistBuffer.h"
 #include "RFTransceiver/RFTransceiver.h"
 #include "Memory/MemoryFree.h"
 #include "Memory/pgmStrToRAM.h"
@@ -24,7 +23,8 @@
 
 void setup() ;
 void loop() ;
-void onInterrupt();
+void onInterrupt1();
+void onInterrupt2();
 
 
 #include "Main.ino"

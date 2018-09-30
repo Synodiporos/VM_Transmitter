@@ -24,6 +24,7 @@ RM := del
 -include Devices\subdir.mk
 -include Commons\subdir.mk
 -include Buzzer\subdir.mk
+-include Button\subdir.mk
 -include AnalogInput\Filters\subdir.mk
 -include AnalogInput\subdir.mk
 -include objects.mk

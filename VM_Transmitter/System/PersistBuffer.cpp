@@ -7,6 +7,8 @@
 
 #include "PersistBuffer.h"
 
+PersistBuffer* PersistBuffer::instance = nullptr;
+
 PersistBuffer::PersistBuffer() {
 	// TODO Auto-generated constructor stub
 
@@ -14,6 +16,12 @@ PersistBuffer::PersistBuffer() {
 
 PersistBuffer::~PersistBuffer() {
 	// TODO Auto-generated destructor stub
+}
+
+PersistBuffer* PersistBuffer::getInstance(){
+	if(!instance)
+		instance = new PersistBuffer();
+	return instance;
 }
 
 void PersistBuffer::initialize(){

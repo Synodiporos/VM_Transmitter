@@ -19,9 +19,9 @@
 #define RF_STATE_INITIALIZE_ERROR 1
 #define RF_STATE_INITIALIZED 2
 
-#define RF_STATE_DISCONNECTED 10
-#define RF_STATE_CONNECTING 11
-#define RF_STATE_CONNECTED 30
+#define RF_STATE_REQUEST_ERROR 10
+#define RF_STATE_REQUEST_SENDING 11
+#define RF_STATE_REQUEST_SEND 30
 
 #define RF_RETRIES 3
 #define RF_CONNECTION_CHECK_INTERVALS 128
@@ -33,7 +33,9 @@ public:
 	static const unsigned short int ON_RESPONSE_RECEIVED = 92;
 	static const unsigned short int ON_MESSAGE_SEND = 93;
 	static const unsigned short int ON_MESSAGE_SEND_ERROR = 94;
-	static const unsigned short int ON_ACTIVE_STATE = 95;
+	static const unsigned short int ON_REQUEST_SEND_OK = 95;
+	static const unsigned short int ON_REQUEST_SEND_FAIL = 96;
+	static const unsigned short int ON_ACTIVE_STATE = 97;
 
 	virtual ~RFTransceiver();
 	static RFTransceiver* getInstance(RF24 &radio);
@@ -43,7 +45,7 @@ public:
 	void initialize();
 	bool isActivated();
 	bool isInitialized();
-	bool isConnecting();
+	bool isSending();
 	bool isConnected();
 	//void startConnectivityCheck();
 	//void stopConnectivityCheck();
@@ -78,6 +80,8 @@ private:
 	void onStateChanged();
 	void onMessageSend(const char* msg);
 	void onMessageSendError(const char* msg);
+	void onRequestPosted(const char* msg, uint8_t id);
+	void onRequestPostError(const char* msg, uint8_t id);
 	void onMessageReceived(const char* msg);
 	void onResponseReceived(const char* msg, uint8_t id);
 	void onSendRequest();

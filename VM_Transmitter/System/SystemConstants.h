@@ -10,23 +10,25 @@
 
 //PIN NUMBER CONGIG
 #define HV1_ANALOG_PIN (uint8_t) A1 //A1
-#define HV2_ANALOG_PIN (uint8_t) A2 //A1
+#define HV2_ANALOG_PIN (uint8_t) A2 //A2
 #define BT_ANALOG_PIN (uint8_t) A0 //A0
 #define LED_RED_PIN 7
 #define LED_BLUE_PIN 8
 #define LED_WHITE_PIN 6
 #define BUZZER_PIN 5
-#define BUTTON_PIN 3
+#define BUTTON_PIN (uint8_t) A3
 #define MOSFET_PIN 4
 #define RF_CE 9
 #define RF_CSN 10
 #define RF_IRQ 2
-#define WAKEUP_PIN 2
+#define WAKEUP_PIN1 2
+#define WAKEUP_PIN2 3
 //SLEEP CONFIG
-#define SLEEP_INTERVAL SLEEP_4S
-#define WAKEUP_INTERVAL 1000
+#define SLEEP_INTERVAL SLEEP_8S
+#define WAKEUP_NORMAL 128
+#define WAKEUP_WHEN_HV 4096
 //REFERENCE VOLTAGE
-#define AREF_VOLTAGE (float)3.338
+#define AREF_VOLTAGE (float)3.299
 //HV Probe CONFIG
 #define HVPROBE_SPV (unsigned short int)16 // 32 Samples per Measurement
 #define HVPROBE_UNITS (char*)"V"
@@ -36,7 +38,7 @@
 #define HVPROBE_FREQ (float)8
 #define HVPROBE_VOLTS_OFFSET (float)0
 //SURGE MONITOR
-#define SM_SURGE_MIN 5
+#define SM_SURGE_MIN 8
 //10-350 CONFIG
 #define FACTOR_10350 (float)0.0944756
 //8-20 CONFIG

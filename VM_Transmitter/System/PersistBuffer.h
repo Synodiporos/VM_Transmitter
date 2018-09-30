@@ -11,14 +11,13 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 #include "../Devices/SurgeMonitor.h"
-#include "../Util/EEPROMUtil.h"
 
 #define PB_START_INDEX 317
 #define PB_CAPACITY 64
 
 class PersistBuffer {
 public:
-	PersistBuffer();
+	static PersistBuffer* getInstance();
 	virtual ~PersistBuffer();
 	void initialize();
 	uint8_t getSize();
@@ -31,9 +30,11 @@ public:
 	void print();
 
 private:
+	static PersistBuffer* instance;
 	uint8_t index = 0;
 	uint8_t size = 0;
 
+	PersistBuffer();
 	bool setIndex(uint8_t index);
 	bool setSize(uint8_t size);
 	void onIndexChanged();

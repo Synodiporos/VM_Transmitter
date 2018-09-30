@@ -13,6 +13,7 @@
 #include "Commons/Action.h"
 #include "Commons/IPropertyListener.h"
 #include "Commons/IStateListener.h"
+#include "Commons/State.h"
 #include "Commons/IActionListener.h"
 #include "Commons/Action.h"
 #include "Devices/BatteryMonitor.h"
@@ -20,8 +21,11 @@
 #include "Devices/SurgeMonitor.h"
 #include "Devices/Mosfet.h"
 #include "AnalogInput/Probe.h"
+#include "Button/Button.h"
 #include "System/SystemConstants.h"
 #include "System/NotificationSystem.h"
+#include "System/PersistBuffer.h"
+#include "System/UnixTime.h"
 #include "RFTransceiver/RFTransceiver.h"
 #include "Util/CharUtil.h"
 #include <string>
@@ -30,7 +34,7 @@
 #define SYSTEM_INTER 2
 
 class Controller : public IBatteryMonitorListener,
-	IPropertyListener, IActionListener{
+	IPropertyListener, IActionListener, IStateListener{
 public:
 	Controller(RF24& radio);
 	virtual ~Controller();
@@ -44,6 +48,7 @@ public:
 				unsigned short int propertyId,
 				const void* oldPropery);
 	void actionPerformed(Action action);
+	void stateChanged(State state);
 
 	bool isSleep();
 	void onSystemStartUp();
@@ -58,20 +63,33 @@ protected:
 	Probe probeB = Probe(HV2_ANALOG_PIN, HVPROBE_PERIOD);
 	SurgeMonitor surgeMonitor;
 	Mosfet* mosfet = Mosfet::getInstance();
+	Button button = Button(BUTTON_PIN);
 	RFTransceiver* transceiver = RFTransceiver::getInstance(radio);
 	NotificationSystem* notification = NotificationSystem::getInstance();
+	PersistBuffer* buffer = PersistBuffer::getInstance();
 
-	bool hvWarning = false;
-	bool sleep = false;
+	unsigned int HV1 = 0;
+	unsigned long HV2 = 0;
+	bool HVWARNING = false;
+	bool SLEEP = false;
+	unsigned int WAKEUP_DURATION = WAKEUP_NORMAL;
 	unsigned long sleepTimer = millis();
+	unsigned long bufferTimer = millis();
 	unsigned long timer2 = millis();
+	uint8_t requestId = 1;
+	Surge surge;
+	uint8_t surgePostState = 0;
+	//0 buffer 0:OK 1:NOT SEND 2:SEND 3:NOT POSTED 4:POSTED
+	//1	Live   		11:NOT SEND	12:SEND 13:NOT POSTED 14:POSTED
 
-
+	uint8_t getRequestId();
 	void resetSleepTimer();
+	uint8_t sendSurgeRequest(Surge surge, uint8_t source);
+	void onSurgeRequestStateChanged(uint8_t state);
 	void onProbeAMeasurementChanged(unsigned short int value);
 	void onProbeBMeasurementChanged(unsigned short int value);
-	void onSurgeApplied(uint8_t device,
-			unsigned int charge, unsigned int slope);
+	void onHVWarningStateChanged(bool state);
+	void onSurgeApplied(Surge surge);
 	void onBatteryValueChanged(
 				BatteryMonitor* source, short int value);
 	void onBatteryTriggerAlarmStateChanged(
@@ -81,6 +99,9 @@ protected:
 	void onRFResponseReceived(char* msg, uint8_t id);
 	void onRFMessageSend(char* msg);
 	void onRFMessageSendError(char* msg);
+	void onRFRequestPostOK(char* msg, uint8_t id);
+	void onRFRequestPostFail(char* msg, uint8_t id);
+	void onButtonStateChanged(ButtonState state);
 
 };
 

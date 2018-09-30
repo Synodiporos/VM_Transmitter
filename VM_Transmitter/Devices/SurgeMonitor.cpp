@@ -16,6 +16,10 @@ SurgeMonitor::~SurgeMonitor() {
 	// TODO Auto-generated destructor stub
 }
 
+uint8_t SurgeMonitor::getState(){
+	return this->state;
+}
+
 void SurgeMonitor::setActionListener(IActionListener* listener){
 	this->actionListener = listener;
 }
@@ -34,36 +38,61 @@ uint8_t SurgeMonitor::getDevice(){
 }
 
 bool SurgeMonitor::isCharging(){
-	return this->state==1;
+	return getState() == SM_STATE_CHARGING;
 }
 
+//Measurement in ADC
 void SurgeMonitor::setMeasurement(unsigned int measurement){
 	if(measurement>SM_SURGE_MIN){
-		if(!isCharging()){
+		if(getState()==SM_STATE_DISCHARGED){
 			onCharging();
 		}
 		if(measurement>maxMeasure)
 				setMaxMeasurement(measurement);
 	}
-	else if( measurement<SM_SURGE_MIN-2 && isCharging() )
+	else if( measurement<SM_SURGE_MIN-2)
 		onDischarged();
 }
 
 void SurgeMonitor::validate(){
+	if(getState()==SM_STATE_CHARGING){
+		if(millis()-timeCharge>=SM_CHARGE_INTERVAL){
+			onCharged();
+			timeCharge = millis();
+		}
+	}
+}
 
+void SurgeMonitor::setState(uint8_t state){
+	if(this->state!=state){
+		this->state = state;
+		notifyActionListener();
+	}
 }
 
 void SurgeMonitor::setMaxMeasurement(unsigned int max){
 	if(this->maxMeasure!=max){
 		this->maxMeasure = max;
-		float secs = (float)(millis() - time)/1000;
-		unsigned int aps =
-				((float)(max-initMeasure)/secs)*10;
 
-		buf[i] = aps;
-		i++;
-		if(i==NOM)
-			i=0;
+		if(count<NOR){
+			//KEEP RECORD
+			float secs = (float)(millis() - time)/1000;
+			unsigned int aps =
+					((float)(max-initMeasure)/secs)*10;
+
+			buf[i] = aps;
+			i++;
+			if(i==NOM)
+				i=0;
+			/*Serial.print("======================= MAX i=");
+			Serial.print(i);
+			Serial.print(" slope: ");
+			Serial.println(aps);*/
+		}
+
+		if(count<=254)
+			count++;
+		timeCharge = millis();
 	}
 }
 
@@ -75,23 +104,21 @@ void SurgeMonitor::clearBuffer(){
 }
 
 void SurgeMonitor::onCharging(){
-	this->state = 1;
+	setState(SM_STATE_CHARGING);
 	this->initMeasure = maxMeasure;
 	this->time = millis();
 	//Serial.println("&&& OnCharging ");
 }
 
+void SurgeMonitor::onCharged(){
+	setState(SM_STATE_CHARGED);
+}
+
 void SurgeMonitor::onDischarged(){
-	int ii = (i);
-	if(ii==NOM)
-		ii=0;
 
-	unsigned int data[3];
-	data[0] = getDevice();
-	data[1] = maxMeasure;
-	data[2] = buf[ii];
 
-	notifyActionListener(data);
+	//notifyActionListener();
+
 /*
 	Serial.print("BUFFER: ");
 	for(int i=0; i<NOM; i++){
@@ -100,16 +127,32 @@ void SurgeMonitor::onDischarged(){
 	}
 	Serial.println();*/
 
-	this->state = 0;
+	setState(SM_STATE_DISCHARGED);
+	this->count = 0;
 	this->maxMeasure = 0;
 	this->initMeasure = 0;
 	clearBuffer();
 }
 
-void SurgeMonitor::notifyActionListener(unsigned int data[3]){
+void SurgeMonitor::notifyActionListener(){
 	if(this->actionListener){
+		Surge surge;
+		if(getState()==SM_STATE_DISCHARGED ||
+				getState()==SM_STATE_CHARGED){
+			int ii = (i);
+			if(count<5)
+				ii = 0;
+			if(ii==NOM)
+				ii=0;
+
+			surge.datetime = UnixTime::getUnixTime();
+			surge.device = getDevice();
+			surge.charge = maxMeasure;
+			surge.slope = buf[ii];
+		}
+
 		Action action =
-				Action(this, ON_SURGE_APPLIED, nullptr, data);
+				Action(this, ON_SM_STATE_CHANGED, nullptr, &surge);
 		actionListener->actionPerformed(action);
 	}
 }

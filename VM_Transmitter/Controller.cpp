@@ -30,8 +30,7 @@ void Controller::activate(){
 		notification->setActiveEnabled(true);
 		notification->setEnabled(true);
 	}
-
-
+	button.setButtonListener(this);
 }
 
 void Controller::deactivate(){
@@ -46,6 +45,7 @@ void Controller::deactivate(){
 			transceiver->setActionListener(nullptr);
 	//if(notification)
 	//	notification->stopNotify();
+	button.setButtonListener(nullptr);
 }
 
 void Controller::initialization(){
@@ -54,7 +54,7 @@ void Controller::initialization(){
 	probeA.setFrequency(HVPROBE_FREQ);
 	probeA.setEnabled(true);
 	probeB.setFrequency(HVPROBE_FREQ);
-	probeB.setEnabled(false);
+	probeB.setEnabled(true);
 
 	//Initialaze RF
 	transceiver->initialize();
@@ -67,6 +67,8 @@ void Controller::initialization(){
 
  	notification->setActiveEnabled(true);
 
+ 	buffer->initialize();
+
  	//probeA->setEnabled(true);
  	/*unsigned int hvValue = this->probeA->getMeasurement();
  	if(	hvValue >= NOT_HVWARNING_TRIG ){
@@ -78,8 +80,64 @@ void Controller::initialization(){
 	}*/
 }
 
+uint8_t Controller::getRequestId(){
+	uint8_t id = requestId++;
+	if(requestId>=254)
+		requestId = 1;
+	return id;
+}
+
 void Controller::resetSleepTimer(){
 	sleepTimer = millis();
+}
+
+uint8_t Controller::sendSurgeRequest(
+		Surge surge, uint8_t source){
+	char * cmd;
+
+	if(surge.device==1)
+		cmd = CMD_SR1;
+	else
+		cmd = CMD_SR2;
+
+	char at[RF_PAYLOAD_SIZE];
+	char params[3][8] = {'\0', '\0', '\0'};
+	snprintf(params[0], 8, "%lu", surge.charge);
+	snprintf(params[1], 8, "%d", surge.slope);
+	snprintf(params[2], 8, "%lu", surge.datetime);
+	uint8_t id = getRequestId();
+
+
+	CharUtil::compineAT(at, cmd, id, params);
+
+	uint8_t sps;
+	if(source==0)
+		sps = this->transceiver->send(at, id) + 1;
+	else
+		sps = this->transceiver->send(at, id) + 11;
+
+	onSurgeRequestStateChanged(sps);
+	if(sps==1){
+		//Live request not send
+		Serial.println(F("PUSH"));
+		buffer->push(surge);
+	}
+	else if(sps==11){
+		//Buffer request not send
+	}
+	else{
+
+	}
+
+	return sps;
+}
+
+void Controller::onSurgeRequestStateChanged(uint8_t state){
+	if(this->surgePostState!=state){
+		Serial.print(F("SURGE POST STATE: "));
+		Serial.println(state);
+		this->surgePostState = state;
+	}
 }
 
 void Controller::propertyChanged(
@@ -106,7 +164,8 @@ void Controller::actionPerformed(Action action){
 			}
 			case RFTransceiver::ON_RESPONSE_RECEIVED:{
 				char* msg = (char*)action.getContainer();
-				uint8_t id = 2;
+				char c = action.getActionName()[0];
+				uint8_t id = c;
 				onRFResponseReceived(msg, id);
 				break;
 			}
@@ -118,6 +177,18 @@ void Controller::actionPerformed(Action action){
 			case RFTransceiver::ON_MESSAGE_SEND_ERROR:{
 				char* msg = (char*)action.getContainer();
 				onRFMessageSendError(msg);
+				break;
+			}
+			case RFTransceiver::ON_REQUEST_SEND_OK:{
+				char* msg = (char*)action.getContainer();
+				uint8_t rid = action.getActionName()[0];
+				onRFRequestPostOK(msg, rid);
+				break;
+			}
+			case RFTransceiver::ON_REQUEST_SEND_FAIL:{
+				char* msg = (char*)action.getContainer();
+				uint8_t rid = action.getActionName()[0];
+				onRFRequestPostFail(msg, rid);
 				break;
 			}
 			case RFTransceiver::ON_CONNECTION_STATE:{
@@ -139,21 +210,37 @@ void Controller::actionPerformed(Action action){
 	else if(source==&surgeMonitor){
 		unsigned int id = action.getActionId();
 		switch(id){
-			case SurgeMonitor::ON_SURGE_APPLIED:{
-				unsigned int * data =
-						action.getContainer();
-				unsigned int device = *data;
-				unsigned int max = *(data + 1);
-				unsigned int slope = *(data + 2);
-				onSurgeApplied(device, max, slope);
+			case SurgeMonitor::ON_SM_STATE_CHANGED:{
+				uint8_t state = surgeMonitor.getState();
+				Surge surge = *(Surge*)action.getContainer();
+				switch(state){
+					case SM_STATE_CHARGING:{
+						Serial.println(F("ON SURGE CHARGING"));
+						break;
+					}
+					case SM_STATE_CHARGED:{
+						Serial.println(F("ON SURGE CHARGED"));
+						onSurgeApplied(surge);
+						break;
+					}
+					case SM_STATE_DISCHARGED:{
+						Serial.println(F("ON SURGE DISCHARGED"));
+						break;
+					}
+				}
 				break;
 			}
 		}
 	}
 }
 
+void Controller::stateChanged(State state){
+	ButtonState stateId = *(ButtonState*)state.getValue();
+	onButtonStateChanged(stateId);
+}
+
 bool Controller::isSleep(){
-	return this->sleep;
+	return this->SLEEP;
 }
 
 void Controller::onSystemStartUp(){
@@ -163,8 +250,12 @@ void Controller::onSystemStartUp(){
 	transceiver->setEnabled(true);
 	transceiver->powerUp();
 	//transceiver->startConnectivityCheck();
-	char at[] = "AT+ACK+1";
-	transceiver->send(at, 1);
+
+	char at[RF_PAYLOAD_SIZE];
+	char params[3][8] = {'\0','\0','\0'};
+	uint8_t id = getRequestId();
+	CharUtil::compineAT(at, CMD_ACK, id, params);
+	transceiver->send(at, id);
 
 	batteryMonitor->measure();
 	notification->setEnabled(true);
@@ -189,36 +280,73 @@ void Controller::onSystemSleep(){
 }
 
 void Controller::onSystemWakeup(uint8_t source){
+	SLEEP = false;
 	Serial.println();
 	if(source==SYSTEM_INTER){
 		Serial.println("ON Wake Up by INTERRUPT");
+		WAKEUP_DURATION = WAKEUP_WHEN_HV;
 	}
 	else{
 		Serial.println("ON Wake Up by TIMER");
+		WAKEUP_DURATION = WAKEUP_NORMAL;
 	}
 
 	transceiver->powerUp();
-	//transceiver->startConnectivityCheck();
-	transceiver->send("AT+ACK+1", 1);
+
+	char at[RF_PAYLOAD_SIZE];
+	char params[3][8] = {'\0','\0','\0'};
+	uint8_t id = getRequestId();
+	CharUtil::compineAT(at, CMD_ACK, id, params);
+	transceiver->send(at, id);
+
 	batteryMonitor->measure();
 	notification->startNotify();
 
-	sleep = false;
 	resetSleepTimer();
 }
 
 void Controller::onIterrate(){
 	probeA.validate();
 	probeB.validate();
+	surgeMonitor.validate();
 	batteryMonitor->validate();
 	transceiver->validate();
 	notification->validate();
+	button.validate();
 
-	unsigned long interval = millis()-sleepTimer;
-	unsigned long interval2 = millis()-timer2;
-	if(!hvWarning && interval>=WAKEUP_INTERVAL &&
-			!transceiver->isConnecting()){
-		sleep = true;
+	unsigned long milliseconds = millis();
+	unsigned long intervalSleep = milliseconds-sleepTimer;
+	unsigned long intervalBuffer = milliseconds-bufferTimer;
+	unsigned long interval2 = milliseconds-timer2;
+
+	//Validate Request Buffer
+	if(!buffer->isEmpty() &&
+			transceiver->isConnected() &&
+			(surgePostState!=2 & surgePostState!=12) &&
+			intervalBuffer>256){
+		Serial.println(F("There are requests to be send!"));
+		buffer->top(surge);
+		sendSurgeRequest(surge, 0);
+		bufferTimer = millis();
+	}
+
+	//Validate un-send request
+	/*if(surgePostState == 1 || surgePostState == 3){
+		Serial.println(F("PUSH"));
+		buffer->push(surge);
+		onSurgeRequestStateChanged(0);
+	}
+	else if(surgePostState == 4){
+		Serial.println(F("POP"));
+		buffer->pop();
+		onSurgeRequestStateChanged(0);
+	}*/
+
+	//Validate Sleep
+	if(!HVWARNING && intervalSleep>=WAKEUP_DURATION &&
+			!transceiver->isSending() &&
+			button.getButtonState()==ButtonState::RELEASED){
+		SLEEP = true;
 	}
 
 	if(interval2>=100){
@@ -228,99 +356,120 @@ void Controller::onIterrate(){
 }
 
 void Controller::onProbeAMeasurementChanged(unsigned short int value){
+	HV1 = (AREF_VOLTAGE * value)/FACTOR_10350; //volts*100;
 	if(	value >= SM_SURGE_MIN){
-		hvWarning = true;
-		notification->setHVWarningEnabled(true);
+		onHVWarningStateChanged(true);
+		//notification->setHVWarningEnabled(true);
 		//batteryMonitor->pauseRecord();
 		//transceiver->setAutoSleep(false);
+		probeB.setEnabled(false);
 	}else{
-		hvWarning = false;
-		notification->setHVWarningEnabled(false);
+		if(HV2<200){
+			onHVWarningStateChanged(false);
+		}
+		//notification->setHVWarningEnabled(false);
 		//batteryMonitor->startRecord();
 		//transceiver->setAutoSleep(true);
 		resetSleepTimer();
+		probeB.setEnabled(true);
 	}
 
 	surgeMonitor.setDevice(1);
 	surgeMonitor.setMeasurement(value);
 
 	char at[RF_PAYLOAD_SIZE];
-	unsigned int hv = (AREF_VOLTAGE * value)/FACTOR_10350; //volts*100;
 	char params[3][8] = {'\0','\0','\0'};
-	snprintf(params[0], 8, "%d", hv);
+	snprintf(params[0], 8, "%ld", (long)HV1);
 	CharUtil::compineAT(at, CMD_HV1, 0, params);
 	this->transceiver->write(at);
 
-	Serial.print(F("HVProbeA Value: "));
+	/*Serial.print(F("HVProbeA Value: "));
 	Serial.print(value);
 	Serial.print(F(" Voltage: "));
 	Serial.print(probeA.voltage(AREF_VOLTAGE, 0));
 	Serial.print(F(" Measurement: "));
-	Serial.print(hv);
+	Serial.print(HV1);
 	Serial.println( HVPROBE_UNITS );
+	Serial.println(millis());*/
 }
 
 void Controller::onProbeBMeasurementChanged(unsigned short int value){
+	HV2 = (long)(AREF_VOLTAGE * value)/FACTOR_820; //volts*100;
 	if(	value >= SM_SURGE_MIN){
-		hvWarning = true;
+		onHVWarningStateChanged(true);
 		notification->setHVWarningEnabled(true);
 		//batteryMonitor->pauseRecord();
 		//transceiver->setAutoSleep(false);
+		probeA.setEnabled(false);
 	}else{
-		hvWarning = false;
+		if(HV1<200){
+			onHVWarningStateChanged(false);
+		}
 		notification->setHVWarningEnabled(false);
 		//batteryMonitor->startRecord();
 		//transceiver->setAutoSleep(true);
 		resetSleepTimer();
+		probeA.setEnabled(true);
 	}
 
 	surgeMonitor.setDevice(2);
 	surgeMonitor.setMeasurement(value);
 
 	char at[RF_PAYLOAD_SIZE];
-	unsigned int hv = (AREF_VOLTAGE * value)/FACTOR_820; //volts*100;
 	char params[3][8] = {'\0','\0','\0'};
-	snprintf(params[0], 8, "%d", hv);
+	snprintf(params[0], 8, "%ld", HV2);
 	CharUtil::compineAT(at, CMD_HV2, 0, params);
 	this->transceiver->write(at);
 
-	Serial.print(F("HVProbeB Value: "));
+	/*Serial.print(F("HVProbeB Value: "));
 	Serial.print(value);
 	Serial.print(F(" Voltage: "));
 	Serial.print(probeB.voltage(AREF_VOLTAGE, 0));
 	Serial.print(F(" Measurement: "));
-	Serial.print(hv);
+	Serial.print(HV2);
 	Serial.println( HVPROBE_UNITS );
+	Serial.println(millis());*/
 }
 
-void Controller::onSurgeApplied(uint8_t device,
-		unsigned int charge, unsigned int slope){
+void Controller::onHVWarningStateChanged(bool state){
+	if(this->HVWARNING!=state){
+		this->HVWARNING = state;
+		Serial.println(state);
+	}
+}
 
-	Surge surge = {
-		1111111, 0, 100000, 10000
-	};
-	/*Serial.print("$$$ Surge Applied: ");
+void Controller::onSurgeApplied(Surge surge){
+	uint8_t device = surge.device;
+	unsigned long chargeVolts;
+	unsigned int slopeVolts;
+	unsigned long datetime = surge.datetime;
+	if(device==1){
+		chargeVolts = (AREF_VOLTAGE * surge.charge)/FACTOR_10350;
+		slopeVolts =
+				(float)(AREF_VOLTAGE * surge.slope)/(FACTOR_10350*100);
+	}
+	else{
+		chargeVolts = (AREF_VOLTAGE * surge.charge)/FACTOR_820;
+		slopeVolts =
+				(float)(AREF_VOLTAGE * surge.slope)/(FACTOR_820*100);
+	}
+
+	surge = {datetime,
+			(uint8_t)device,
+			(uint32_t)chargeVolts,
+			(uint16_t)slopeVolts};
+
+	Serial.print("$$$ Surge Applied: ");
 	Serial.print(" Device:");
 	Serial.print( device);
 	Serial.print(" Charge:");
-	Serial.print( charge);
+	Serial.print( chargeVolts);
 	Serial.print(" slope:");
-	Serial.print( (float)slope/10);
-	Serial.print(" aps");
-	Serial.println();*/
+	Serial.print( surge.slope);
+	Serial.print(" slopeVolts:");
+	Serial.println( slopeVolts);
 
-	char at[RF_PAYLOAD_SIZE];
-	char params[3][8] = {'\0', '\0', '\0'};
-	snprintf(params[0], 8, "%d", charge);
-	snprintf(params[1], 8, "%lu", slope);
-	if(device==1){
-		CharUtil::compineAT(at, CMD_SR1, 1, params);
-	}
-	else{
-		CharUtil::compineAT(at, CMD_SR2, 1, params);
-	}
-
-	this->transceiver->write(at);
+	sendSurgeRequest(surge, 1);
 }
 
 void Controller::onBatteryValueChanged(
@@ -376,18 +525,20 @@ void Controller::onRFStateChanged(uint8_t action, uint8_t state){
 				//transceiver->printDetails();
 				break;
 			}
-			case RF_STATE_DISCONNECTED:{
-				Serial.println(F("RF DISCONNECTED"));
-				this->notification->setConnectionLostEnabled(true);
+			case RF_STATE_REQUEST_ERROR:{
+				//DISCONNECTED
+				Serial.println(F("RF REQUEST ERROR"));
+				//this->notification->setConnectionLostEnabled(true);
 				break;
 			}
-			case RF_STATE_CONNECTING:{
-				Serial.println(F("RF CONNECTING"));
+			case RF_STATE_REQUEST_SENDING:{
+				Serial.println(F("RF REQUEST SENDING"));
 				break;
 			}
-			case RF_STATE_CONNECTED:{
-				Serial.println(F("RF CONNECTED"));
-				this->notification->setConnectionLostEnabled(false);
+			case RF_STATE_REQUEST_SEND:{
+				//CONNECTED
+				Serial.println(F("RF REQUEST SEND"));
+				//this->notification->setConnectionLostEnabled(false);
 				break;
 			}
 		}
@@ -433,17 +584,85 @@ void Controller::onRFMessageReceived(char* msg){
 	resetSleepTimer();
 }
 
+
+void Controller::onRFResponseReceived(char* msg, uint8_t id){
+	Serial.print(F("RF RESPONSE RECEIVED: "));
+	Serial.println(id);
+	resetSleepTimer();
+}
+
 void Controller::onRFMessageSend(char* msg){
 	Serial.print(F("RF MESSAGE SEND: "));
 	Serial.println(msg);
 }
 
-void Controller::onRFResponseReceived(char* msg, uint8_t id){
-	Serial.print(F("RF RESPONSE SEND: "));
+void Controller::onRFMessageSendError(char* msg){
+	Serial.print(F("RF MESSAGE SEND: "));
 	Serial.println(msg);
+	resetSleepTimer();
 }
 
-void Controller::onRFMessageSendError(char* msg){
-	Serial.print(F("RF MESSAGE SEND ERROR: "));
+void Controller::onRFRequestPostOK(char* msg, uint8_t id){
+	Serial.print(F("RF REQUEST SEND OK: "));
 	Serial.println(msg);
+	resetSleepTimer();
+	if(surgePostState == 2){
+		onSurgeRequestStateChanged(4);
+		//Buffer request POSTED
+		Serial.println(F("POP Buffer Request"));
+		buffer->pop();
+		bufferTimer = millis();
+	}
+	else if(surgePostState == 12){
+		onSurgeRequestStateChanged(14);
+		bufferTimer = millis();
+	}
+}
+
+void Controller::onRFRequestPostFail(char* msg, uint8_t id){
+	Serial.print(F("RF REQUEST SEND FAIL: "));
+	Serial.println(msg);
+	resetSleepTimer();
+	if(surgePostState == 2){
+		onSurgeRequestStateChanged(3);
+		//Buffer request NOT POSTED
+		bufferTimer = millis();
+	}else if(surgePostState == 12){
+		onSurgeRequestStateChanged(13);
+		//Live request NOT POSTED
+		Serial.println(F("PUSH Live Request"));
+		buffer->push(surge);
+		bufferTimer = millis();
+	}
+}
+
+void Controller::onButtonStateChanged(ButtonState state){
+	unsigned long interval = millis()-sleepTimer;
+	Serial.print(F("Button State: "));
+	Serial.println((int)state);
+	//Serial.println(interval);
+	switch(state){
+		case ButtonState::PRESSED:{
+			Serial.print(F("&&&     Buffer Size: "));
+			Serial.print((int)buffer->getSize());
+			Serial.print(F(" index:"));
+			Serial.println((int)0);
+			break;
+		}
+		case ButtonState::RELEASED:{
+			break;
+		}
+		case ButtonState::CLICKED:{
+
+			break;
+		}
+		case ButtonState::HOLDED:{
+			buffer->clear();
+			Serial.print(F("Clear Buffer Size: "));
+			Serial.print((int)buffer->getSize());
+			Serial.print(F(" index:"));
+			Serial.println((int)0);
+			break;
+		}
+	}
 }

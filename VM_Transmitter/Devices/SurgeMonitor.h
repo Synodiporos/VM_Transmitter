@@ -10,11 +10,17 @@
 
 #include <Arduino.h>
 #include "../System/SystemConstants.h"
+#include "../System/UnixTime.h"
 #include "../Commons/IActionListener.h"
 #include "../Commons/Action.h"
 #include <stdint.h>
 
 #define NOM 5
+#define NOR 13
+#define SM_CHARGE_INTERVAL 320
+#define SM_STATE_CHARGING 2
+#define SM_STATE_CHARGED 1
+#define SM_STATE_DISCHARGED 0
 
 struct Surge{
 	uint32_t datetime;
@@ -25,10 +31,11 @@ struct Surge{
 
 class SurgeMonitor {
 public:
-	static const unsigned short int ON_SURGE_APPLIED = 20;
+	static const unsigned short int ON_SM_STATE_CHANGED = 20;
 
 	SurgeMonitor();
 	virtual ~SurgeMonitor();
+	uint8_t getState();
 	void setActionListener(IActionListener* listener);
 	IActionListener* getActionListener();
 	void setDevice(uint8_t device);
@@ -45,14 +52,18 @@ private:
 	unsigned int buf[NOM];
 	uint8_t state = 0;
 	uint8_t i = 0;
+	uint8_t count = 0;
 	unsigned long time = 0;
+	unsigned long timeCharge = 0;
 	IActionListener* actionListener = nullptr;
 
+	void setState(uint8_t state);
 	void setMaxMeasurement(unsigned int max);
 	void clearBuffer();
 	void onCharging();
+	void onCharged();
 	void onDischarged();
-	void notifyActionListener(unsigned int data[3]);
+	void notifyActionListener();
 };
 
 #endif /* DEVICES_SURGEMONITOR_H_ */

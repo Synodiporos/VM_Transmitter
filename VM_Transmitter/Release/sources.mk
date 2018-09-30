@@ -36,6 +36,7 @@ CPP_DEPS :=
 SUBDIRS := \
 AnalogInput/Filters \
 AnalogInput \
+Button \
 Buzzer \
 Commons \
 . \
